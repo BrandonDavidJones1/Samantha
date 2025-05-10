@@ -22,15 +22,9 @@
         }
     ],
     "general_faqs": [
-{        
-        "keywords": ["wrap up", "what is wrap up", "explain wrap up", "wrap up time", "define wrap up", "after call work", "post call processing"],
-            "answer": "Wrap up is the time from the end of the call until the call is coded. It's the period where you select the correct disposition for the call."
-        },
         {
-            "keywords": [
-                "answering machine", "voicemail", "got an answering machine"
-            ],
-                "answer": "Code as 'Answering Machine' as soon as possible, most projects do not require leaving messages."
+            "keywords": ["wrap up", "what is wrap up", "explain wrap up", "wrap up time", "define wrap up", "after call work", "post call processing"],
+            "answer": "Wrap up is the time from the end of the call until the call is coded. It's the period where you select the correct disposition for the call."
         },
         {
             "keywords": [
@@ -38,7 +32,7 @@
                 "what time do we start", "when does shift start", "beginning of shift",
                 "shift begins", "schedule start", "our start"
             ],
-            "answer": "Our official start time is 9 AM. Please check the #main-chat channel for any daily variations. May the force be with you!"
+            "answer": "Make sure you keep your discord notifications open and check the main chat for the most recent update from Corey. May the force be with you!"
         },
         {
             "keywords": [
@@ -54,7 +48,7 @@
                 "voter id confirmed name", "name confirmed voter id", "voter id project complete",
                 "when is voter id complete"
             ],
-            "answer": "Yes, on a voter ID project, once you've confirmed the voter's name, it's a complete."
+            "answer": "On a voter ID project, once you've confirmed the voter's name, it's a considered a complete."
         },
         {
             "keywords": [
@@ -88,6 +82,18 @@
         {
             "keywords": ["deceased", "person is deceased", "contact is deceased", "told person passed away", "handling deceased contact", "procedure for deceased", "caller is deceased"],
             "answer": "If the person you are trying to reach is reported Deceased, Code as 'Deceased'."
+        },
+        {
+            "keywords": ["leave messages", "supposed to leave messages", "do we leave messages", "leaving messages campaign", "are we leaving messages", "policy on leaving messages", "messages this project", "leave voicemail", "voicemail policy"],
+            "answer": "You will be directed by the Shift Manager if you are put into a Project where we are leaving messages. Great Question!"
+        },
+        {
+            "keywords": ["track hours", "check hours", "hours portal", "how to check my hours", "view hours", "employee portal hours", "hours tracking", "pay period hours"],
+            "answer": "I keep track daily but Corey will also give you your totals at the halfway point and at the end of the pay period if you ask."
+        },
+        {
+            "keywords": ["cph", "what is cph", "define cph", "cph meaning", "completes per hour", "explain cph"],
+            "answer": "CPH stands for “Completes Per Hour”. It refers to how many completed surveys or patches you complete within an hour of dialing."
         }
     ],
     "call_codes": {
