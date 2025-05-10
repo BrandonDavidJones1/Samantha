@@ -10,9 +10,9 @@ from thefuzz import fuzz # For fuzzy matching
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 FAQ_FILE = "faq_data.json"
-FUZZY_MATCH_THRESHOLD_GREETINGS = 90  # Higher threshold for greetings
-FUZZY_MATCH_THRESHOLD_KEYWORDS = 88 # Higher threshold for general FAQ keyword spotting
-FUZZY_MATCH_THRESHOLD_CALLCODES_STRICT = 92 # Very high for matching extracted code name
+FUZZY_MATCH_THRESHOLD_GREETINGS = 70
+FUZZY_MATCH_THRESHOLD_KEYWORDS = 70
+FUZZY_MATCH_THRESHOLD_CALLCODES_STRICT = 70
 
 # --- Bot Setup ---
 intents = discord.Intents.default()
@@ -68,17 +68,14 @@ def is_text_empty_or_punctuation_only(text):
 def get_best_fuzzy_match(query, choices_list, threshold):
     best_match = None
     highest_score = 0
-    # query is already lowercased by caller typically, choices_list elements are also expected to be lowercase
-    for choice in choices_list: 
-        score = fuzz.token_sort_ratio(query, choice) 
+    for choice in choices_list:
+        score = fuzz.token_sort_ratio(query, choice)
         if score > highest_score:
             highest_score = score
             best_match = choice
-    
+
     if highest_score >= threshold:
-        # print(f"FuzzyDBG: Query='{query}', Choice='{best_match}', Score={highest_score}, Threshold={threshold}")
         return best_match, highest_score
-    # print(f"FuzzyDBG: Query='{query}', BestScore={highest_score} (below threshold {threshold}) for choices: {choices_list}")
     return None, 0
 
 # --- Event Handlers ---
@@ -97,11 +94,9 @@ async def on_message(message):
     if not isinstance(message.channel, discord.DMChannel):
         return
 
-    # print(f"DBG: Received DM from {message.author}: {message.content}")
-    user_query_lower = message.content.lower().strip() 
-    original_message_content = message.content.strip() 
+    user_query_lower = message.content.lower().strip()
+    original_message_content = message.content.strip()
 
-    # 1. List Codes (Exact match utility keyword - keep exact for this)
     if user_query_lower in ["listcodes", "showcodes", "codes"]:
         codes = faq_data.get("call_codes", {})
         if not codes:
@@ -115,42 +110,39 @@ async def on_message(message):
         await message.channel.send(response_message)
         return
 
-    # 2. Greetings and pleasantries from JSON (with fuzzy matching)
     greetings_config = faq_data.get("greetings_and_pleasantries", [])
-    greeting_handled_or_skipped = False 
+    greeting_handled_or_skipped = False
 
     for item in greetings_config:
-        if greeting_handled_or_skipped: 
+        if greeting_handled_or_skipped:
             break
-        
-        user_typed_greeting_text_for_item = "" 
+
+        user_typed_greeting_text_for_item = ""
         best_score_for_item_greeting_match = 0
 
-        for kw_json in item.get("keywords", []): 
-            for l_offset in range(-2, 3): 
+        for kw_json in item.get("keywords", []):
+            for l_offset in range(-2, 3):
                 user_prefix_len = len(kw_json) + l_offset
                 if user_prefix_len <= 0 or user_prefix_len > len(user_query_lower):
                     continue
-                
+
                 user_prefix_to_check = user_query_lower[:user_prefix_len]
-                score = fuzz.token_set_ratio(kw_json, user_prefix_to_check) 
-                
+                score = fuzz.token_set_ratio(kw_json, user_prefix_to_check)
+
                 if score > best_score_for_item_greeting_match and score >= FUZZY_MATCH_THRESHOLD_GREETINGS:
                     best_score_for_item_greeting_match = score
                     user_typed_greeting_text_for_item = user_prefix_to_check
-            
-        if user_typed_greeting_text_for_item: 
-            # print(f"DBG: Greeting Matched: User typed '{user_typed_greeting_text_for_item}' (orig: '{original_message_content[:len(user_typed_greeting_text_for_item)]}') for item keywords like '{item.get('keywords')[0]}...' with score {best_score_for_item_greeting_match}")
 
+        if user_typed_greeting_text_for_item:
             remaining_text_after_greeting = user_query_lower[len(user_typed_greeting_text_for_item):].strip()
             is_standalone = is_text_empty_or_punctuation_only(remaining_text_after_greeting)
             response_type = item.get("response_type")
 
             if response_type == "specific_reply":
-                if is_standalone: 
+                if is_standalone:
                     reply_text = item.get("reply_text", "Okay.")
                     await message.channel.send(reply_text)
-                    return 
+                    return
             elif response_type == "standard_greeting":
                 if is_standalone:
                     template = item.get("greeting_reply_template", "Hello {user_mention}! How can I help?")
@@ -159,105 +151,95 @@ async def on_message(message):
                                     .replace("{user_mention}", message.author.mention)
                     await message.channel.send(reply)
                     return
-                else: 
-                    greeting_handled_or_skipped = True 
-            
+                else:
+                    greeting_handled_or_skipped = True
+
         if greeting_handled_or_skipped:
              break
 
-
-    # 3. NLP for "how to code" questions (Call Coding)
     extracted_code_name = ""
     call_code_intent_detected = False
 
     trigger_phrases_exact = {
-        "how to code": None, 
-        "code for": None,
-        "what is the code for": None,
-        "coding for": None,
-        "how do i code": None 
+        "how to code": None, "how to click": None, "how to press": None, "how to choose": None,
+        "code for": None, "click for": None, "press for": None, "choose for": None,
+        "what is the code for": None, "what is the click for": None,
+        "what is the press for": None, "what is the choose for": None,
+        "coding for": None, "clicking for": None, "pressing for": None, "choosing for": None,
+        "how do i code": None, "how do i click": None, "how do i press": None, "how do i choose": None,
+        "code": None, "click": None, "press": None, "choose": None,
     }
 
     for phrase in trigger_phrases_exact.keys():
         if phrase in user_query_lower:
             parts = user_query_lower.split(phrase, 1)
-            if len(parts) > 1: 
-                idx_phrase_start = len(parts[0])
+            if len(parts) > 1:
+                idx_phrase_start = user_query_lower.find(phrase) # More reliable way to get start index
                 if idx_phrase_start == 0 or user_query_lower[idx_phrase_start-1].isspace():
-                    extracted_code_name = parts[1].strip().lstrip(string.punctuation).strip() 
-                    call_code_intent_detected = True
-                    # print(f"DBG: Call code intent by exact phrase '{phrase}', extracted: '{extracted_code_name}'")
-                    break 
-    
+                    potential_code_name = parts[1].strip().lstrip(string.punctuation).strip()
+                    if potential_code_name: # Ensure we extracted something
+                        extracted_code_name = potential_code_name
+                        call_code_intent_detected = True
+                        break
+
     if call_code_intent_detected and extracted_code_name:
-        temp_key_for_stripping = extracted_code_name 
+        temp_key_for_stripping = extracted_code_name
         stripped_leading_greeting = False
-        for item_greet in greetings_config: 
-            if item_greet.get("response_type") == "standard_greeting": 
-                for keyword_json_greet in item_greet.get("keywords", []): 
-                    if temp_key_for_stripping.startswith(keyword_json_greet):
+        for item_greet in greetings_config:
+            if item_greet.get("response_type") == "standard_greeting":
+                for keyword_json_greet in item_greet.get("keywords", []):
+                    if temp_key_for_stripping.startswith(keyword_json_greet.lower()): # ensure keyword is lower
                         part_after_greeting = temp_key_for_stripping[len(keyword_json_greet):]
                         if not is_text_empty_or_punctuation_only(part_after_greeting) or not part_after_greeting:
                             temp_key_for_stripping = part_after_greeting.lstrip(string.punctuation + ' ').strip()
-                            # print(f"DBG: Stripped greeting '{keyword_json_greet}' from call code. Remainder: '{temp_key_for_stripping}'")
-                            stripped_leading_greeting = True 
-                            break 
-            if stripped_leading_greeting: 
-                extracted_code_name = temp_key_for_stripping 
-                break 
-        
-        if extracted_code_name: 
+                            stripped_leading_greeting = True
+                            break
+            if stripped_leading_greeting:
+                extracted_code_name = temp_key_for_stripping
+                break
+
+        if extracted_code_name:
             all_known_call_codes_json = faq_data.get("call_codes", {})
             call_codes_map_lower_to_original = {key.lower(): key for key in all_known_call_codes_json.keys()}
-            
+
             matched_code_key_lower, code_score = get_best_fuzzy_match(
-                extracted_code_name, 
-                list(call_codes_map_lower_to_original.keys()), 
-                FUZZY_MATCH_THRESHOLD_CALLCODES_STRICT 
+                extracted_code_name,
+                list(call_codes_map_lower_to_original.keys()),
+                FUZZY_MATCH_THRESHOLD_CALLCODES_STRICT
             )
 
             if matched_code_key_lower:
                 original_cased_code_key = call_codes_map_lower_to_original[matched_code_key_lower]
                 description = all_known_call_codes_json.get(original_cased_code_key)
-                # print(f"DBG: Matched call code '{original_cased_code_key}' for user input '{extracted_code_name}' with score {code_score}")
                 await message.channel.send(f"**How to code '{original_cased_code_key.title()}':**\n{description}")
                 return
             else:
-                # print(f"DBG: No call code match for '{extracted_code_name}' above threshold {FUZZY_MATCH_THRESHOLD_CALLCODES_STRICT}")
                 await message.channel.send(f"I don't have specific coding instructions for '{extracted_code_name}'. "
                                            f"It's not a code I recognize. You can type `listcodes` to see known codes.")
                 return
-        else: 
-            # print(f"DBG: Extracted code name for call coding became empty after stripping greetings.")
+        else:
             pass
 
 
-    # 4. NLP for general FAQs (with fuzzy matching on keywords)
-    # This section will run if no prior section (listcodes, standalone greeting, call code) caused a return.
     for faq_item in faq_data.get("general_faqs", []):
-        for keyword_from_json in faq_item.get("keywords", []): 
-            if len(keyword_from_json.split()) == 1: # Single-word FAQ keyword
+        for keyword_from_json in faq_item.get("keywords", []):
+            if len(keyword_from_json.split()) == 1: 
                 for user_word in user_query_lower.split():
                     user_word_cleaned = user_word.strip(string.punctuation)
-                    score = fuzz.ratio(keyword_from_json, user_word_cleaned) 
-                    if score >= FUZZY_MATCH_THRESHOLD_KEYWORDS + 2: # Slightly higher for single word
-                        # print(f"DBG: FAQ single-word fuzzy: User '{user_word_cleaned}' vs JSON-Key '{keyword_from_json}' score {score}")
+                    score = fuzz.ratio(keyword_from_json, user_word_cleaned)
+                    if score >= FUZZY_MATCH_THRESHOLD_KEYWORDS + 2:
                         await message.channel.send(faq_item.get("answer", "Sorry, an answer is configured but missing."))
                         return
-            
-            else: # Multi-word FAQ keyword
+
+            else: 
                 score = fuzz.token_set_ratio(keyword_from_json, user_query_lower)
                 if score >= FUZZY_MATCH_THRESHOLD_KEYWORDS:
-                    # print(f"DBG: FAQ multi-word phrase fuzzy (overall): User Query vs JSON-Key '{keyword_from_json}' score {score}")
                     await message.channel.send(faq_item.get("answer", "Sorry, an answer is configured but missing."))
                     return
 
-    # 5. If no specific match by this point, send fallback
-    # This fallback is reached if listcodes, standalone greetings, call codes, or FAQs didn't match.
-    # print(f"DBG: No specific match found, sending fallback for query: '{user_query_lower}'")
     fallback_message_template = faq_data.get("fallback_message", "I'm sorry, I don't have an answer for that right now. Please ask your manager.")
-    await message.channel.send(fallback_message_template) 
-    return # Explicit return after fallback, though it's the end of the function.
+    await message.channel.send(fallback_message_template)
+    return
 
 
 # --- Run the Bot ---

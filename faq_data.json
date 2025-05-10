@@ -22,6 +22,16 @@
         }
     ],
     "general_faqs": [
+{        
+        "keywords": ["wrap up", "what is wrap up", "explain wrap up", "wrap up time", "define wrap up", "after call work", "post call processing"],
+            "answer": "Wrap up is the time from the end of the call until the call is coded. It's the period where you select the correct disposition for the call."
+        },
+        {
+            "keywords": [
+                "answering machine", "voicemail", "got an answering machine"
+            ],
+                "answer": "Code as 'Answering Machine' as soon as possible, most projects do not require leaving messages."
+        },
         {
             "keywords": [
                 "start time", "when do we start", "shift start",
@@ -68,8 +78,8 @@
             "answer": "If there is no response Code as 'No Answer'."
         },
         {
-            "keywords": ["not interested", "person not interested", "customer says not interested", "handling not interested", "procedure for not interested", "they don't want it", "refused service", "declined"],
-            "answer": "Code as 'Not in'. Be polite and thank them for their time."
+            "keywords": ["not interested", "not in", "person not interested", "customer says not interested", "handling not interested", "procedure for not interested", "they don't want it", "refused service", "declined"],
+            "answer": "Code as 'Not in' only if they say 'not interested'. Be polite and thank them for their time."
         },
         {
             "keywords": ["do not call", "dnc", "add to do not call list", "person requests do not call", "handling dnc request", "procedure for do not call", "asked to be on dnc"],
