@@ -1,18 +1,42 @@
 {
     "general_faqs": [
         {
-            "keywords": ["start time", "when do we start", "shift start"],
-            "answer": "Our official start time is 9 AM. Please check the #announcements channel for any daily variations."
+            "keywords": [
+                "start time", "when do we start", "shift start",
+                "what time do we start", "when does shift start", "beginning of shift",
+                "shift begins", "schedule start", "our start"
+            ],
+            "answer": "Our official start time is 9 AM. Please check the #main-chat channel for any daily variations."
         },
         {
-            "keywords": ["lunch", "break duration", "how long is lunch"],
+            "keywords": [
+                "lunch", "break duration", "how long is lunch",
+                "lunch break length", "lunchtime", "when is lunch", "what about lunch",
+                "duration of lunch", "lunch period"
+            ],
             "answer": "Standard lunch breaks are [#] minutes. Your direct supervisor will coordinate specific timings."
         },
+        {
+            "keywords": [
+                "voter id complete", "confirmed voter name complete", "is voter id complete when",
+                "voter id confirmed name", "name confirmed voter id", "voter id project complete",
+                "when is voter id complete"
+            ],
+            "answer": "Yes, on a voter ID project, once you've confirmed the voter's name, it's a complete."
+        },
+        {
+            "keywords": [
+                "required for complete voter id", "voter id project complete requirements",
+                "what is a complete voter id", "voter id requirements complete",
+                "how to complete voter id", "what makes voter id complete", "criteria for voter id complete",
+                "voter id rules for complete"
+            ],
+            "answer": "For a voter ID project, a 'complete' means the voter's name has been confirmed. Once the voter's name is confirmed, you may code it complete."
+        }
     ],
     "call_codes": {
         "not interested": "Code as 'Not in'. Be polite and thank them for their time.",
-        "callback scheduled": "Code as 'CB'. Confirm the date and time with the customer. Log it in the CRM and set a reminder for yourself.",
-        "wrong number": "Code as 'WN'. Verify if it's a consistent issue with the data list."
+        "wrong number": "Code as 'Wrong Number'."
     },
-    "fallback_message": "I'm sorry, I don't have an answer for that right now. Please DM Adam for assistance. You can also ask them to teach me this for next time!"
+    "fallback_message": "I'm sorry, I don't have an answer for that right now. Please DM Adam or Cory for assistance."
 }
