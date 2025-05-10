@@ -1,0 +1,18 @@
+{
+    "general_faqs": [
+        {
+            "keywords": ["start time", "when do we start", "shift start"],
+            "answer": "Our official start time is 9 AM. Please check the #announcements channel for any daily variations."
+        },
+        {
+            "keywords": ["lunch", "break duration", "how long is lunch"],
+            "answer": "Standard lunch breaks are [#] minutes. Your direct supervisor will coordinate specific timings."
+        },
+    ],
+    "call_codes": {
+        "not interested": "Code as 'Not in'. Be polite and thank them for their time.",
+        "callback scheduled": "Code as 'CB'. Confirm the date and time with the customer. Log it in the CRM and set a reminder for yourself.",
+        "wrong number": "Code as 'WN'. Verify if it's a consistent issue with the data list."
+    },
+    "fallback_message": "I'm sorry, I don't have an answer for that right now. Please DM Adam for assistance. You can also ask them to teach me this for next time!"
+}
