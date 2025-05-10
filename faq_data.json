@@ -28,7 +28,7 @@
                 "what time do we start", "when does shift start", "beginning of shift",
                 "shift begins", "schedule start", "our start"
             ],
-            "answer": "Our official start time is 9 AM. Please check the #main-chat channel for any daily variations."
+            "answer": "Our official start time is 9 AM. Please check the #main-chat channel for any daily variations. May the force be with you!"
         },
         {
             "keywords": [
@@ -54,11 +54,39 @@
                 "voter id rules for complete"
             ],
             "answer": "For a voter ID project, a 'complete' means the voter's name has been confirmed. Once the voter's name is confirmed, you may code it complete."
+        },
+        {
+            "keywords": ["wrong number", "what about a wrong number", "procedure for wrong number", "info on wrong number", "got a wrong number", "contacted wrong number", "they say it's a wrong number"],
+            "answer": "Code as 'Wrong Number'."
+        },
+        {
+            "keywords": ["answering machine", "voicemail", "got an answering machine", "hit voicemail", "procedure for answering machine", "policy on answering machines", "leaving messages answering machine", "what if i get voicemail"],
+            "answer": "Code as 'Answering Machine' as soon as possible, most projects do not require leaving messages."
+        },
+        {
+            "keywords": ["no answer", "phone rings no answer", "what if no one answers", "procedure for no answer", "they didn't pick up", "call not answered"],
+            "answer": "If there is no response Code as 'No Answer'."
+        },
+        {
+            "keywords": ["not interested", "person not interested", "customer says not interested", "handling not interested", "procedure for not interested", "they don't want it", "refused service", "declined"],
+            "answer": "Code as 'Not in'. Be polite and thank them for their time."
+        },
+        {
+            "keywords": ["do not call", "dnc", "add to do not call list", "person requests do not call", "handling dnc request", "procedure for do not call", "asked to be on dnc"],
+            "answer": "Code as 'Do Not Call' No attempt to save the call is needed."
+        },
+        {
+            "keywords": ["deceased", "person is deceased", "contact is deceased", "told person passed away", "handling deceased contact", "procedure for deceased", "caller is deceased"],
+            "answer": "If the person you are trying to reach is reported Deceased, Code as 'Deceased'."
         }
     ],
     "call_codes": {
-        "not interested": "Code as 'Not in'. Be polite and thank them for their time.",
-        "wrong number": "Code as 'Wrong Number'."
+        "Wrong Number": "Code as 'Wrong Number'.",
+        "Answering Machine": "Code as 'Answering Machine' as soon as possible, most projects do not require leaving messages.",
+        "No Answer": "If there is no response Code as 'No Answer'.",
+        "Not Interested": "Code as 'Not in'. Be polite and thank them for their time.",
+        "Do Not Call": "Code as 'Do Not Call' No attempt to save the call is needed.",
+        "Deceased": "If the person you are trying to reach is reported Deceased, Code as 'Deceased'."
     },
     "fallback_message": "I'm sorry, I don't have an answer for that right now. Please ask your manager for assistance."
 }
