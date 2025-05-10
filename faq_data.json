@@ -1,4 +1,26 @@
 {
+    "greetings_and_pleasantries": [
+        {
+            "keywords": ["hello", "hi", "hey", "greetings", "howdy", "yo"],
+            "response_type": "standard_greeting",
+            "greeting_reply_template": "{actual_greeting_cased}, {user_mention}! How can I assist you today?"
+        },
+        {
+            "keywords": ["good morning", "good afternoon", "good evening"],
+            "response_type": "standard_greeting",
+            "greeting_reply_template": "{actual_greeting_cased}, {user_mention}! How can I assist you?"
+        },
+        {
+            "keywords": ["thank you", "thanks", "ty"],
+            "response_type": "specific_reply",
+            "reply_text": "You're welcome! 🙂"
+        },
+        {
+            "keywords": ["have a nice day", "have a good day"],
+            "response_type": "specific_reply",
+            "reply_text": "You too! Have a wonderful day! 😊"
+        }
+    ],
     "general_faqs": [
         {
             "keywords": [
@@ -38,5 +60,5 @@
         "not interested": "Code as 'Not in'. Be polite and thank them for their time.",
         "wrong number": "Code as 'Wrong Number'."
     },
-    "fallback_message": "I'm sorry, I don't have an answer for that right now. Please DM Adam or Cory for assistance."
+    "fallback_message": "I'm sorry, I don't have an answer for that right now. Please ask your manager for assistance."
 }

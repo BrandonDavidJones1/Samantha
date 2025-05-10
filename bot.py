@@ -1,53 +1,55 @@
 import discord
-from discord.ext import commands
 import os
 import json
 from dotenv import load_dotenv
+import string
+from thefuzz import fuzz # For fuzzy matching
+# from thefuzz import process # Could be used for more advanced matching later
 
 # --- Configuration ---
-load_dotenv() # Load environment variables from .env file
+load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-# BOT_PREFIX = "!" # We'll use a dynamic prefix now
 FAQ_FILE = "faq_data.json"
-
-# --- Helper function to determine prefix ---
-def get_prefix(bot, message):
-    if isinstance(message.channel, discord.DMChannel):
-        return ""  # No prefix in DMs
-    return commands.when_mentioned_or("!")(bot, message) # Use "!" or mention in guilds
+FUZZY_MATCH_THRESHOLD_GREETINGS = 90  # Higher threshold for greetings
+FUZZY_MATCH_THRESHOLD_KEYWORDS = 88 # Higher threshold for general FAQ keyword spotting
+FUZZY_MATCH_THRESHOLD_CALLCODES_STRICT = 92 # Very high for matching extracted code name
 
 # --- Bot Setup ---
 intents = discord.Intents.default()
 intents.message_content = True
 intents.dm_messages = True
-intents.guild_messages = True # Keep this if you want guild commands with "!" or mention
-
-bot = commands.Bot(command_prefix=get_prefix, intents=intents, help_command=None) # help_command=None if you want to make your own
+bot = discord.Client(intents=intents)
 
 # --- Global Data ---
 faq_data = {}
 
-# --- Helper Functions (load_faq_data, save_faq_data - remain the same) ---
+# --- Helper Functions ---
 def load_faq_data():
     global faq_data
     try:
         with open(FAQ_FILE, 'r', encoding='utf-8') as f:
             faq_data = json.load(f)
+        faq_data.setdefault("greetings_and_pleasantries", [])
+        faq_data.setdefault("general_faqs", [])
+        faq_data.setdefault("call_codes", {})
+        faq_data.setdefault("fallback_message", "Sorry, I couldn't find an answer. Please ask your manager for assistance.")
         print(f"Successfully loaded data from {FAQ_FILE}")
     except FileNotFoundError:
         print(f"Error: {FAQ_FILE} not found. Creating a default structure.")
         faq_data = {
+            "greetings_and_pleasantries": [],
             "general_faqs": [],
             "call_codes": {},
-            "fallback_message": "Sorry, I couldn't find an answer. Please ask Adam or your manager."
+            "fallback_message": "Sorry, I couldn't find an answer. Please ask your manager for assistance."
         }
         save_faq_data()
     except json.JSONDecodeError:
         print(f"Error: Could not decode JSON from {FAQ_FILE}. Check its format.")
         faq_data = {
+            "greetings_and_pleasantries": [],
             "general_faqs": [],
             "call_codes": {},
-            "fallback_message": "Sorry, I couldn't find an answer due to a data error. Please ask Adam or your manager."
+            "fallback_message": "Sorry, I couldn't find an answer due to a data error. Please ask your manager for assistance."
         }
 
 def save_faq_data():
@@ -58,11 +60,32 @@ def save_faq_data():
     except Exception as e:
         print(f"Error saving data to {FAQ_FILE}: {e}")
 
+def is_text_empty_or_punctuation_only(text):
+    if not text:
+        return True
+    return all(char in string.punctuation or char.isspace() for char in text)
+
+def get_best_fuzzy_match(query, choices_list, threshold):
+    best_match = None
+    highest_score = 0
+    # query is already lowercased by caller typically, choices_list elements are also expected to be lowercase
+    for choice in choices_list: 
+        score = fuzz.token_sort_ratio(query, choice) 
+        if score > highest_score:
+            highest_score = score
+            best_match = choice
+    
+    if highest_score >= threshold:
+        # print(f"FuzzyDBG: Query='{query}', Choice='{best_match}', Score={highest_score}, Threshold={threshold}")
+        return best_match, highest_score
+    # print(f"FuzzyDBG: Query='{query}', BestScore={highest_score} (below threshold {threshold}) for choices: {choices_list}")
+    return None, 0
+
 # --- Event Handlers ---
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} (ID: {bot.user.id}) has connected to Discord!')
-    print(f'Listening for DMs (no prefix for commands) and guild commands with "!" or mention.')
+    print(f'Listening for DMs. All interactions are handled as direct messages.')
     load_faq_data()
     await bot.change_presence(activity=discord.Game(name="DM me for help!"))
 
@@ -71,95 +94,181 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    # Let the commands framework attempt to process the message first.
-    # This will use our `get_prefix` function.
-    # If a command is found and executed, `process_commands` handles it.
-    await bot.process_commands(message)
+    if not isinstance(message.channel, discord.DMChannel):
+        return
 
-    # To prevent NLP from running if a command was already processed by `process_commands`:
-    # We check if the message *could* have been a command.
-    ctx = await bot.get_context(message)
-    if ctx.valid and ctx.command: # ctx.valid checks if a command was found and could be invoked
-        return # Command was handled, so don't proceed to NLP
+    # print(f"DBG: Received DM from {message.author}: {message.content}")
+    user_query_lower = message.content.lower().strip() 
+    original_message_content = message.content.strip() 
 
-    # If it's a DM and NO command was processed, then do NLP
-    if isinstance(message.channel, discord.DMChannel):
-        print(f"Received DM (NLP) from {message.author}: {message.content}") # For logging/debugging
-        user_query = message.content.lower().strip()
+    # 1. List Codes (Exact match utility keyword - keep exact for this)
+    if user_query_lower in ["listcodes", "showcodes", "codes"]:
+        codes = faq_data.get("call_codes", {})
+        if not codes:
+            await message.channel.send("No call codes are currently defined.")
+            return
+        response_message = "**Available Call Codes:**\n"
+        for code, description in codes.items():
+            response_message += f"\n**{code.title()}**:\n_{description}_\n"
+        if len(response_message) > 1900:
+            response_message = response_message[:1900] + "\n\n... (message too long, truncated)"
+        await message.channel.send(response_message)
+        return
 
-        # 1. Check for "how to code" questions
-        if "how to code" in user_query or "code for" in user_query:
-            potential_code_key = user_query.replace("how to code", "").replace("code for", "").strip()
+    # 2. Greetings and pleasantries from JSON (with fuzzy matching)
+    greetings_config = faq_data.get("greetings_and_pleasantries", [])
+    greeting_handled_or_skipped = False 
+
+    for item in greetings_config:
+        if greeting_handled_or_skipped: 
+            break
+        
+        user_typed_greeting_text_for_item = "" 
+        best_score_for_item_greeting_match = 0
+
+        for kw_json in item.get("keywords", []): 
+            for l_offset in range(-2, 3): 
+                user_prefix_len = len(kw_json) + l_offset
+                if user_prefix_len <= 0 or user_prefix_len > len(user_query_lower):
+                    continue
+                
+                user_prefix_to_check = user_query_lower[:user_prefix_len]
+                score = fuzz.token_set_ratio(kw_json, user_prefix_to_check) 
+                
+                if score > best_score_for_item_greeting_match and score >= FUZZY_MATCH_THRESHOLD_GREETINGS:
+                    best_score_for_item_greeting_match = score
+                    user_typed_greeting_text_for_item = user_prefix_to_check
             
-            found_code = False
-            for code, description in faq_data.get("call_codes", {}).items():
-                # More robust matching for call codes
-                normalized_code = code.lower()
-                normalized_key = potential_code_key # Already lower from user_query
-                if normalized_key in normalized_code or normalized_code in normalized_key: # Check both directions
-                    await message.channel.send(f"**How to code '{code.title()}':**\n{description}")
-                    found_code = True
-                    return 
-            if not found_code and potential_code_key:
-                 await message.channel.send(f"I don't have specific coding instructions for '{potential_code_key}'. "
-                                           f"You can ask for `listcodes` or try a more general term. " # Update example here
-                                           f"If this is a new code, ask Adam or your manager to add it to my knowledge base!")
-                 return
+        if user_typed_greeting_text_for_item: 
+            # print(f"DBG: Greeting Matched: User typed '{user_typed_greeting_text_for_item}' (orig: '{original_message_content[:len(user_typed_greeting_text_for_item)]}') for item keywords like '{item.get('keywords')[0]}...' with score {best_score_for_item_greeting_match}")
 
-        # 2. Check general FAQs
-        for faq_item in faq_data.get("general_faqs", []):
-            for keyword in faq_item.get("keywords", []):
-                if keyword.lower() in user_query:
+            remaining_text_after_greeting = user_query_lower[len(user_typed_greeting_text_for_item):].strip()
+            is_standalone = is_text_empty_or_punctuation_only(remaining_text_after_greeting)
+            response_type = item.get("response_type")
+
+            if response_type == "specific_reply":
+                if is_standalone: 
+                    reply_text = item.get("reply_text", "Okay.")
+                    await message.channel.send(reply_text)
+                    return 
+            elif response_type == "standard_greeting":
+                if is_standalone:
+                    template = item.get("greeting_reply_template", "Hello {user_mention}! How can I help?")
+                    actual_greeting_cased = original_message_content[:len(user_typed_greeting_text_for_item)].strip()
+                    reply = template.replace("{actual_greeting_cased}", actual_greeting_cased) \
+                                    .replace("{user_mention}", message.author.mention)
+                    await message.channel.send(reply)
+                    return
+                else: 
+                    greeting_handled_or_skipped = True 
+            
+        if greeting_handled_or_skipped:
+             break
+
+
+    # 3. NLP for "how to code" questions (Call Coding)
+    extracted_code_name = ""
+    call_code_intent_detected = False
+
+    trigger_phrases_exact = {
+        "how to code": None, 
+        "code for": None,
+        "what is the code for": None,
+        "coding for": None,
+        "how do i code": None 
+    }
+
+    for phrase in trigger_phrases_exact.keys():
+        if phrase in user_query_lower:
+            parts = user_query_lower.split(phrase, 1)
+            if len(parts) > 1: 
+                idx_phrase_start = len(parts[0])
+                if idx_phrase_start == 0 or user_query_lower[idx_phrase_start-1].isspace():
+                    extracted_code_name = parts[1].strip().lstrip(string.punctuation).strip() 
+                    call_code_intent_detected = True
+                    # print(f"DBG: Call code intent by exact phrase '{phrase}', extracted: '{extracted_code_name}'")
+                    break 
+    
+    if call_code_intent_detected and extracted_code_name:
+        temp_key_for_stripping = extracted_code_name 
+        stripped_leading_greeting = False
+        for item_greet in greetings_config: 
+            if item_greet.get("response_type") == "standard_greeting": 
+                for keyword_json_greet in item_greet.get("keywords", []): 
+                    if temp_key_for_stripping.startswith(keyword_json_greet):
+                        part_after_greeting = temp_key_for_stripping[len(keyword_json_greet):]
+                        if not is_text_empty_or_punctuation_only(part_after_greeting) or not part_after_greeting:
+                            temp_key_for_stripping = part_after_greeting.lstrip(string.punctuation + ' ').strip()
+                            # print(f"DBG: Stripped greeting '{keyword_json_greet}' from call code. Remainder: '{temp_key_for_stripping}'")
+                            stripped_leading_greeting = True 
+                            break 
+            if stripped_leading_greeting: 
+                extracted_code_name = temp_key_for_stripping 
+                break 
+        
+        if extracted_code_name: 
+            all_known_call_codes_json = faq_data.get("call_codes", {})
+            call_codes_map_lower_to_original = {key.lower(): key for key in all_known_call_codes_json.keys()}
+            
+            matched_code_key_lower, code_score = get_best_fuzzy_match(
+                extracted_code_name, 
+                list(call_codes_map_lower_to_original.keys()), 
+                FUZZY_MATCH_THRESHOLD_CALLCODES_STRICT 
+            )
+
+            if matched_code_key_lower:
+                original_cased_code_key = call_codes_map_lower_to_original[matched_code_key_lower]
+                description = all_known_call_codes_json.get(original_cased_code_key)
+                # print(f"DBG: Matched call code '{original_cased_code_key}' for user input '{extracted_code_name}' with score {code_score}")
+                await message.channel.send(f"**How to code '{original_cased_code_key.title()}':**\n{description}")
+                return
+            else:
+                # print(f"DBG: No call code match for '{extracted_code_name}' above threshold {FUZZY_MATCH_THRESHOLD_CALLCODES_STRICT}")
+                await message.channel.send(f"I don't have specific coding instructions for '{extracted_code_name}'. "
+                                           f"It's not a code I recognize. You can type `listcodes` to see known codes.")
+                return
+        else: 
+            # print(f"DBG: Extracted code name for call coding became empty after stripping greetings.")
+            pass
+
+
+    # 4. NLP for general FAQs (with fuzzy matching on keywords)
+    # This section will run if no prior section (listcodes, standalone greeting, call code) caused a return.
+    for faq_item in faq_data.get("general_faqs", []):
+        for keyword_from_json in faq_item.get("keywords", []): 
+            if len(keyword_from_json.split()) == 1: # Single-word FAQ keyword
+                for user_word in user_query_lower.split():
+                    user_word_cleaned = user_word.strip(string.punctuation)
+                    score = fuzz.ratio(keyword_from_json, user_word_cleaned) 
+                    if score >= FUZZY_MATCH_THRESHOLD_KEYWORDS + 2: # Slightly higher for single word
+                        # print(f"DBG: FAQ single-word fuzzy: User '{user_word_cleaned}' vs JSON-Key '{keyword_from_json}' score {score}")
+                        await message.channel.send(faq_item.get("answer", "Sorry, an answer is configured but missing."))
+                        return
+            
+            else: # Multi-word FAQ keyword
+                score = fuzz.token_set_ratio(keyword_from_json, user_query_lower)
+                if score >= FUZZY_MATCH_THRESHOLD_KEYWORDS:
+                    # print(f"DBG: FAQ multi-word phrase fuzzy (overall): User Query vs JSON-Key '{keyword_from_json}' score {score}")
                     await message.channel.send(faq_item.get("answer", "Sorry, an answer is configured but missing."))
                     return
 
-        # 3. If no match, send fallback (but only if it wasn't a command like "listcodes")
-        #    The check `if ctx.valid and ctx.command:` above should prevent this for valid commands.
-        fallback = faq_data.get("fallback_message", "I'm sorry, I don't have an answer for that right now.")
-        await message.channel.send(fallback.replace("[Your Boss's Discord Name/Nickname]", "your manager"))
-        return
-    # No need for the `elif message.content.startswith(BOT_PREFIX):` for guild commands
-    # as `await bot.process_commands(message)` at the top handles it with `get_prefix`.
-
-# --- Bot Commands (remain largely the same, but now callable without "!" in DMs) ---
-@bot.command(name='hello', help='Responds with a friendly greeting.')
-async def hello(ctx):
-    await ctx.send(f'Hello {ctx.author.mention}! How can I help you today?')
-
-@bot.command(name='listcodes', aliases=['showcodes', 'codes'], help='Lists all known call codes and their descriptions.')
-async def list_codes(ctx):
-    codes = faq_data.get("call_codes", {})
-    if not codes:
-        await ctx.send("No call codes are currently defined.")
-        return
-
-    response_message = "**Available Call Codes:**\n"
-    for code, description in codes.items():
-        response_message += f"\n**{code.title()}**:\n_{description}_\n"
-    
-    if len(response_message) > 1900:
-        await ctx.send("There are too many codes to list in one message. Please ask about specific codes or check with Adam/your manager.")
-    else:
-        await ctx.send(response_message)
-
-@bot.command(name='reloadfaq', help='Reloads the FAQ data from the JSON file (Admin/Boss only).')
-@commands.has_permissions(administrator=True)
-async def reload_faq(ctx):
-    load_faq_data()
-    await ctx.send("FAQ data has been reloaded successfully!")
-
-@reload_faq.error
-async def reloadfaq_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send("Sorry, you don't have permission to use that command.")
-    else:
-        print(f"Error in reloadfaq: {error}") # Log other errors
-        await ctx.send(f"An error occurred with reloadfaq command.")
+    # 5. If no specific match by this point, send fallback
+    # This fallback is reached if listcodes, standalone greetings, call codes, or FAQs didn't match.
+    # print(f"DBG: No specific match found, sending fallback for query: '{user_query_lower}'")
+    fallback_message_template = faq_data.get("fallback_message", "I'm sorry, I don't have an answer for that right now. Please ask your manager.")
+    await message.channel.send(fallback_message_template) 
+    return # Explicit return after fallback, though it's the end of the function.
 
 
 # --- Run the Bot ---
 if __name__ == "__main__":
     if TOKEN:
-        bot.run(TOKEN)
+        try:
+            bot.run(TOKEN)
+        except discord.PrivilegedIntentsRequired:
+            print("Error: Privileged Intents (Message Content) are not enabled for the bot in the Discord Developer Portal.")
+            print("Please go to your bot's application page on the Discord Developer Portal and enable the 'Message Content Intent'.")
+        except Exception as e:
+            print(f"An error occurred while trying to run the bot: {e}")
     else:
         print("Error: DISCORD_TOKEN not found in .env file or environment variables. Bot cannot start.")
