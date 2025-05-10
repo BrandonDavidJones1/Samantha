@@ -1,7 +1,7 @@
-Agent Support Discord Bot - README
+## Agent Support Discord Bot - README
 This document explains how to use the "Agent Support" Discord bot and how to keep it running. The bot is designed to answer common agent questions and provide guidance on call coding.
 
-How Agents Use the Bot
+## How Agents Use the Bot
 
 Find the Bot: Agents will find a user named "Agent Support" (or its configured name) in the Discord server member list.
 Send a Direct Message (DM): Click on the bot's name and send it a private message.
@@ -13,7 +13,7 @@ Call Coding Questions: Ask about specific call outcomes.
 Example: How do I code a complete?
 Example: What's the code for a customer not interested?
 
-Managing the Bot's Knowledge 
+## Managing the Bot's Knowledge 
 
 The bot learns from a file named faq_data.json, located in the bot's main project folder. This file stores all questions and answers.
 To Add or Change Answers:
@@ -23,7 +23,7 @@ general_faqs: For common questions. Each has:
 keywords: Phrases triggering the answer (e.g., "start time").
 answer: The bot's response.
 call_codes: For call coding. Each entry has:
-A "code name" (e.g., "sale completed").
+A "code name" (e.g., "complete").
 Detailed instructions for that code.
 fallback_message: Bot's reply if it doesn't understand.
 Make Changes: Carefully edit the text, preserving special characters ({ } [ ] " ,). Copying an existing entry to modify is recommended if unsure.
