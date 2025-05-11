@@ -64,11 +64,15 @@
             "answer": "If there is no response Code as 'No Answer'. For GOTV calls without voicemails, even a No Answer is coded as 'COMPLETE LIVE'."
         },
         {
+            "keywords": ["can i be added", "add me", "request to be added", "can you add me to project", "how to get added", "i want to be added", "add"],
+            "answer": "Please contact your direct supervisor to request being added or for more information on the process."
+        },
+        {
             "keywords": ["not interested", "not in", "person not interested", "customer says not interested", "handling not interested", "procedure for not interested", "they don't want it", "refused service", "declined", "don't call me anymore", "take me off your list general"],
             "answer": "PLACEHOLDER"
         },
         {
-            "keywords": ["do not call", "dnc", "add to do not call list", "person requests do not call", "handling dnc request", "procedure for do not call", "asked to be on dnc", "rebuttal dnc", "argue dnc", "specifically asks dnc"],
+            "keywords": ["do not call", "DNC", "add to do not call list", "person requests do not call", "handling dnc request", "procedure for do not call", "asked to be on dnc", "rebuttal dnc", "argue dnc", "specifically asks dnc"],
             "answer": "The only time a call is coded “Do Not Call” or DNC, is when the voter specifically asks to be put on the do not call list. Otherwise, any other request to not be contacted is coded as NOT INTERESTED"
         },
         {
@@ -117,7 +121,7 @@
         },
         {
             "keywords": ["ask gender", "assume gender", "voter name gender", "non-binary gender"],
-            "answer": "NEVER ASK GENDER. You will assume the gender based on the voter's name. EXCEPTION: When the gender includes more than MALE or FEMALE, such as NON-BINARY (follow specific campaign instructions for these scenarios if provided)."
+            "answer": "NEVER ASK GENDER."
         },
         {
             "keywords": ["survey verbatim", "read survey exactly", "change survey wording", "add remove words survey"],
