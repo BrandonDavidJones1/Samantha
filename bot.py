@@ -101,7 +101,7 @@ async def on_message(message):
     original_message_content = message.content.strip()
 
     # --- Stage 1: Handle 'listcodes' command ---
-    if user_query_lower in ["listcodes", "showcodes", "codes"]:
+    if user_query_lower in ["listcodes", "list codes", "showcodes", "codes"]:
         codes = faq_data.get("call_codes", {})
         if not codes:
             await message.channel.send("No call codes are currently defined.")

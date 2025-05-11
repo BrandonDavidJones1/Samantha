@@ -3,7 +3,7 @@
         {
             "keywords": ["Welcome", "Whats up", "Sup", "hello", "hi", "hey", "greetings", "howdy", "yo"],
             "response_type": "standard_greeting",
-            "greeting_reply_template": "{actual_greeting_cased}, {user_mention}! How can I assist you today? May the Force be with your calls!"
+            "greeting_reply_template": "{actual_greeting_cased}, {user_mention}! Try typing 'list codes' or ask a question!"
         },
         {
             "keywords": ["good morning", "good afternoon", "good evening"],
@@ -24,11 +24,7 @@
     "general_faqs": [
         {
             "keywords": ["wrap up", "what is wrap up", "explain wrap up", "wrap up time", "define wrap up", "after call work", "post call processing", "disposition time", "time to disposition", "disposition call seconds"],
-            "answer": "Wrap up is the time from the end of the call until the call is coded. It's the period where you select the correct disposition for the call. Aim to disposition a call within 10-15 seconds. And remember, do not sit in WRAP UP for too long; if you aren't getting calls within one minute, you might be stuck and should refresh your screen."
-        },
-        {
-            "keywords": ["stuck in wrap up", "no calls in wrap up", "refresh screen wrap up", "not getting calls"],
-            "answer": "If you know that we are busy and you aren't getting any phone calls within one minute while in wrap up, it means you are probably stuck. If this happens you need to refresh your screen. This is not the refresh you're looking for if it persists, contact a supervisor."
+            "answer": "Wrap up is the time from the end of the call until the call is coded. It's the period where you select the correct disposition for the call. Aim to disposition a call within 2-3 seconds."
         },
         {
             "keywords": [
@@ -60,12 +56,8 @@
             "answer": "For a voter ID project, a 'complete' means the voter's name has been confirmed. Once the voter's name is confirmed, you may code it complete."
         },
         {
-            "keywords": ["wrong number", "what about a wrong number", "procedure for wrong number", "info on wrong number", "got a wrong number", "contacted wrong number", "they say it's a wrong number"],
-            "answer": "Code as 'Wrong Number'. For GOTV calls without voicemails, even a Wrong Number is coded as 'COMPLETE LIVE'."
-        },
-        {
             "keywords": ["answering machine", "voicemail", "got an answering machine", "hit voicemail", "procedure for answering machine", "policy on answering machines", "leaving messages answering machine", "what if i get voicemail", "disconnect answering machine", "let answering machine play"],
-            "answer": "For most projects, code as 'Answering Machine' as soon as possible. If we are NOT handling projects where we are leaving messages on answering machines, you MUST disconnect the call immediately. Do not sit on the line and let the answering machine play. This can be seen as call avoidance. For GOTV calls: if no voicemails, code AM as 'COMPLETE LIVE'. If leaving voicemails, it's 'COMPLETE LEFT MESSAGE'."
+            "answer": "PLACEHOLDER"
         },
         {
             "keywords": ["no answer", "phone rings no answer", "what if no one answers", "procedure for no answer", "they didn't pick up", "call not answered"],
@@ -73,7 +65,7 @@
         },
         {
             "keywords": ["not interested", "not in", "person not interested", "customer says not interested", "handling not interested", "procedure for not interested", "they don't want it", "refused service", "declined", "don't call me anymore", "take me off your list general"],
-            "answer": "Code as 'Not Interested' (or 'Not in') if the voter indicates they don't want to participate or be contacted further, but *does not* specifically ask to be put on the 'do not call list'. Be polite and thank them for their time. For GOTV calls without voicemails, even 'Not Interested' is coded as 'COMPLETE LIVE'."
+            "answer": "PLACEHOLDER"
         },
         {
             "keywords": ["do not call", "dnc", "add to do not call list", "person requests do not call", "handling dnc request", "procedure for do not call", "asked to be on dnc", "rebuttal dnc", "argue dnc", "specifically asks dnc"],
@@ -81,7 +73,7 @@
         },
         {
             "keywords": ["deceased", "person is deceased", "contact is deceased", "told person passed away", "handling deceased contact", "procedure for deceased", "caller is deceased"],
-            "answer": "If the person you are trying to reach is reported Deceased, Code as 'Deceased'. For GOTV calls without voicemails, even Deceased is coded as 'COMPLETE LIVE'."
+            "answer": "If the person you are trying to reach is reported Deceased, Code as 'Deceased'."
         },
         {
             "keywords": ["leave messages", "supposed to leave messages", "do we leave messages", "leaving messages campaign", "are we leaving messages", "policy on leaving messages", "messages this project", "leave voicemail", "voicemail policy"],
@@ -89,7 +81,7 @@
         },
         {
             "keywords": ["track hours", "check hours", "hours portal", "how to check my hours", "view hours", "employee portal hours", "hours tracking", "pay period hours"],
-            "answer": "I keep track daily but Corey will also give you your totals at the halfway point and at the end of the pay period if you ask."
+            "answer": "Corey will also give you your totals at the halfway point and at the end of the pay period if you ask."
         },
         {
             "keywords": ["cph", "what is cph", "define cph", "cph meaning", "completes per hour", "explain cph"],
@@ -100,16 +92,8 @@
             "answer": "Patches are [patch definition here]."
         },
         {
-            "keywords": ["full complete", "what is a full complete", "define full complete", "full complete definition", "when is it a full complete", "all questions answered", "every question answered"],
-            "answer": "A FULL COMPLETE is defined as having an answer to every single question in the survey."
-        },
-        {
-            "keywords": ["partial complete", "what is a partial complete", "define partial complete", "partial complete definition", "when is it a partial complete", "some questions answered", "at least one question answered", "confirming name partial complete", "survey partial complete"],
-            "answer": "A PARTIAL COMPLETE is defined as having an answer to at least one question, but not all the questions. This includes confirming the name of the voter. If a voter refuses to give their YOB, the survey also ends as a PARTIAL COMPLETE. If you confirm the name of the voter but do not complete the survey, it is coded PARTIAL COMPLETE."
-        },
-        {
             "keywords": ["yob", "year of birth", "confirm yob", "repeat yob", "how to ask yob", "yob procedure", "ask year of birth", "ensure yob correct", "verify yob", "checking yob", "refused yob", "voter won't give yob"],
-            "answer": "When you ask the YOB (Year of Birth) ALWAYS repeat it back to ensure you have it correct (e.g., 'You said 1964, is that correct?'). Failure to repeat the YOB is grounds for disciplinary action. If a voter will not give you their YOB, you must mark it as REFUSED in the survey, and the survey will end as a PARTIAL COMPLETE."
+            "answer": "When you ask the YOB (Year of Birth) ALWAYS repeat it back to ensure you have it correct (e.g., 'You said 1964, is that correct?')."
         },
         {
             "keywords": ["share personal information", "give my phone number", "my location", "my address", "social media voters"],
@@ -120,44 +104,20 @@
             "answer": "You may NOT give out our company's name, name of the city/state, address, or direct phone number. If someone asks you from where you are calling, your response should be, “I apologize, but we are not allowed to provide that information for security reasons.”"
         },
         {
-            "keywords": ["voter demands more information", "campaign information demand", "more info than script"],
+            "keywords": ["where do you work", "voter demands more information", "campaign information demand", "more info than script"],
             "answer": "You may ONLY say that you are calling on behalf of the campaign as indicated in the script. If the person demands more information than what's in the script, you must contact a supervisor to handle the call."
         },
         {
             "keywords": ["share opinions", "my opinion on project", "remain unbiased", "personal views"],
-            "answer": "You are NOT to give your own opinions on matters being discussed in the project. Your job is to ALWAYS remain unbiased. Like a Jedi, your feelings you must control."
-        },
-        {
-            "keywords": ["importance of coding", "accurate coding", "code every call", "disposition accuracy"],
-            "answer": "You must accurately code (terminated/disposition) every single call with the appropriate status. Coding is the most important part of the job and your highest responsibility. Failure to do so will result in disciplinary action and if continued, termination. The fate of the galaxy... err, campaign... depends on it!"
-        },
-        {
-            "keywords": ["call ending", "how to end call professionally", "thank you for your time"],
-            "answer": "ALWAYS be professional and end every call with “Thank you for your time”."
-        },
-        {
-            "keywords": ["voter specific call", "vof", "speak only to voter on file", "confirming voter survey"],
-            "answer": "VOTER SPECIFIC calls require you to speak ONLY with the VOF (Voter on File) listed in the script. (ABSOLUTELY NO EXCEPTIONS). As a rule, surveys are always VOTER SPECIFIC, unless otherwise instructed. You MUST confirm that you are speaking to the right person to continue the survey, and they MUST confirm they are that person."
-        },
-        {
-            "keywords": ["voter assumptive call", "assume voter answered", "hello voter name", "if not voter assumptive"],
-            "answer": "VOTER ASSUMPTIVE calls mean you will “assume” your voter answered the phone. Instead of asking if the voter is there, you will say “Hello (voter's name)” and continue without pause. If the respondent interrupts to say that they are not that voter, you will reply with, “that's alright, I can speak with you as well” and continue the call without pause. Patches are usually Voter Assumptive."
+            "answer": "You are NOT to give your own opinions on matters being discussed in the project. Your job is to ALWAYS remain unbiased."
         },
         {
             "keywords": ["non-voter call", "non voter campaign"],
             "answer": "NON-VOTER calls will not ask for a name. You will speak with whomever answers the phone."
         },
         {
-            "keywords": ["gotv calls", "get out to vote coding", "gotv no voicemail", "gotv with voicemail"],
-            "answer": "For GOTV (Get Out To Vote) calls, there are generally two disposition approaches:\n1. WITHOUT VOICEMAILS: Use 'COMPLETE LIVE' on EVERY CALL, regardless of outcome (answering machine, fax, wrong number, DNC list).\n2. WITH VOICEMAILS: Use 'COMPLETE LIVE' on every call EXCEPT when leaving a voicemail (then use 'COMPLETE LEFT MESSAGE'). If you get a fax machine, wrong number, or DNC request, you still code these as 'COMPLETE LIVE'."
-        },
-        {
             "keywords": ["ask gender", "assume gender", "voter name gender", "non-binary gender"],
             "answer": "NEVER ASK GENDER. You will assume the gender based on the voter's name. EXCEPTION: When the gender includes more than MALE or FEMALE, such as NON-BINARY (follow specific campaign instructions for these scenarios if provided)."
-        },
-        {
-            "keywords": ["questions about coding", "questions about protocol", "help with coding", "unsure how to proceed", "ask supervisor", "message on discord wfh"],
-            "answer": "If you have questions about correct protocol or coding, PLEASE DO NOT HESITATE TO ASK YOUR SUPERVISOR. That is what they're here for, to assist you in reaching your full potential at “LTS”. If you work from home, message your supervisor on Discord. A Jedi seeks guidance from the Council, an agent seeks guidance from their supervisor!"
         },
         {
             "keywords": ["survey verbatim", "read survey exactly", "change survey wording", "add remove words survey"],
@@ -177,33 +137,20 @@
         },
         {
             "keywords": ["beep in ear", "live person connected intro", "hello hello hello"],
-            "answer": "Once you hear the “BEEP” in your ear, which indicates that someone is on the line, go right into your introduction. You don't need to continuously say, “Hello, hello, hello.” It sounds unprofessional and can be seen as rude."
-        },
-        {
-            "keywords": ["no one on line", "silent call after intro", "dead air after intro"],
-            "answer": "If there is no one on the line after giving your introduction, simply say, “Thank you for your time.” We do this because the call is still recorded and there might be someone there even though you can't hear them."
-        },
-        {
-            "keywords": ["dead air call", "sit on open line", "call avoidance open line"],
-            "answer": "Do not sit on an open line. If you receive a dead air call, thank them for their time, quickly disposition, and move on to the next call. It is highly unacceptable for you to sit for 4 minutes on an open line as this is call avoidance and you will be asked to sign off for the day."
+            "answer": "Once you hear the “BEEP” in your ear, which indicates that someone is on the line, go right into your introduction. You don't need to continuously say, “Hello, hello, hello.”"
         },
         {
             "keywords": ["common rebuttals", "list of rebuttals", "what to say if voter hesitant", "rebuttal examples", "convince voter"],
-            "answer": "Here are some common rebuttals you can use:\n- “I understand, but this will only take a short moment of your time and your opinion would really make a difference!”\n- “I understand, but your opinion really matters!”\n- “Your voice and opinion are very important; every voice does matter!”\n- “It's really important for them to hear your voice!”\n- “It would just take a moment for your voice to be heard!”\n- “Your voice matters!”\n- “We need your voice, so they know your stand!”\nUse these wisely, you must."
+            "answer": "Here are some common rebuttals you can use:\n- “I understand, but this will only take a short moment of your time and your opinion would really make a difference!”\n- “I understand, but your opinion really matters!”\n- “Your voice and opinion are very important; every voice does matters!”\n- “It's really important for them to hear your voice!”\n- “It would just take a moment for your voice to be heard!”\n- “Your voice matters!”\n- “We need your voice, so they know your stand!”\n"
         }
     ],
     "call_codes": {
-        "Wrong Number": "Code as 'Wrong Number'. (For GOTV no-VM, code 'COMPLETE LIVE').",
-        "Answering Machine": "Code as 'Answering Machine'. (For GOTV no-VM, code 'COMPLETE LIVE'; for GOTV with-VM, code 'COMPLETE LEFT MESSAGE' if leaving message). Disconnect immediately if not leaving messages on a non-GOTV project.",
-        "No Answer": "If there is no response Code as 'No Answer'. (For GOTV no-VM, code 'COMPLETE LIVE').",
-        "Not Interested": "Code as 'Not in'. Be polite and thank them for their time. This is used for general requests to not be contacted if the voter does NOT specifically ask for the 'do not call list'. (For GOTV no-VM, code 'COMPLETE LIVE').",
-        "Do Not Call": "Code as 'Do Not Call' ONLY when the voter *specifically asks* to be put on the 'do not call list'. Otherwise, any other request to not be contacted is coded as 'NOT INTERESTED'. No rebuttal needed. (For GOTV no-VM, code 'COMPLETE LIVE').",
-        "Deceased": "If the person you are trying to reach is reported Deceased, Code as 'Deceased'. (For GOTV no-VM, code 'COMPLETE LIVE').",
-        "COMPLETE LIVE": "Used for GOTV calls (typically without voicemail option) for all outcomes including AM, fax, wrong #, DNC, or successful contact not leaving a message. Also used for successful GOTV contacts when leaving voicemails is an option but one wasn't left for that specific call.",
-        "COMPLETE LEFT MESSAGE": "Used for GOTV calls when a voicemail has been successfully left.",
-        "COMPLETE PATCH": "Used when a caller has been successfully transferred (patched) to their representative/target.",
-        "NOT AVAILABLE": "Used in surveys if you do NOT speak to the target voter.",
-        "UNSUCCESSFUL PATCH": "Used if the line is busy or the transfer (patch) otherwise fails."
+        "WRONG NUMBER": "PLACEHOLDER",
+        "ANSWERING MACHINE": "PLACEHOLDER",
+        "No Answer": "PLACEHOLDER",
+        "DO NOT CALL": "PLACEHOLDER",
+        "COMPLETE PATCH": "PLACEHOLDER",
+        "UNSUCCESSFUL PATCH": "PLACEHOLDER"
     },
-    "fallback_message": "I'm sorry, I couldn't find an answer for that specific query."
+    "fallback_message": "I'm sorry, I couldn't find an answer for that specific query. Try typing 'list codes' or 'common rebuttals'."
 }
