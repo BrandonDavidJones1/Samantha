@@ -69,6 +69,9 @@ def get_best_fuzzy_match(query, choices_list, threshold):
     best_match = None
     highest_score = 0
     for choice in choices_list:
+        # Using token_sort_ratio as it's generally good for matching phrases where word order might vary slightly.
+        # For single keywords or exact code names, ratio or partial_ratio might also be considered,
+        # but token_sort_ratio is a good general choice here.
         score = fuzz.token_sort_ratio(query, choice)
         if score > highest_score:
             highest_score = score
@@ -97,6 +100,7 @@ async def on_message(message):
     user_query_lower = message.content.lower().strip()
     original_message_content = message.content.strip()
 
+    # --- Stage 1: Handle 'listcodes' command ---
     if user_query_lower in ["listcodes", "showcodes", "codes"]:
         codes = faq_data.get("call_codes", {})
         if not codes:
@@ -105,100 +109,141 @@ async def on_message(message):
         response_message = "**Available Call Codes:**\n"
         for code, description in codes.items():
             response_message += f"\n**{code.title()}**:\n_{description}_\n"
-        if len(response_message) > 1900:
+        if len(response_message) > 1900: # Discord message limit is 2000
             response_message = response_message[:1900] + "\n\n... (message too long, truncated)"
         await message.channel.send(response_message)
         return
 
+    # --- Stage 2: Process Greetings ---
     greetings_config = faq_data.get("greetings_and_pleasantries", [])
-    greeting_handled_or_skipped = False
+    query_after_greeting = user_query_lower
+    # Use original_message_content for extracting cased greeting text
+    # Use user_query_lower (as original_query_for_greeting_processing) for matching logic
+
+    greeting_was_standalone_and_replied = False
 
     for item in greetings_config:
-        if greeting_handled_or_skipped:
-            break
-
-        user_typed_greeting_text_for_item = ""
+        user_typed_greeting_text_for_item = "" # Actual text matched
         best_score_for_item_greeting_match = 0
 
-        for kw_json in item.get("keywords", []):
+        for kw_json in item.get("keywords", []): # kw_json is assumed lowercase from FAQ_FILE
+            # Fuzzy match kw_json against the beginning of the current user_query_lower
+            # This loop allows for slight variations in the typed greeting length vs keyword length
             for l_offset in range(-2, 3):
                 user_prefix_len = len(kw_json) + l_offset
-                if user_prefix_len <= 0 or user_prefix_len > len(user_query_lower):
+                if user_prefix_len <= 0 or user_prefix_len > len(user_query_lower): # current user_query_lower
                     continue
-
-                user_prefix_to_check = user_query_lower[:user_prefix_len]
+                
+                user_prefix_to_check = user_query_lower[:user_prefix_len] # from current user_query_lower
                 score = fuzz.token_set_ratio(kw_json, user_prefix_to_check)
 
                 if score > best_score_for_item_greeting_match and score >= FUZZY_MATCH_THRESHOLD_GREETINGS:
                     best_score_for_item_greeting_match = score
                     user_typed_greeting_text_for_item = user_prefix_to_check
-
-        if user_typed_greeting_text_for_item:
-            remaining_text_after_greeting = user_query_lower[len(user_typed_greeting_text_for_item):].strip()
-            is_standalone = is_text_empty_or_punctuation_only(remaining_text_after_greeting)
+        
+        if user_typed_greeting_text_for_item: # A greeting keyword was matched at the start
+            _remaining_text = user_query_lower[len(user_typed_greeting_text_for_item):].strip()
+            _is_standalone_greeting = is_text_empty_or_punctuation_only(_remaining_text)
             response_type = item.get("response_type")
 
             if response_type == "specific_reply":
-                if is_standalone:
+                if _is_standalone_greeting:
                     reply_text = item.get("reply_text", "Okay.")
                     await message.channel.send(reply_text)
-                    return
+                    greeting_was_standalone_and_replied = True
+                    break # from greetings_config loop, effectively ends greeting processing for this message
             elif response_type == "standard_greeting":
-                if is_standalone:
-                    template = item.get("greeting_reply_template", "Hello {user_mention}! How can I help?")
-                    actual_greeting_cased = original_message_content[:len(user_typed_greeting_text_for_item)].strip()
-                    reply = template.replace("{actual_greeting_cased}", actual_greeting_cased) \
-                                    .replace("{user_mention}", message.author.mention)
-                    await message.channel.send(reply)
-                    return
+                actual_greeting_cased = original_message_content[:len(user_typed_greeting_text_for_item)].strip()
+                template = item.get("greeting_reply_template", "Hello {user_mention}! How can I help?")
+                reply = template.replace("{actual_greeting_cased}", actual_greeting_cased) \
+                                .replace("{user_mention}", message.author.mention)
+                
+                await message.channel.send(reply) # Send the greeting reply
+
+                if _is_standalone_greeting:
+                    greeting_was_standalone_and_replied = True
+                    # Break from loop, reply sent, interaction ends after this stage
                 else:
-                    greeting_handled_or_skipped = True
+                    # Non-standalone standard greeting: reply sent, now update query for further processing
+                    query_after_greeting = _remaining_text
+                break # We've handled/responded to the initial greeting, break from greetings_config loop
+            
+    if greeting_was_standalone_and_replied:
+        return # Interaction ended with a standalone greeting reply
 
-        if greeting_handled_or_skipped:
-             break
+    # Update user_query_lower for all subsequent processing stages based on greeting processing
+    user_query_lower = query_after_greeting
 
+    # If the query is now empty after non-standalone greeting processing, it will likely hit fallback or do nothing.
+    if not user_query_lower.strip() and not greeting_was_standalone_and_replied :
+        # If a greeting was sent (even non-standalone) and query is now empty,
+        # it implies the greeting was the main/only actionable part.
+        # If no greeting was sent and query is empty (e.g. user sent "   "), just fallback.
+        # The current logic will naturally fall through to fallback if user_query_lower is empty.
+        pass
+
+
+    # --- Stage 3: Call Code Intent Detection ---
+    # Uses the user_query_lower (which might have had an initial greeting removed)
     extracted_code_name = ""
     call_code_intent_detected = False
 
+    # Trigger phrases: value `True` implies it expects a code name after it.
     trigger_phrases_exact = {
-        "how to code": None, "how to click": None, "how to press": None, "how to choose": None,
-        "code for": None, "click for": None, "press for": None, "choose for": None,
-        "what is the code for": None, "what is the click for": None,
-        "what is the press for": None, "what is the choose for": None,
-        "coding for": None, "clicking for": None, "pressing for": None, "choosing for": None,
-        "how do i code": None, "how do i click": None, "how do i press": None, "how do i choose": None,
-        "code": None, "click": None, "press": None, "choose": None,
+        "how to code": True, "how to click": True, "how to press": True, "how to choose": True,
+        "code for": True, "click for": True, "press for": True, "choose for": True,
+        "what is the code for": True, "what is the click for": True,
+        "what is the press for": True, "what is the choose for": True,
+        "coding for": True, "clicking for": True, "pressing for": True, "choosing for": True,
+        "how do i code": True, "how do i click": True, "how do i press": True, "how do i choose": True,
+        "code": True, "click": True, "press": True, "choose": True,
     }
+    # Sort by length, descending, to match longer phrases first
+    sorted_trigger_phrases = sorted(trigger_phrases_exact.keys(), key=len, reverse=True)
 
-    for phrase in trigger_phrases_exact.keys():
-        if phrase in user_query_lower:
-            parts = user_query_lower.split(phrase, 1)
-            if len(parts) > 1:
-                idx_phrase_start = user_query_lower.find(phrase) # More reliable way to get start index
-                if idx_phrase_start == 0 or user_query_lower[idx_phrase_start-1].isspace():
-                    potential_code_name = parts[1].strip().lstrip(string.punctuation).strip()
-                    if potential_code_name: # Ensure we extracted something
+    if user_query_lower.strip(): # Only attempt if there's a query left
+        for phrase in sorted_trigger_phrases:
+            if user_query_lower.startswith(phrase):
+                # Ensure it's a whole word/phrase match or followed by a clear separator
+                if len(user_query_lower) == len(phrase) or \
+                   (len(user_query_lower) > len(phrase) and \
+                    (user_query_lower[len(phrase)].isspace() or user_query_lower[len(phrase)] in string.punctuation)):
+                    
+                    potential_code_name = user_query_lower[len(phrase):].strip().lstrip(string.punctuation).strip()
+                    if potential_code_name: # Must be something *after* the trigger phrase for it to be a code name
                         extracted_code_name = potential_code_name
                         call_code_intent_detected = True
-                        break
+                        break # Found trigger and potential code name
 
     if call_code_intent_detected and extracted_code_name:
-        temp_key_for_stripping = extracted_code_name
-        stripped_leading_greeting = False
-        for item_greet in greetings_config:
-            if item_greet.get("response_type") == "standard_greeting":
-                for keyword_json_greet in item_greet.get("keywords", []):
-                    if temp_key_for_stripping.startswith(keyword_json_greet.lower()): # ensure keyword is lower
-                        part_after_greeting = temp_key_for_stripping[len(keyword_json_greet):]
-                        if not is_text_empty_or_punctuation_only(part_after_greeting) or not part_after_greeting:
-                            temp_key_for_stripping = part_after_greeting.lstrip(string.punctuation + ' ').strip()
-                            stripped_leading_greeting = True
-                            break
-            if stripped_leading_greeting:
-                extracted_code_name = temp_key_for_stripping
-                break
+        # Iteratively strip known "standard greeting" keywords from the beginning of extracted_code_name
+        current_extracted_code_val = extracted_code_name
+        while True:
+            key_before_stripping_iteration = current_extracted_code_val
+            stripped_in_this_iteration = False
+            for item_greet in greetings_config:
+                if item_greet.get("response_type") == "standard_greeting": # Focus on general greetings
+                    for kw_greet_json in item_greet.get("keywords", []):
+                        kw_greet = kw_greet_json.lower() # ensure lowercase for comparison
+                        if current_extracted_code_val.startswith(kw_greet):
+                            # Check for whole word/phrase match at the start of current_extracted_code_val
+                            if len(current_extracted_code_val) == len(kw_greet) or \
+                               (len(current_extracted_code_val) > len(kw_greet) and \
+                                (current_extracted_code_val[len(kw_greet)].isspace() or \
+                                 current_extracted_code_val[len(kw_greet)] in string.punctuation)):
+                                
+                                current_extracted_code_val = current_extracted_code_val[len(kw_greet):].lstrip(string.punctuation + ' ').strip()
+                                stripped_in_this_iteration = True
+                                break # from kw_greet_json loop
+                if stripped_in_this_iteration:
+                    break # from item_greet loop to restart while loop with modified current_extracted_code_val
+            
+            if not stripped_in_this_iteration or current_extracted_code_val == key_before_stripping_iteration:
+                break # No change or no greeting found, exit stripping loop
+        
+        extracted_code_name = current_extracted_code_val
 
-        if extracted_code_name:
+        if extracted_code_name: # If something remains after stripping
             all_known_call_codes_json = faq_data.get("call_codes", {})
             call_codes_map_lower_to_original = {key.lower(): key for key in all_known_call_codes_json.keys()}
 
@@ -217,26 +262,31 @@ async def on_message(message):
                 await message.channel.send(f"I don't have specific coding instructions for '{extracted_code_name}'. "
                                            f"It's not a code I recognize. You can type `listcodes` to see known codes.")
                 return
-        else:
-            pass
+        # If extracted_code_name became empty after stripping, fall through to general FAQs / fallback
 
-
-    for faq_item in faq_data.get("general_faqs", []):
-        for keyword_from_json in faq_item.get("keywords", []):
-            if len(keyword_from_json.split()) == 1: 
-                for user_word in user_query_lower.split():
-                    user_word_cleaned = user_word.strip(string.punctuation)
-                    score = fuzz.ratio(keyword_from_json, user_word_cleaned)
-                    if score >= FUZZY_MATCH_THRESHOLD_KEYWORDS + 2:
+    # --- Stage 4: General FAQs ---
+    # Uses user_query_lower (which might have had initial greeting removed)
+    if user_query_lower.strip(): # Only process if there's actual query text left
+        for faq_item in faq_data.get("general_faqs", []):
+            for keyword_from_json in faq_item.get("keywords", []): # keyword_from_json assumed lowercase
+                # Check for single-word keywords vs multi-word phrases
+                if len(keyword_from_json.split()) == 1: 
+                    # For single keywords, check against individual words in the query
+                    for user_word in user_query_lower.split():
+                        user_word_cleaned = user_word.strip(string.punctuation)
+                        score = fuzz.ratio(keyword_from_json, user_word_cleaned)
+                        # Using a slightly higher threshold for single word matches to reduce false positives
+                        if score >= FUZZY_MATCH_THRESHOLD_KEYWORDS + 2: # Kept original +2 logic
+                            await message.channel.send(faq_item.get("answer", "Sorry, an answer is configured but missing."))
+                            return
+                else: 
+                    # For multi-word keywords, match against the whole query
+                    score = fuzz.token_set_ratio(keyword_from_json, user_query_lower)
+                    if score >= FUZZY_MATCH_THRESHOLD_KEYWORDS:
                         await message.channel.send(faq_item.get("answer", "Sorry, an answer is configured but missing."))
                         return
 
-            else: 
-                score = fuzz.token_set_ratio(keyword_from_json, user_query_lower)
-                if score >= FUZZY_MATCH_THRESHOLD_KEYWORDS:
-                    await message.channel.send(faq_item.get("answer", "Sorry, an answer is configured but missing."))
-                    return
-
+    # --- Stage 5: Fallback ---
     fallback_message_template = faq_data.get("fallback_message", "I'm sorry, I don't have an answer for that right now. Please ask your manager.")
     await message.channel.send(fallback_message_template)
     return
