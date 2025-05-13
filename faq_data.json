@@ -71,7 +71,7 @@
             "answer": "If not leaving messages for the current project, and you get an answering machine, disconnect immediately. Do not let the answering machine play. Code as 'Answering Machine'. (See 'list codes' for full Answering Machine definition)."
         },
         {
-            "keywords": ["no answer", "phone rings no answer", "what if no one answers", "procedure for no answer", "they didn't pick up", "call not answered"],
+            "keywords": ["no answer", "phone rings no answer", "what if no one answers", "procedure for no answer", "they didn't pick up", "never answered"],
             "answer": "If there is no response, code as 'No Answer'. For GOTV calls without voicemails, even a 'No Answer' might be coded as 'COMPLETE LIVE' - follow project specifics. (See 'list codes' for full No Answer definition)."
         },
         {
