@@ -34,12 +34,20 @@
             "answer": "Wrap up is the time from the end of the call until the call is coded. It's the period where you select the correct disposition for the call. Aim to disposition a call within 2-3 seconds. High wrap up means taking too long to do this. To avoid high wrap up, disposition calls as fast as possible."
         },
         {
+             "keywords": ["what is usglc", "usglc", "u.s. global leadership coalition", "us global leadership coalition"],
+             "answer": "USGLC stands for the U.S. Global Leadership Coalition. It's a nonprofit that advocates for strong U.S. global engagement through diplomacy and development alongside defense."
+        },
+        {
+             "keywords": ["when do we get paid", "pay period", "payday", "pay date", "pay schedule", "get paid"],
+             "answer": "You get paid on the 1st and 15th of each month. Pay periods end on the 10th and 25th. Make sure to track your hours and verify totals with Corey if needed."
+        },
+        {
             "keywords": ["stuck in wrap up", "no calls in wrap up", "refresh screen wrap up"],
             "answer": "If you know that we are busy and you aren't getting any phone calls within one minute while in wrap up, it means you are probably stuck. If this happens you need to refresh your screen. This is not the refresh you're looking for if it persists, contact a supervisor."
         },
         {
             "keywords": [
-                "start time", "when do we start", "shift start",
+                "start time", "when do we start", "shift start", "I want in tomorrow",
                 "what time do we start", "when does shift start", "beginning of shift",
                 "shift begins", "schedule start", "our start"
             ],
@@ -95,7 +103,7 @@
             "answer": "You will be directed by the Shift Manager if you are put into a Project where we are leaving messages. Great Question! If not leaving messages, and you get an answering machine, disconnect immediately. Do not let the answering machine play."
         },
         {
-            "keywords": ["track hours", "check hours", "hours portal", "how to check my hours", "view hours", "employee portal hours", "hours tracking", "pay period hours"],
+            "keywords": ["track hours", "check hours", "hours portal", "how to check my hours", "view hours", "employee portal hours", "hours tracking", "pay period hours", "my hours"],
             "answer": "Corey will also give you your totals at the halfway point and at the end of the pay period if you ask."
         },
         {
@@ -207,7 +215,7 @@
             "answer": "Our end times are variable. It always depends on the Client. Just keep swimming, your paycheck will thank you. Contact Corey if you need to logout at a specific time."
         },
         {
-            "keywords": ["pay", "pay scale", "pay rate", "payroll", "how much do i get paid", "what is my hourly rate", "14 an hour", "getting paid 14"],
+            "keywords": ["pay scale", "pay rate", "payroll", "how much do i get paid", "what is my hourly rate", "wage"],
             "answer": "All questions about your Pay, Pay Scale, Pay Rate, or Payroll should be directed to Corey outside of Dialing hours."
         },
         {
