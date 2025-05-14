@@ -258,7 +258,7 @@
         "LANGUAGE BARRIER": "If they speak any language other than English, say “We will have someone call you back who speaks Spanish. Thank you for your time.” Then code as 'Language Barrier'.",
         "DECEASED": "If informed the contact is deceased, say, “We will update our records. Thank you for your time.” Then code as 'Deceased'.",
         "NOT IN": "This is not for 'Not Interested'. Use this if the VOF (Voter On File) cannot come to the phone for any reason. Say, “We will try again later. Thank you for your time.” Then code as 'Not In'.",
-        "REFUSED": "[placeholder]"
+        "REFUSED": "Code as refused when they refuse a question or patch once the call has begun."
     },
     "fallback_message": "I'm sorry, I couldn't find an answer for that specific query. Try typing 'list codes' or 'common rebuttals'."
 }

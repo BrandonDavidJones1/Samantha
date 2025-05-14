@@ -11,8 +11,8 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 FAQ_FILE = "faq_data.json"
 FUZZY_MATCH_THRESHOLD_GREETINGS = 75
-FUZZY_MATCH_THRESHOLD_KEYWORDS = 80  # For multi-word FAQ keywords
-FUZZY_MATCH_THRESHOLD_KEYWORDS_SINGLE_WORD = 88 # Stricter for single-word FAQ keywords
+FUZZY_MATCH_THRESHOLD_KEYWORDS = 78  # For multi-word FAQ keywords
+FUZZY_MATCH_THRESHOLD_KEYWORDS_SINGLE_WORD = 85 # Stricter for single-word FAQ keywords
 FUZZY_MATCH_THRESHOLD_CALLCODES_STRICT = 80
 LOG_FILE = "unanswered_queries.log"
 
@@ -81,13 +81,19 @@ def is_text_empty_or_punctuation_only(text):
 def get_best_fuzzy_match(query, choices_list, threshold):
     best_match_str = None
     highest_score = 0
-    if not query or not choices_list:
-        return None, 0
-        
+    query = query.lower()
+
     for choice in choices_list:
-        score = fuzz.token_sort_ratio(query.lower(), choice.lower())
-        if score > highest_score:
-            highest_score = score
+        choice_lower = choice.lower()
+
+        # Combine multiple fuzzy methods
+        score1 = fuzz.token_sort_ratio(query, choice_lower)
+        score2 = fuzz.partial_ratio(query, choice_lower)
+        score3 = fuzz.token_set_ratio(query, choice_lower)
+        avg_score = (score1 + score2 + score3) / 3
+
+        if avg_score > highest_score:
+            highest_score = avg_score
             best_match_str = choice
 
     if highest_score >= threshold:
