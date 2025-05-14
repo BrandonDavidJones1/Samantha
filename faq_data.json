@@ -75,7 +75,7 @@
         },
         {
             "keywords": ["break", "breaks", "lunch", "take a break", "break policy", "how often can i break", "1099 break", "contractor break", "alert supervisor break", "break queue"],
-            "answer": "As a 1099 contractor at LTS, you are free to break as often as you’d like. Be sure to alert your shift supervisor to be kept in the queue, securing your spot in that project. This way, the Force will still be with your place in line!"
+            "answer": "As a 1099 contractor at LTS, you are free to break as often as you’d like. Be sure to alert your shift supervisor to be kept in the queue, securing your spot in that project. This way, log out for breaks NEVER USE THE BREAK BUTTON."
         },
         {
             "keywords": [
@@ -181,10 +181,6 @@
         {
             "keywords": ["ask gender", "assume gender", "voter name gender", "non-binary gender"],
             "answer": "NEVER ASK GENDER. You will assume the gender based on the voter's name. EXCEPTION: When the gender includes more than MALE or FEMALE, such as NON-BINARY (follow specific campaign instructions for these scenarios if provided)."
-        },
-        {
-            "keywords": ["questions about coding", "questions about protocol", "help with coding", "unsure how to proceed", "ask supervisor", "message on discord wfh"],
-            "answer": "If you have questions about correct protocol or coding, PLEASE DO NOT HESITATE TO ASK YOUR SUPERVISOR. That is what they're here for, to assist you in reaching your full potential at “LTS”. If you work from home, message your supervisor on Discord. A Jedi seeks guidance from the Council, an agent seeks guidance from their supervisor!"
         },
         {
             "keywords": ["survey verbatim", "read survey exactly", "change survey wording", "add remove words survey"],
@@ -351,6 +347,14 @@
                 "how do you say this name", "how to say [state/city]", "pronounce difficult name"
             ],
             "answer": "For correct pronunciation, especially for names (like Senators or specific individuals), states, cities, or any unfamiliar words in a script, here are some helpful tips and resources:\n\n1.  **Google Search:** Type 'how to pronounce [word/name]' into Google. Often, Google provides an audio clip and phonetic spelling.\n2.  **YouTube:** Search for '[word/name] pronunciation'. Many channels specialize in this.\n3.  **Online Dictionaries:** Websites like Merriam-Webster, Collins Dictionary, or Dictionary.com usually have audio pronunciations.\n4.  **Forvo.com:** This is a great resource where native speakers pronounce words and names from many languages.\n5.  **YouGlish.com:** See how words or names are pronounced in context within YouTube videos.\n6.  **Specific Campaign Materials:** Sometimes, campaign materials might include pronunciation guides for key names or terms. Always check those first if available.\n7.  **Ask a Supervisor:** If you're unsure after checking these resources, especially for a name you'll be saying frequently, don't hesitate to ask your shift supervisor for guidance. Getting names right shows respect and professionalism!\n\nBeing mindful of correct pronunciation is important for clear communication. Take a moment to look it up if you're unsure!"
+        },
+        {
+            "keywords": [
+                "training status", "what is training mode", "stuck in training", "using training status",
+                "when to use training mode", "purpose of training status", "click available from training",
+                "how long in training mode", "training mode policy", "agent status training"
+            ],
+            "answer": "The 'Training' status is for the very start of your shift **before** a project is assigned. \n\n**Once your supervisor assigns you a project, immediately click 'Available' to start receiving calls.**\n\n'Training' is for brief moments only, not for extended use or breaks. If in 'Training' long after projects start, check with your supervisor."
         }
     ],
     "call_codes": {
