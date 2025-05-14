@@ -369,5 +369,5 @@
         "NOT IN": "This is not for 'Not Interested'. Use this if the VOF (Voter On File) cannot come to the phone for any reason. Say, “We will try again later. Thank you for your time.” Then code as 'Not In'.",
         "REFUSED": "Code as refused when they refuse a question or patch once the call has begun."
     },
-    "fallback_message": "I'm sorry, I couldn't find an answer for that specific query. Try typing 'list codes' or 'common rebuttals'."
+    "fallback_message": "I'm sorry, I couldn't find an answer for that specific query. Try typing 'list codes' or 'common rebuttals'. You can also say 'pronounce [word]' to look up a pronunciation."
 }

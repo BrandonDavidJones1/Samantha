@@ -7,7 +7,8 @@ from thefuzz import process, fuzz
 import logging
 from sentence_transformers import SentenceTransformer, util
 import torch
-import re # Added for specific command matching
+import re 
+import urllib.parse # Added for URL encoding
 
 # --- Configuration ---
 load_dotenv()
@@ -15,7 +16,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 FAQ_FILE = "faq_data.json"
 FUZZY_MATCH_THRESHOLD_GREETINGS = 75
 LOG_FILE = "unanswered_queries.log"
-SEMANTIC_SEARCH_THRESHOLD = 0.50 # Main threshold for a confident answer
+SEMANTIC_SEARCH_THRESHOLD = 0.55 # Main threshold for a confident answer
 SUGGESTION_THRESHOLD = 0.40    # Lower threshold to offer a suggestion
 
 # --- Bot Setup ---
@@ -119,18 +120,19 @@ def build_semantic_embeddings():
 def is_text_empty_or_punctuation_only(text):
     return not text or all(char in string.punctuation or char.isspace() for char in text)
 
-def semantic_search_best_match(query): # Removed threshold from here
+def semantic_search_best_match(query):
     if model is None:
         logger.warning("Semantic search: Model not ready.")
-        return None, 0.0 # Return None index, 0.0 score
+        return None, 0.0
     
     if not isinstance(faq_embeddings, torch.Tensor) or faq_embeddings.shape[0] == 0:
+        # Consolidate checks for empty/invalid faq_embeddings
         if isinstance(faq_embeddings, list) and not faq_embeddings:
              logger.warning("Semantic search: FAQ embeddings list is empty.")
         elif isinstance(faq_embeddings, torch.Tensor) and faq_embeddings.shape[0] == 0:
              logger.warning("Semantic search: FAQ embeddings tensor is empty.")
-        else:
-            logger.error(f"Semantic search: FAQ embeddings unexpected type or state: {type(faq_embeddings)}")
+        else: # Includes cases where faq_embeddings might be a non-empty list or other unexpected type
+            logger.error(f"Semantic search: FAQ embeddings not a valid tensor or is empty. Type: {type(faq_embeddings)}")
         return None, 0.0
         
     query_embedding = model.encode(query, convert_to_tensor=True)
@@ -168,8 +170,6 @@ def semantic_search_best_match(query): # Removed threshold from here
     best_score = float(torch.max(cosine_scores))
     best_idx = int(torch.argmax(cosine_scores))
     
-    # Now, always return the best index and score found.
-    # The decision to use it as a direct answer or suggestion happens in on_message.
     return best_idx, best_score
 
 
@@ -215,7 +215,7 @@ async def on_message(message):
     log_user_info = {'user_id': message.author.id, 'username': str(message.author)}
 
     if is_text_empty_or_punctuation_only(original_message_content):
-        logger.info(f"Ignoring empty/punctuation-only query: '{original_message_content}'", extra={**log_user_info, 'extra_info': 'Empty query ignored'})
+        logger.info(f"Ignoring empty or punctuation-only query: '{original_message_content}'", extra={**log_user_info, 'extra_info': 'Empty query ignored'})
         return
 
     # --- Greetings Handler ---
@@ -241,9 +241,50 @@ async def on_message(message):
             logger.info(f"Greeting matched. Keyword: '{matched_keyword}' (Score: {score}). Query: '{original_message_content}'", extra={**log_user_info, 'extra_info': 'Greeting answered'})
             return
 
+    # --- "!pronounce [word]" Command Handler ---
+    # Also handles "pronounce [word]" without the exclamation
+    pronounce_prefix = "!pronounce "
+    pronounce_prefix_no_bang = "pronounce "
+    
+    word_to_pronounce = None
+    if user_query_lower.startswith(pronounce_prefix):
+        word_to_pronounce = original_message_content[len(pronounce_prefix):].strip()
+    elif user_query_lower.startswith(pronounce_prefix_no_bang):
+        # Check to avoid conflict if "pronounce" is part of a general FAQ keyword
+        # This check is heuristic: if it's short and just "pronounce X", likely a command.
+        # If it's a longer sentence, let semantic search handle it.
+        temp_word = original_message_content[len(pronounce_prefix_no_bang):].strip()
+        if temp_word and len(user_query_lower.split()) < 5: # Arbitrary small number of words
+             word_to_pronounce = temp_word
+
+
+    if word_to_pronounce:
+        if not word_to_pronounce: # User typed "!pronounce" but no word
+            await message.channel.send("Please tell me what word or phrase you want to pronounce. Usage: `!pronounce [word or phrase]`")
+        else:
+            encoded_word = urllib.parse.quote_plus(word_to_pronounce)
+            google_link = f"https://www.google.com/search?q=how+to+pronounce+{encoded_word}"
+            forvo_link = f"https://forvo.com/search/{encoded_word}/" # Forvo is good with multi-word phrases too
+            youglish_link = f"https://youglish.com/pronounce/{encoded_word}/english?"
+
+            embed = discord.Embed(
+                title=f"🗣️ Pronunciation Resources for: \"{word_to_pronounce}\"",
+                description=(
+                    f"Here are some helpful links:\n"
+                    f"• [Google Search]({google_link})\n"
+                    f"• [Forvo (native speakers)]({forvo_link})\n"
+                    f"• [YouGlish (in context)]({youglish_link})"
+                ),
+                color=discord.Color.teal()
+            )
+            embed.set_footer(text="Click a link to hear the pronunciation on the respective site.")
+            await message.channel.send(embed=embed)
+            logger.info(f"Provided pronunciation links for '{word_to_pronounce}' via command. Original: '{original_message_content}'", extra=log_user_info)
+        return # Pronunciation command handled
+
+
     # --- "List Codes" Command Handler ---
     if user_query_lower == "list codes":
-        # ... (list codes logic - unchanged from your version) ...
         call_codes_data = faq_data.get("call_codes", {})
         if not call_codes_data:
             await message.channel.send("I don't have any call codes defined at the moment.")
@@ -289,7 +330,6 @@ async def on_message(message):
         return
 
     # --- Specific Call Code Definition Command ---
-    # Example: "define WRONG NUMBER" or "what is answering machine"
     match_define_code = re.match(r"^(?:what is|define|explain)\s+([\w\s-]+)\??$", user_query_lower)
     if match_define_code:
         code_name_query_original = match_define_code.group(1).strip()
@@ -303,15 +343,13 @@ async def on_message(message):
             logger.info(f"Defined code '{code_name_query_upper}' (exact). Query: '{original_message_content}'", extra=log_user_info)
             return
         else:
-            # Fuzzy match on keys if no exact uppercase match
-            best_match_code, score = process.extractOne(code_name_query_original, call_codes_data.keys(), scorer=fuzz.token_set_ratio) # Use original query for fuzzy
-            if score > 80: # Threshold for fuzzy code match
-                description = call_codes_data[best_match_code] # best_match_code is already in correct case from dict keys
+            best_match_code, score = process.extractOne(code_name_query_original, call_codes_data.keys(), scorer=fuzz.token_set_ratio)
+            if score > 80: 
+                description = call_codes_data[best_match_code]
                 embed = discord.Embed(title=f"Definition (for '{code_name_query_original}'): {best_match_code}", description=description, color=discord.Color.purple())
                 await message.channel.send(embed=embed)
                 logger.info(f"Defined code '{best_match_code}' (fuzzy, score {score}). Query: '{original_message_content}'", extra=log_user_info)
                 return
-
 
     # --- Semantic Matching (as fallback) ---
     faq_items = faq_data.get("general_faqs", [])
@@ -333,36 +371,30 @@ async def on_message(message):
 
         log_extra_info = ""
         response_message_prefix = ""
+        embed_title_prefix = "" # For the embed title
 
         if semantic_score >= SEMANTIC_SEARCH_THRESHOLD:
             log_extra_info = f"Semantic FAQ Direct. Score: {semantic_score:.2f}"
-            response_message_prefix = f"💡 **{primary_keyword_for_title}**\n\n"
-            embed_title = f"💡 {primary_keyword_for_title}"
+            embed_title_prefix = "💡" # Icon for direct match
         elif semantic_score >= SUGGESTION_THRESHOLD:
             log_extra_info = f"Semantic FAQ Suggestion. Score: {semantic_score:.2f}"
             response_message_prefix = (
                 f"I'm not sure I have an exact answer for that, but perhaps this is related to **'{primary_keyword_for_title}'**?\n\n"
-                f"Here's some info on that:\n\n"
+                # "Here's some info on that:\n\n" # This part felt a bit redundant with the embed
             )
-            embed_title = f"🤔 Related to: {primary_keyword_for_title}"
+            embed_title_prefix = "🤔 Related to:" # Icon/text for suggestion
         
-        if response_message_prefix: # If either direct match or suggestion
+        if log_extra_info: # If either direct match or suggestion
+            embed_title = f"{embed_title_prefix} {primary_keyword_for_title}"
             faq_embed = discord.Embed(title=embed_title, description=answer, color=discord.Color.green())
             
-            full_response_text_for_long_send = response_message_prefix + answer
+            if response_message_prefix: # If it's a suggestion, send the prefix first
+                 await message.channel.send(response_message_prefix)
             
-            if len(answer) > 4096: # Embed description limit
-                 await send_long_message(message.channel, full_response_text_for_long_send)
-            else:
-                # Send prefix separately if it exists and won't fit with embed description logic
-                if semantic_score >= SUGGESTION_THRESHOLD and semantic_score < SEMANTIC_SEARCH_THRESHOLD:
-                     await message.channel.send(response_message_prefix.split("\n\nHere's some info on that:\n\n")[0]) # Send suggestion intro
-                     await message.channel.send(embed=faq_embed) # Send embed with answer
-                else: # Direct match
-                    # For direct matches, the title implies the context, prefix might be redundant with embed
-                    await message.channel.send(embed=faq_embed)
-
-
+            # Send the embed with the answer
+            await message.channel.send(embed=faq_embed)
+            
+            # Logging the match
             matched_question_log = "N/A"
             if isinstance(matched_item.get("keywords"), list) and matched_item["keywords"]:
                 matched_question_log = matched_item['keywords'][0]
@@ -376,7 +408,9 @@ async def on_message(message):
     # --- Fallback if nothing else matched or score too low for suggestion ---
     fallback_message_template = faq_data.get("fallback_message", "I'm sorry, I couldn't find an answer for that right now. Please ask your manager.")
     await message.channel.send(fallback_message_template)
-    logger.info(f"Unanswered query. Fallback triggered. Last semantic score: {semantic_score:.2f}. Query: '{original_message_content}'", extra={**log_user_info, 'extra_info': 'Fallback - No answer/suggestion'})
+    # Log the last semantic score if it was a fallback after semantic search attempt
+    score_info_for_fallback = f"Last semantic score: {semantic_score:.2f}" if semantic_idx is not None else "Semantic search not applicable or failed pre-check"
+    logger.info(f"Unanswered query. Fallback triggered. {score_info_for_fallback}. Query: '{original_message_content}'", extra={**log_user_info, 'extra_info': 'Fallback - No answer/suggestion'})
 
 # --- Run the Bot ---
 if __name__ == "__main__":
