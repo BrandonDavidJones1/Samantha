@@ -1,7 +1,7 @@
 {
     "greetings_and_pleasantries": [
         {
-            "keywords": ["Welcome", "Whats up", "Sup", "hello", "hi", "hey", "greetings", "howdy", "yo"],
+            "keywords": ["Welcome", "Sup", "hello", "hi", "hey", "greetings", "howdy", "yo"],
             "response_type": "standard_greeting",
             "greeting_reply_template": "{actual_greeting_cased}, {user_mention}! Try typing 'list codes' or ask a question!"
         },
@@ -11,20 +11,40 @@
             "greeting_reply_template": "{actual_greeting_cased}, {user_mention}! How can I assist you?"
         },
         {
-            "keywords": ["thank you", "thanks", "ty"],
+            "keywords": ["what about you", "and you", "you too"],
+            "response_type": "specific_reply",
+            "reply_text": "I'm here and ready to assist! What can I do for you?"
+        },
+        {
+            "keywords": ["thank you", "thanks", "ty", "thx", "thank u"],
             "response_type": "specific_reply",
             "reply_text": "You're welcome! Happy to help, I am. 🙂"
         },
         {
-            "keywords": ["have a nice day", "have a good day"],
+            "keywords": ["you're welcome", "yw", "no problem", "np"],
+            "response_type": "specific_reply",
+            "reply_text": "Glad I could assist! 👍"
+        },
+        {
+            "keywords": ["have a nice day", "have a good day", "good day to you"],
             "response_type": "specific_reply",
             "reply_text": "You too! Have a wonderful day! 😊"
+        },
+        {
+            "keywords": ["bye", "goodbye", "see you later", "cya", "farewell", "take care"],
+            "response_type": "specific_reply",
+            "reply_text": "Goodbye! Feel free to message me again if you need anything. 👋"
+        },
+        {
+            "keywords": ["okay", "ok", "alright", "sounds good", "got it"],
+            "response_type": "specific_reply",
+            "reply_text": "👍"
         }
     ],
     "general_faqs": [
         {
             "keywords": [
-                "wrap up", "what is wrap up", "explain wrap up", "wrap up time", "define wrap up",
+                "wrap up time", "what is wrap up", "explain wrap up", "wrap up", "define wrap up",
                 "after call work", "post call processing", "disposition time", "time to disposition",
                 "disposition call seconds", "high wrap up", "what is high wrap up", "long wrap up",
                 "too much wrap up time", "extended wrap up", "wrap up too long",
@@ -42,7 +62,7 @@
              "answer": "You get paid on the 1st and 15th of each month. Pay periods end on the 10th and 25th. Make sure to track your hours and verify totals with Corey if needed."
         },
         {
-            "keywords": ["stuck in wrap up", "no calls in wrap up", "refresh screen wrap up"],
+            "keywords": ["stuck", "refresh screen wrap up"],
             "answer": "If you know that we are busy and you aren't getting any phone calls within one minute while in wrap up, it means you are probably stuck. If this happens you need to refresh your screen. This is not the refresh you're looking for if it persists, contact a supervisor."
         },
         {
@@ -245,8 +265,93 @@
         {
             "keywords": ["standby", "on standby", "can i be on standby", "waiting for calls", "standby policy", "wanna be on standby"],
             "answer": "If you're available but not receiving calls and wish to be on standby, please communicate this to your shift supervisor. They manage the active and standby agent lists and can let you know the current need or procedure for standby."
+        },
+        {
+            "keywords": [
+                "when to code wrong number", "coding a wrong number", "how to handle wrong number",
+                "procedure for wrong number", "wrong number disposition"
+            ],
+            "answer": "If the person who answers indicates it's the wrong number for the contact you're trying to reach, or if it's clearly not a residential/business line applicable to the campaign (e.g., a fax line that doesn't also trigger 'Answering Machine' first), you should say, “We will update our records. Thank you for your time.” Then, code the call as 'WRONG NUMBER'. See 'list codes' for the exact definition."
+        },
+        {
+            "keywords": [
+                "when to code answering machine", "coding voicemail", "how to handle answering machine",
+                "got voicemail what to do", "answering machine disposition"
+            ],
+            "answer": "You should select 'ANSWERING MACHINE' as the disposition as soon as you hear any robotic voice or pre-recorded message indicating an answering machine or voicemail. This includes fax tones. If the project is not one where you leave messages, you should disconnect immediately without letting the machine play out. Delaying this can flag you for 'sitting on answering machines'. See 'list codes' for more details."
+        },
+        {
+            "keywords": [
+                "when to code no answer", "coding no answer", "phone rings no one picks up",
+                "procedure for no answer call", "no answer disposition"
+            ],
+            "answer": "Use the 'NO ANSWER' disposition if the call rings but is never picked up, or if the call is hung up immediately by the other side before any meaningful interaction or before you can get an answer to the first question (if applicable). Note that for some specific projects, like certain GOTV (Get Out The Vote) campaigns, 'No Answer' might have special coding instructions (e.g., coded as 'COMPLETE LIVE'). Always follow project-specific guidelines. See 'list codes' for the general definition."
+        },
+        {
+            "keywords": [
+                "when to code do not call", "coding dnc", "how to handle dnc request",
+                "voter asks for do not call list", "do not call disposition", "DNC rules"
+            ],
+            "answer": "The 'DO NOT CALL' (DNC) disposition is used very specifically. You should ONLY use this if you have confirmed you are speaking with the VOF (Voter On File) AND they explicitly ask to be “added to the Do Not Call List” or use similar specific phrasing. If they just say 'take me off your list' or 'don't call again' without mentioning the 'Do Not Call List' specifically, that is usually coded as 'REFUSED'. This is a critical distinction. See 'list codes' for details."
+        },
+        {
+            "keywords": [
+                "when to code complete patch", "coding successful patch", "how to code complete patch",
+                "patch call successful", "complete patch disposition"
+            ],
+            "answer": "A call is coded as 'COMPLETE PATCH' if the contact agreed to be connected to their representative (or other target), you successfully initiated the patch, AND you read the entire closing statement as per the script. Typically, once the patch is initiated and the closing is read, you select the appropriate call results (if a page appears, usually option 1), go to the next page, and complete the disposition without waiting to listen to them leave their message. See 'list codes' for the exact definition."
+        },
+        {
+            "keywords": [
+                "when to code unsuccessful patch", "coding failed patch", "how to code unsuccessful patch",
+                "patch call failed", "unsuccessful patch disposition"
+            ],
+            "answer": "An 'UNSUCCESSFUL PATCH' is coded when an attempt to patch the contact through does not succeed. This could be due to various reasons such as the representative's line being busy, no answer from the representative's office, the voter hanging up during the patch attempt, or technical issues preventing the connection. Follow project-specific instructions if available, or see 'list codes' for the placeholder definition which might be updated with more specifics per campaign."
+        },
+        {
+            "keywords": [
+                "when to code language barrier", "coding language barrier", "contact speaks different language",
+                "how to handle language barrier", "language barrier disposition"
+            ],
+            "answer": "If the person who answers the phone speaks a language other than English (or Spanish, if your project accommodates Spanish speakers and you are not one), and you cannot proceed with the call, you should politely say something like, “We will have someone call you back who speaks [Language, if known, otherwise just state you'll have a suitable agent call]. Thank you for your time.” Then, code the call as 'LANGUAGE BARRIER'. See 'list codes' for more details."
+        },
+        {
+            "keywords": [
+                "when to code deceased", "coding deceased contact", "voter is deceased procedure",
+                "how to handle deceased report", "deceased disposition"
+            ],
+            "answer": "If you are informed by someone at the number that the contact (Voter on File) you are trying to reach is deceased, express condolences briefly and professionally, for example, “We will update our records. Thank you for your time.” Then, code the call as 'DECEASED'. See 'list codes' for the exact wording."
+        },
+        {
+            "keywords": [
+                "when to code not in", "coding not in", "voter not available", "contact can't come to phone",
+                "not in disposition", "procedure for not in"
+            ],
+            "answer": "The 'NOT IN' disposition is used when the VOF (Voter On File) you are trying to reach is temporarily unavailable to come to the phone for any reason (e.g., they are busy, not home, someone else answers and says they'll call back, etc.). This is NOT for when they are 'Not Interested'. You should say something like, “We will try again later. Thank you for your time.” Then, code as 'Not In'. See 'list codes'."
+        },
+        {
+            "keywords": [
+                "when to code refused", "coding a call refused", "refused disposition criteria",
+                "what does refused mean in coding", "how do I code a refusal", "general refused coding"
+            ],
+            "answer": "A call is typically coded as 'REFUSED' when the contact explicitly refuses to participate further in the call, answer a key question, or proceed with a patch after the call has begun and initial engagement occurred. This is different from someone who is simply 'Not In' or if it's a 'Wrong Number'. It's also distinct from a 'Do Not Call' request, which has specific criteria. If a person indicates they are 'not interested' early on, that's often a 'REFUSED'. Check 'list codes' for the exact definition provided for 'REFUSED' or ask your supervisor for project-specific guidance."
+        },
+        {
+            "keywords": [
+                "when to code complete", "coding a call complete", "what makes a call complete",
+                "criteria for complete disposition", "general complete coding", "how do I code something as complete"
+            ],
+            "answer": "Generally, a call is coded 'COMPLETE' when the primary objective of the call script or project instructions has been met. This varies by project. For example, on a Voter ID project, confirming the voter's name is a 'complete'. For Get Out The Vote (GOTV) calls, it might be different (see 'GOTV calls' FAQ or 'list codes'). Always refer to specific project instructions or ask your supervisor if unsure. The 'list codes' command can also provide definitions for specific complete codes like 'COMPLETE PATCH'."
+        },
+        {
+            "keywords": [
+                "how do you say", "how do i say", "pronunciation", "pronounce", "how to pronounce senator name", "pronounce state name",
+                "saying words correctly", "look up pronunciation", "name pronunciation",
+                "word pronunciation guide", "difficult words pronunciation", "pronunciation resources",
+                "how do you say this name", "how to say [state/city]", "pronounce difficult name"
+            ],
+            "answer": "For correct pronunciation, especially for names (like Senators or specific individuals), states, cities, or any unfamiliar words in a script, here are some helpful tips and resources:\n\n1.  **Google Search:** Type 'how to pronounce [word/name]' into Google. Often, Google provides an audio clip and phonetic spelling.\n2.  **YouTube:** Search for '[word/name] pronunciation'. Many channels specialize in this.\n3.  **Online Dictionaries:** Websites like Merriam-Webster, Collins Dictionary, or Dictionary.com usually have audio pronunciations.\n4.  **Forvo.com:** This is a great resource where native speakers pronounce words and names from many languages.\n5.  **YouGlish.com:** See how words or names are pronounced in context within YouTube videos.\n6.  **Specific Campaign Materials:** Sometimes, campaign materials might include pronunciation guides for key names or terms. Always check those first if available.\n7.  **Ask a Supervisor:** If you're unsure after checking these resources, especially for a name you'll be saying frequently, don't hesitate to ask your shift supervisor for guidance. Getting names right shows respect and professionalism!\n\nBeing mindful of correct pronunciation is important for clear communication. Take a moment to look it up if you're unsure!"
         }
-        
     ],
     "call_codes": {
         "WRONG NUMBER": "Say, “We will update our records. Thank you for your time.”",
