@@ -373,9 +373,10 @@
                 "i've finished my training",
                 "training done what's next",
                 "what is next after completing training modules",
-                "training is over now what"
+                "training is over now what",
+                "final step after training"
             ],
-            "answer": "Congratulations on completing your initial training! 🎉\n\nHere’s what generally happens next:\n\n1.  **Supervisor Assignment:** Your shift supervisor will assign you to your first live project. \n2.  **Check Discord:** Keep a close eye on the main chat and any direct messages from your supervisor for project details and specific instructions.\n3.  **Dialer Status:** Ensure your status in the dialer is set to **'Available'** so you can start receiving calls once assigned to a project.\n4.  **Be Patient:** Sometimes there might be a short wait as projects are allocated. If you've been waiting a while after indicating you're ready, feel free to politely check in with your supervisor.\n\nWelcome to the team, and good luck on your first project!"
+            "answer": "Congratulations on completing your initial training! 🎉 **FINAL STEP**\n\nYou may log in during LTS open hours, which are updated in the main chat. Below are the **5 most important RULES** for logging in:\n\n1.  **Open DISCORD** and keep it OPEN throughout your entire shift.\n2.  **ALL updates** in the **MAIN CHAT** must be READ *before* logging in.\n3.  After logging in, DM **“Corey LTS”** to be added to a project (or **“Adam Black”** if he is running the shift).\n4.  Once ADDED to a project, click **AVAILABLE** to start taking calls.\n5.  **Do NOT ever use the BREAK or TRAINING BUTTON.** (If you need to step away for more than a minute, log out completely and then log back in when you return. For very short pauses, just stay available but don't take calls – but this should be rare and brief.)\n\nLastly, if you don't have them yet, contact **@coreyLTS** (or your direct supervisor) for your Login Credentials."
         }
     ],
     "call_codes": {
