@@ -316,6 +316,7 @@ async def on_message(message):
             
             encoded_word_for_google = urllib.parse.quote_plus(word_to_pronounce_input)
             google_link = f"https://www.google.com/search?q=how+to+pronounce+{encoded_word_for_google}"
+            youtube_link = f"https://www.youtube.com/playlist?list=PLvJSE3hDJAyN2a-i1GXZPXOpDPQZcerDc"
 
             view = discord.ui.View() 
             response_message_lines = [f"Pronunciation resources for \"**{word_to_pronounce_input}**\":"]
@@ -339,7 +340,13 @@ async def on_message(message):
                 style=discord.ButtonStyle.link,
                 url=google_link
             )
+            youtube_button = discord.ui.Button(
+                label="Check LTS youtube Playlist",
+                style=discord.ButtonStyle.link,
+                url=youtube_link
+            )
             view.add_item(google_button)
+            view.add_item(youtube_button)
             
             # Simplified message:
             if not audio_url: # If only Google button is present, add a bit more context

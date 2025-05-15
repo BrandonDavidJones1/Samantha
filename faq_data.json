@@ -355,6 +355,27 @@
                 "how long in training mode", "training mode policy", "agent status training"
             ],
             "answer": "The 'Training' status is for the very start of your shift **before** a project is assigned. \n\n**Once your supervisor assigns you a project, immediately click 'Available' to start receiving calls.**\n\n'Training' is for brief moments only, not for extended use or breaks. If in 'Training' long after projects start, check with your supervisor."
+        },
+        {
+            "keywords": [
+                "finished training",
+                "completed training",
+                "training complete what next",
+                "after training",
+                "next steps after training",
+                "done with training",
+                "what do I do after training",
+                "training finished now what",
+                "post training procedure",
+                "just finished training",
+                "what happens after training is done",
+                "next step after training",
+                "i've finished my training",
+                "training done what's next",
+                "what is next after completing training modules",
+                "training is over now what"
+            ],
+            "answer": "Congratulations on completing your initial training! 🎉\n\nHere’s what generally happens next:\n\n1.  **Supervisor Assignment:** Your shift supervisor will assign you to your first live project. \n2.  **Check Discord:** Keep a close eye on the main chat and any direct messages from your supervisor for project details and specific instructions.\n3.  **Dialer Status:** Ensure your status in the dialer is set to **'Available'** so you can start receiving calls once assigned to a project.\n4.  **Be Patient:** Sometimes there might be a short wait as projects are allocated. If you've been waiting a while after indicating you're ready, feel free to politely check in with your supervisor.\n\nWelcome to the team, and good luck on your first project!"
         }
     ],
     "call_codes": {
