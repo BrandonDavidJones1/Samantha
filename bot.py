@@ -294,32 +294,6 @@ async def on_message(message):
         logger.info(f"Ignoring empty or punctuation-only query: '{original_message_content}'", extra={**log_user_info, 'extra_info': 'Empty query ignored'})
         return
 
-    # --- Greetings Handler ---
-    greetings_data = faq_data.get("greetings_and_pleasantries", [])
-    for greeting_entry in greetings_data:
-        keywords = greeting_entry.get("keywords", [])
-        if not keywords: continue
-        # For greetings, fuzzy matching on lowercased user query against original cased keywords is fine
-        match_result = process.extractOne(user_query_lower, keywords, scorer=fuzz.token_set_ratio, score_cutoff=FUZZY_MATCH_THRESHOLD_GREETINGS)
-        if match_result:
-            matched_keyword_from_fuzz, score = match_result 
-            response_type = greeting_entry.get("response_type")
-            if response_type == "standard_greeting":
-                reply_template = greeting_entry.get("greeting_reply_template", "Hello there, {user_mention}!")
-                # Find the original casing of the matched keyword for the reply
-                actual_greeting_cased = matched_keyword_from_fuzz 
-                for kw_original in keywords:
-                    if kw_original.lower() == matched_keyword_from_fuzz.lower():
-                        actual_greeting_cased = kw_original
-                        break
-                reply = reply_template.format(actual_greeting_cased=actual_greeting_cased.capitalize(), user_mention=message.author.mention)
-                await message.channel.send(reply)
-            elif response_type == "specific_reply":
-                await message.channel.send(greeting_entry.get("reply_text", "I acknowledge that."))
-            else: await message.channel.send(f"Hello {message.author.mention}!")
-            logger.info(f"Greeting matched. Keyword: '{matched_keyword_from_fuzz}' (Score: {score}). Query: '{original_message_content}'", extra={**log_user_info, 'extra_info': 'Greeting answered'})
-            return
-
     # --- "!pronounce [word]" Command Handler ---
     pronounce_prefix = "!pronounce "
     pronounce_prefix_no_bang = "pronounce " # Already lowercase
@@ -458,7 +432,31 @@ async def on_message(message):
                 await message.channel.send(embed=embed)
                 logger.info(f"Defined code '{best_match_code.upper()}' (fuzzy, score {score}). Query: '{original_message_content}'", extra=log_user_info)
                 return
-
+    # --- Greetings Handler ---
+    greetings_data = faq_data.get("greetings_and_pleasantries", [])
+    for greeting_entry in greetings_data:
+        keywords = greeting_entry.get("keywords", [])
+        if not keywords: continue
+        # For greetings, fuzzy matching on lowercased user query against original cased keywords is fine
+        match_result = process.extractOne(user_query_lower, keywords, scorer=fuzz.token_set_ratio, score_cutoff=FUZZY_MATCH_THRESHOLD_GREETINGS)
+        if match_result:
+            matched_keyword_from_fuzz, score = match_result 
+            response_type = greeting_entry.get("response_type")
+            if response_type == "standard_greeting":
+                reply_template = greeting_entry.get("greeting_reply_template", "Hello there, {user_mention}!")
+                # Find the original casing of the matched keyword for the reply
+                actual_greeting_cased = matched_keyword_from_fuzz 
+                for kw_original in keywords:
+                    if kw_original.lower() == matched_keyword_from_fuzz.lower():
+                        actual_greeting_cased = kw_original
+                        break
+                reply = reply_template.format(actual_greeting_cased=actual_greeting_cased.capitalize(), user_mention=message.author.mention)
+                await message.channel.send(reply)
+            elif response_type == "specific_reply":
+                await message.channel.send(greeting_entry.get("reply_text", "I acknowledge that."))
+            else: await message.channel.send(f"Hello {message.author.mention}!")
+            logger.info(f"Greeting matched. Keyword: '{matched_keyword_from_fuzz}' (Score: {score}). Query: '{original_message_content}'", extra={**log_user_info, 'extra_info': 'Greeting answered'})
+            return
     # --- Semantic Matching (as fallback) ---
     faq_items_original_list = faq_data.get("general_faqs", []) 
     if not isinstance(faq_items_original_list, list): 
