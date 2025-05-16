@@ -83,7 +83,7 @@
                 "voter id confirmed name", "name confirmed voter id", "voter id project complete",
                 "when is voter id complete"
             ],
-            "answer": "On a voter ID project, once you've confirmed the voter's name, it's a considered a complete."
+            "answer": "On a voter ID project, once you've confirmed the voter's name, it's considered a complete. Don't forget to check the box if more than one voter is present!"
         },
         {
             "keywords": [
@@ -92,7 +92,7 @@
                 "how to complete voter id", "what makes voter id complete", "criteria for voter id complete",
                 "voter id rules for complete"
             ],
-            "answer": "For a voter ID project, a 'complete' means the voter's name has been confirmed. Once the voter's name is confirmed, you may code it complete."
+            "answer": "For a voter ID project, a 'complete' means the voter's name has been confirmed. Don't forget to check the box if more than one voter is present!"
         },
         {
             "keywords": ["answering machine", "voicemail", "got an answering machine", "hit voicemail", "procedure for answering machine", "policy on answering machines", "leaving messages answering machine", "what if i get voicemail", "disconnect answering machine", "let answering machine play"],
@@ -355,6 +355,40 @@
                 "how long in training mode", "training mode policy", "agent status training"
             ],
             "answer": "The 'Training' status is for the very start of your shift **before** a project is assigned. \n\n**Once your supervisor assigns you a project, immediately click 'Available' to start receiving calls.**\n\n'Training' is for brief moments only, not for extended use or breaks. If in 'Training' long after projects start, check with your supervisor."
+        },
+        {
+            "keywords": [
+                "dumping calls",
+                "what is call dumping",
+                "explain dumping calls",
+                "define dumping calls",
+                "dispo without talking",
+                "disposition without saying anything",
+                "call comes in then dispo",
+                "premature disposition",
+                "hanging up on calls immediately",
+                "not speaking on calls"
+            ],
+            "answer": "Dumping calls is when the call comes in and you just dispo it without saying anything."
+        },
+        {
+            "keywords": [
+                "dead line",
+                "line is dead",
+                "silent call",
+                "no one on line",
+                "can't hear caller",
+                "what if the line is dead",
+                "procedure for dead air",
+                "no audio on call",
+                "tyfyt on dead line",
+                "call is silent",
+                "handling silent calls",
+                "what to do if no sound",
+                "hello can you hear me",
+                "can you hear me ok"
+            ],
+            "answer": "You can say “can you hear me ok” one time and then say our closing “tyfyt” and dispo as No Answer."
         },
         {
             "keywords": [
