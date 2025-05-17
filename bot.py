@@ -278,9 +278,9 @@ async def on_ready():
     print(f'Listening for DMs. All interactions are handled as direct messages.')
     load_faq_data() 
     await bot.change_presence( activity = discord.Activity(
-        name="DM me for HELP!",
+        name="DM for HELP",
         type=discord.ActivityType.custom,
-        state="DM me for HELP!" # The 'state' field is often what shows for custom statuses
+        state="DM for HELP" # The 'state' field is often what shows for custom statuses
     ))
     logger.info("Bot started and ready.", extra={'user_id': 'SYSTEM', 'username': 'SYSTEM', 'extra_info': 'Bot Ready'})
 

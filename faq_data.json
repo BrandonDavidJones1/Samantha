@@ -49,9 +49,10 @@
                 "disposition call seconds", "high wrap up", "what is high wrap up", "long wrap up",
                 "too much wrap up time", "extended wrap up", "wrap up too long",
                 "avoid high wrap up", "how to avoid high wrap up", "prevent high wrap up",
-                "reduce wrap up time", "faster dispositioning", "quick wrap up"
+                "reduce wrap up time", "faster dispositioning", "quick wrap up",
+                "how long can i stay in wrap up", "rule for wrap up time"
             ],
-            "answer": "Wrap up is the time from the end of the call until the call is coded. It's the period where you select the correct disposition for the call. Aim to disposition a call within 2-3 seconds. High wrap up means taking too long to do this. To avoid high wrap up, disposition calls as fast as possible."
+            "answer": "Wrap up is the time from the end of the call until the call is coded. It's the period where you select the correct disposition for the call. Aim to disposition a call within 2-3 seconds. High wrap up means taking too long to do this. Do not sit in WRAP UP; code calls within 2-3 secs and move to the next."
         },
         {
              "keywords": ["what is usglc", "usglc", "u.s. global leadership coalition", "us global leadership coalition"],
@@ -81,9 +82,9 @@
             "keywords": [
                 "voter id complete", "confirmed voter name complete", "is voter id complete when",
                 "voter id confirmed name", "name confirmed voter id", "voter id project complete",
-                "when is voter id complete"
+                "when is voter id complete", "how to code voter id complete"
             ],
-            "answer": "On a voter ID project, once you've confirmed the voter's name, it's considered a complete. Don't forget to check the box if more than one voter is present!"
+            "answer": "On a Voter ID project, if you confirm the voter's name and start asking the first question, it's considered a complete. Other dispositions (Not In, No Answer, Answering Machine, DNC) still apply as needed. Don't forget to check the box if more than one voter is present!"
         },
         {
             "keywords": [
@@ -92,11 +93,16 @@
                 "how to complete voter id", "what makes voter id complete", "criteria for voter id complete",
                 "voter id rules for complete"
             ],
-            "answer": "For a voter ID project, a 'complete' means the voter's name has been confirmed. Don't forget to check the box if more than one voter is present!"
+            "answer": "For a Voter ID project, a 'complete' means the voter's name has been confirmed and you've started asking the first question. Other dispositions still apply. Don't forget to check the box if more than one voter is present!"
         },
         {
-            "keywords": ["answering machine", "voicemail", "got an answering machine", "hit voicemail", "procedure for answering machine", "policy on answering machines", "leaving messages answering machine", "what if i get voicemail", "disconnect answering machine", "let answering machine play"],
-            "answer": "If not leaving messages for the current project, and you get an answering machine, disconnect immediately. Do not let the answering machine play. Code as 'Answering Machine'. (See 'list codes' for full Answering Machine definition)."
+            "keywords": [
+                "answering machine", "voicemail", "got an answering machine", "hit voicemail",
+                "procedure for answering machine", "policy on answering machines", "leaving messages answering machine",
+                "what if i get voicemail", "disconnect answering machine", "let answering machine play",
+                "can i let the answering machine play", "consequence for letting voicemail play"
+            ],
+            "answer": "If not leaving messages for the current project, and you get an answering machine, you MUST disconnect immediately. Do not let the answering machine play (this is call avoidance and can result in being signed off). Code as 'Answering Machine'. (See 'list codes')."
         },
         {
             "keywords": ["no answer", "phone rings no answer", "what if no one answers", "procedure for no answer", "they didn't pick up", "never answered"],
@@ -123,7 +129,7 @@
             "answer": "You will be directed by the Shift Manager if you are put into a Project where we are leaving messages. Great Question! If not leaving messages, and you get an answering machine, disconnect immediately. Do not let the answering machine play."
         },
         {
-            "keywords": ["track hours", "check hours", "hours portal", "how to check my hours", "view hours", "employee portal hours", "hours tracking", "pay period hours", "my hours"],
+            "keywords": ["track hours", "check hours", "hours portal", "how to check my hours", "view hours", "employee portal hours", "hours tracking", "pay period hours", "my hours", "what are my hours"],
             "answer": "Corey will also give you your totals at the halfway point and at the end of the pay period if you ask."
         },
         {
@@ -131,16 +137,26 @@
             "answer": "CPH stands for “Completes Per Hour”. It refers to how many completed surveys or patches you complete within an hour of dialing. CPH (Completes Per Hour) goals can vary depending on the specific project you are working on. For the most current CPH goal for your current project, please ask your shift supervisor. They will have the up-to-date information."
         },
         {
-            "keywords": ["patch", "what is a patch", "patch campaign", "explain patch work", "define patch", "patching callers", "patch through", "patch procedure", "patch verbatim", "listen to patch conversation", "busy line patch"],
-            "answer": "A 'patch' or 'patch-through call' is when we connect the person on the line directly to their elected official's office or another designated target so they can leave a message or speak with staff. Follow script instructions carefully for patch calls. (See 'list codes' for 'COMPLETE PATCH' and 'UNSUCCESSFUL PATCH')."
+            "keywords": [
+                "patch", "what is a patch", "patch campaign", "explain patch work", "define patch",
+                "patching callers", "patch through", "patch procedure", "patch verbatim",
+                "listen to patch conversation", "busy line patch", "how do patch calls work",
+                "patch call definition"
+            ],
+            "answer": "A 'patch' or 'patch-through call' is when we contact the voter about a concern, ask them to be patched to their official's office, encourage them, and then transfer. Patch scripts are 100% verbatim, including follow-up statements. (See 'list codes' for dispositions and ask 'patch steps' for procedure)."
         },
         {
-            "keywords": ["yob", "year of birth", "confirm yob", "repeat yob", "how to ask yob", "yob procedure", "ask year of birth", "ensure yob correct", "verify yob", "checking yob", "refused yob", "voter won't give yob"],
-            "answer": "When you ask the YOB (Year of Birth) ALWAYS repeat it back to ensure you have it correct (e.g., 'You said 1964, is that correct?')."
+            "keywords": [
+                "yob", "year of birth", "confirm yob", "repeat yob", "how to ask yob", "yob procedure",
+                "ask year of birth", "ensure yob correct", "verify yob", "checking yob",
+                "refused yob", "voter won't give yob", "do i have to repeat year of birth",
+                "what happens if i don't repeat yob", "consequence for not repeating yob"
+            ],
+            "answer": "When you ask the YOB (Year of Birth) ALWAYS repeat it back to ensure you have it correct (e.g., 'You said 1964, is that correct?'). Failure to repeat back the YOB is grounds for disciplinary action."
         },
         {
             "keywords": ["share personal information", "give my phone number", "my location", "my address", "social media voters"],
-            "answer": "You may NOT give voters contacted during the call ANY personal information, including but not limited to, your phone number, social media, location, or address. This is a strict rule, young Padawan."
+            "answer": "You may NOT give voters contacted during the call ANY personal information, including but not limited to, your phone number, social media, location or address. This is a strict rule, young Padawan."
         },
         {
             "keywords": ["company name", "where are you calling from", "city state address phone number company", "give out company info"],
@@ -183,16 +199,22 @@
             "answer": "NEVER ASK GENDER. You will assume the gender based on the voter's name. EXCEPTION: When the gender includes more than MALE or FEMALE, such as NON-BINARY (follow specific campaign instructions for these scenarios if provided)."
         },
         {
-            "keywords": ["survey verbatim", "read survey exactly", "change survey wording", "add remove words survey"],
-            "answer": "Surveys are always to be read 100% VERBATIM. There is NO exception to this rule. If it is a survey, you may not ADD or REMOVE a single word from the script."
+            "keywords": [
+                "survey verbatim", "read survey exactly", "change survey wording", "add remove words survey",
+                "paid to read not write"
+            ],
+            "answer": "Surveys are always to be read 100% VERBATIM. There is NO exception to this rule. If it is a survey, you may not ADD or REMOVE a single word from the script. You are paid to read it, not write it."
         },
         {
             "keywords": ["tone of voice", "call professionalism", "be kind courteous", "upbeat enthusiastic", "customer service pointers"],
             "answer": "Be kind and courteous, upbeat and enthusiastic on every interaction. You represent the clients and their representatives. Treat each voter with respect and courtesy. Watch your tone, pace, and quality of voice."
         },
         {
-            "keywords": ["upset voter", "disruptive voter", "combative voter", "handling difficult callers"],
-            "answer": "Never be combative with the voter. If the voter becomes upset or disruptive, kindly back out of the call – say, “I do apologize and thank you for your time.”"
+            "keywords": [
+                "upset voter", "disruptive voter", "combative voter", "handling difficult callers",
+                "what if voter is angry", "can i hang up on upset voter"
+            ],
+            "answer": "Never be combative with the voter. If the voter becomes upset or disruptive, kindly back out of the call – say, “I do apologize and thank you for your time.” If this is not possible, locate a supervisor and NEVER hang up on a voter."
         },
         {
             "keywords": ["calls recorded", "call monitoring", "quality assurance calls"],
@@ -207,7 +229,10 @@
             "answer": "If there is no one on the line after giving your introduction, simply say, “Thank you for your time.” We do this because the call is still recorded and there might be someone there even though you can't hear them."
         },
         {
-            "keywords": ["dead air call", "sit on open line", "call avoidance open line"],
+            "keywords": [
+                "dead air call", "sit on open line", "call avoidance open line",
+                "can i sit on an open line", "what to do with a dead air call"
+            ],
             "answer": "Do not sit on an open line. If you receive a dead air call, thank them for your time, quickly disposition, and move on to the next call. It is highly unacceptable for you to sit for 4 minutes on an open line as this is call avoidance and you will be asked to sign off for the day."
         },
         {
@@ -411,6 +436,102 @@
                 "final step after training"
             ],
             "answer": "Congratulations on completing your initial training! 🎉 **FINAL STEP**\n\nYou may log in during LTS open hours, which are updated in the main chat. Below are the **5 most important RULES** for logging in:\n\n1.  **Open DISCORD** and keep it OPEN throughout your entire shift.\n2.  **ALL updates** in the **MAIN CHAT** must be READ *before* logging in.\n3.  After logging in, DM **“Corey LTS”** to be added to a project (or **“Adam Black”** if he is running the shift).\n4.  Once ADDED to a project, click **AVAILABLE** to start taking calls.\n5.  **Do NOT ever use the BREAK or TRAINING BUTTON.** (If you need to step away for more than a minute, log out completely and then log back in when you return. For very short pauses, just stay available but don't take calls – but this should be rare and brief.)\n\nLastly, if you don't have them yet, contact **@coreyLTS** (or your direct supervisor) for your Login Credentials."
+        },
+        {
+            "keywords": [
+                "verbatim",
+                "what is verbatim",
+                "define verbatim",
+                "word for word",
+                "what is word for word",
+                "read script exactly",
+                "script accuracy",
+                "can i skip parts of the script",
+                "can i change the script",
+                "can i add to the script",
+                "can i remove from script",
+                "script integrity",
+                "100% verbatim",
+                "script adherence",
+                "must i read everything",
+                "importance of verbatim",
+                "consequences of not verbatim",
+                "do i gotta read the whole thing",
+                "paid to read not write"
+            ],
+            "answer": "100% Verbatim or 'word for word' is a requirement. You must read the script in its entirety. Do NOT add or remove anything from the script. You are paid to read it, not write it. (Not reading 100% verbatim could result in contract termination)."
+        },
+        {
+            "keywords": [
+                "dialing hours",
+                "what are dialing hours",
+                "when can i dial",
+                "operating hours",
+                "hours of operation",
+                "shift hours",
+                "when are we dialing",
+                "call center hours",
+                "lts open hours",
+                "work hours",
+                "schedule for dialing",
+                "daily hours",
+                "next day hours",
+                "where are hours posted"
+            ],
+            "answer": "Dialing hours can change from day to day. The following day's hours are posted in the MAIN CHAT at the end of every shift."
+        },
+        {
+            "keywords": [
+                "specific instructions for surveys",
+                "survey specific instructions",
+                "patch specific instructions",
+                "detailed coding for surveys",
+                "detailed coding for patches",
+                "where are survey rules",
+                "where are patch rules",
+                "project specific coding surveys",
+                "project specific coding patches"
+            ],
+            "answer": "Surveys and Patches each come with more specific instructions and coding. Always refer to the project details provided by your supervisor."
+        },
+        {
+            "keywords": [
+                "full complete survey",
+                "what is full complete",
+                "define fc survey",
+                "fc survey requirements",
+                "criteria for full complete",
+                "how to get a full complete",
+                "fc meaning survey",
+                "survey fc"
+            ],
+            "answer": "A Full Complete (FC) survey means: confirming the voter's name, repeating back the 4-digit YOB, AND having an answer to every single question in the survey."
+        },
+        {
+            "keywords": [
+                "partial complete survey",
+                "what is partial complete",
+                "define pc survey",
+                "pc survey requirements",
+                "criteria for partial complete",
+                "when is survey partially complete",
+                "pc meaning survey",
+                "survey pc"
+            ],
+            "answer": "A Partial Complete (PC) survey means: having an answer to at least one question (but not all questions in the survey). This includes confirming the voter's name."
+        },
+        {
+            "keywords": [
+                "patch call steps",
+                "how to do a patch call",
+                "procedure for patch call",
+                "steps for patching voter",
+                "patch call procedure",
+                "what are the patch steps",
+                "system steps for patch",
+                "complete patch steps"
+            ],
+            "answer": "Patch steps: 1. Voter agrees: select YES box, click next. 2. Read verbiage for voter to repeat on PATCH. 3. Select NEXT again, read follow-up statement. 4. Phone rings: select COMPLETE PATCH while thanking voter. Do not listen in."
         }
     ],
     "call_codes": {
