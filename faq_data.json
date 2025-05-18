@@ -200,10 +200,34 @@
         },
         {
             "keywords": [
-                "survey verbatim", "read survey exactly", "change survey wording", "add remove words survey",
-                "paid to read not write"
+                "survey verbatim", "read survey exactly", "change survey wording",
+                "add remove words survey", "paid to read not write",
+                "do i need to say every word in the script",
+                "say every word script surveys",
+                "must i read the whole script",
+                "can i skip words in survey script",
+                "is the script 100% word for word",
+                "every single word verbatim",
+                "verbatim",
+                "what is verbatim",
+                "define verbatim",
+                "word for word",
+                "what is word for word",
+                "read script exactly",
+                "script accuracy",
+                "can i skip parts of the script",
+                "can i change the script",
+                "can i add to the script",
+                "can i remove from script",
+                "script integrity",
+                "100% verbatim",
+                "script adherence",
+                "must i read everything",
+                "importance of verbatim",
+                "consequences of not verbatim",
+                "do i gotta read the whole thing"
             ],
-            "answer": "Surveys are always to be read 100% VERBATIM. There is NO exception to this rule. If it is a survey, you may not ADD or REMOVE a single word from the script. You are paid to read it, not write it."
+            "answer": "Surveys are always to be read 100% VERBATIM. There is NO exception to this rule. If it is a survey, you may not ADD or REMOVE a single word from the script. You are paid to read it, not write it. (Not reading 100% verbatim could result in contract termination)."
         },
         {
             "keywords": ["tone of voice", "call professionalism", "be kind courteous", "upbeat enthusiastic", "customer service pointers"],
@@ -261,7 +285,7 @@
         },
         {
             "keywords": ["silent listener", "just listening", "they don't talk", "finish script no response", "is silent listener a complete", "read script they say nothing", "what if they hang up after script"],
-            "answer": "If there is no VOF (Voter on File) to confirm, you have read the whole script, and they have still not responded (or hang up without responding after you've read the script), this is typically coded as 'REFUSED' or another appropriate disposition based on when the silence/hang-up occurred (e.g., 'No Answer' if it's immediate). Always thank them for their time (even if they can't hear you), go to the Next Page, disposition the call, and ensure your State shows Available. You are now ready for the Next Call."
+            "answer": "If there is no VOF (Voter on File) to confirm, you have read the whole script, and they have still not responded (or hang up without responding after you've read the script), this is typically coded as 'REFUSED' or another appropriate disposition based on when the silence/hang-up occurred (e.g., 'No Answer' if it's immediate). Always thank them for your time (even if they can't hear you), go to the Next Page, disposition the call, and ensure your State shows Available. You are now ready for the Next Call."
         },
         {
             "keywords": ["work this month", "working this month", "schedule this month", "are we busy this month", "projects this month", "monthly schedule", "we working this month"],
@@ -439,30 +463,6 @@
         },
         {
             "keywords": [
-                "verbatim",
-                "what is verbatim",
-                "define verbatim",
-                "word for word",
-                "what is word for word",
-                "read script exactly",
-                "script accuracy",
-                "can i skip parts of the script",
-                "can i change the script",
-                "can i add to the script",
-                "can i remove from script",
-                "script integrity",
-                "100% verbatim",
-                "script adherence",
-                "must i read everything",
-                "importance of verbatim",
-                "consequences of not verbatim",
-                "do i gotta read the whole thing",
-                "paid to read not write"
-            ],
-            "answer": "100% Verbatim or 'word for word' is a requirement. You must read the script in its entirety. Do NOT add or remove anything from the script. You are paid to read it, not write it. (Not reading 100% verbatim could result in contract termination)."
-        },
-        {
-            "keywords": [
                 "dialing hours",
                 "what are dialing hours",
                 "when can i dial",
@@ -490,7 +490,9 @@
                 "where are survey rules",
                 "where are patch rules",
                 "project specific coding surveys",
-                "project specific coding patches"
+                "project specific coding patches",
+                "where to find specific survey instructions",
+                "project details for surveys"
             ],
             "answer": "Surveys and Patches each come with more specific instructions and coding. Always refer to the project details provided by your supervisor."
         },
@@ -532,6 +534,16 @@
                 "complete patch steps"
             ],
             "answer": "Patch steps: 1. Voter agrees: select YES box, click next. 2. Read verbiage for voter to repeat on PATCH. 3. Select NEXT again, read follow-up statement. 4. Phone rings: select COMPLETE PATCH while thanking voter. Do not listen in."
+        },
+        {
+            "keywords": [
+                "voter asks for my last name", "voter asks my last name",
+                "can i give my last name to a voter", "sharing my last name with voter",
+                "what if voter wants my full name", "agent last name privacy",
+                "do i have to give my last name", "voter requesting agent name",
+                "asked for last name", "voter wants my name", "give out my name"
+            ],
+            "answer": "You should not share your personal last name with a voter. If a voter asks for your last name, you can politely state that you are not permitted to share full personal details for privacy and security reasons. You can provide your first name as given in the script. If the voter insists or becomes difficult, please contact your supervisor."
         }
     ],
     "call_codes": {
@@ -546,5 +558,5 @@
         "NOT IN": "This is not for 'Not Interested'. Use this if the VOF (Voter On File) cannot come to the phone for any reason. Say, “We will try again later. Thank you for your time.” Then code as 'Not In'.",
         "REFUSED": "Code as refused when they refuse a question or patch once the call has begun."
     },
-    "fallback_message": "I'm sorry, I couldn't find an answer for that specific query. Try typing 'list codes' or 'common rebuttals'. You can also say 'pronounce [word]' to look up a pronunciation."
+    "fallback_message": "I'm sorry, I couldn't find an answer for that specific query. Try typing 'list codes', 'common rebuttals', or 'steps for a patch call'. You can also say 'pronounce [word]' to look up a pronunciation."
 }
