@@ -52,12 +52,17 @@
                 "reduce wrap up time", "faster dispositioning", "quick wrap up",
                 "how long can i stay in wrap up", "rule for wrap up time"
             ],
-            "answer": "Wrap up is the time from the end of the call until the call is coded. It's the period where you select the correct disposition for the call. Aim to disposition a call within 2-3 seconds. High wrap up means taking too long to do this. Do not sit in WRAP UP; code calls within 2-3 secs and move to the next."
+            "answer": "Wrap up is the time from the end of the call until the call is coded. It's the period where you select the correct disposition for the call. Aim to disposition a call within 2-3 seconds. \n\n High wrap up means taking too long to do this. Do not sit in WRAP UP; code calls within 2-3 secs and move to the next. For more information ask 'tips on how to reduce wrap up'"
         },
         {
-             "keywords": ["what is usglc", "usglc", "u.s. global leadership coalition", "us global leadership coalition"],
-             "answer": "USGLC stands for the U.S. Global Leadership Coalition. It's a nonprofit that advocates for strong U.S. global engagement through diplomacy and development alongside defense."
-        },
+             "keywords": [
+                 "tips to improve wrap up time", "how to reduce wrap up", "faster wrap up",
+                 "quick wrap up tips", "improve my wrap up speed", "wrap up efficiency",
+                 "best practices for wrap up", "getting faster at dispositioning",
+                 "how to stay in green zone for wrap up", "wrap up time improvement strategies"
+             ],
+             "answer": "TIPS TO IMPROVE WRAP-UP TIME 🚀\n\n1️⃣ **SELECT THE BEST OPTION.**\n👉 Do not post the scenario in the channel and wait for a response during active wrap-up.\n\n2️⃣ **IF IT'S A SCENARIO (and you're unsure for future calls):**\n✅ After selecting the best option for the current call, *then* post the scenario in the channel and wait for feedback before using that disposition for that specific scenario in the future.\n\n3️⃣ **DON'T AIM FOR PERFECTION DURING WRAP-UP!**\n⏩ Select the best option quickly and move on!\n\n4️⃣ **IF THE GREEN BAR AT THE TOP DISAPPEARS:**\n📞 This means the respondent has hung up.\n🛑 Disposition the call immediately and move on!\n\n**ENSURE THE ENTIRE SCRIPT IS VISIBLE WITHOUT SCROLLING:**\n🖥️ Adjust your monitor to 80–90% zoom to avoid scrolling. This helps you notate efficiently.\n\n💡 **BONUS TIP FOR SURVEYS:**\n🔍 As you conduct the survey, pre-select the most likely answer for each question.\n🖱️ Hover your cursor over the 'NEXT' button.\n📞 If the respondent hangs up unexpectedly, you can quickly double-click to submit the partially completed survey and then disposition.\n🔄 If the answer changes before they hang up, simply adjust your selection and continue.\n\n🟢 **GOAL:** Aim for wrap-up within 1 second to stay in the green zone.\n🚀 Keep moving, stay efficient, and wrap up quickly! 🚀"
+         },
         {
              "keywords": ["when do we get paid", "pay period", "payday", "pay date", "pay schedule", "get paid"],
              "answer": "Pay Periods are as follows… \n\n 11th-25th paid on the 1st \n 26th-10th paid on the 15th \n\n If the 1st or 15th falls on a weekend or holiday, you are paid early on the previous Friday."
@@ -130,7 +135,7 @@
         },
         {
             "keywords": ["track hours", "check hours", "hours portal", "how to check my hours", "view hours", "employee portal hours", "hours tracking", "pay period hours", "my hours", "what are my hours"],
-            "answer": "Corey will also give you your totals at the halfway point and at the end of the pay period if you ask."
+            "answer": "Corey will give you your totals at the halfway point and at the end of the pay period if you ask."
         },
         {
             "keywords": ["cph", "what is cph", "define cph", "cph meaning", "completes per hour", "explain cph"],
@@ -395,7 +400,7 @@
                 "word pronunciation guide", "difficult words pronunciation", "pronunciation resources",
                 "how do you say this name", "how to say [state/city]", "pronounce difficult name"
             ],
-            "answer": "For correct pronunciation type 'pronounce [the word you want to look up]'"
+            "answer": "For correct pronunciation type only 'pronounce [word]' (don't use spaces, spelling matters on this one)"
         },
         {
             "keywords": [
@@ -533,7 +538,7 @@
                 "system steps for patch",
                 "complete patch steps"
             ],
-            "answer": "Patch steps: 1. Voter agrees: select YES box, click next. 2. Read verbiage for voter to repeat on PATCH. 3. Select NEXT again, read follow-up statement. 4. Phone rings: select COMPLETE PATCH while thanking voter. Do not listen in."
+            "answer": "Patch steps: \n1. Voter agrees: select YES box, click next. \n2. Read verbiage for voter to repeat on PATCH. \n3. Select NEXT again, read follow-up statement. \n4. Phone rings: select COMPLETE PATCH while thanking voter. Do not listen in."
         },
         {
             "keywords": [
@@ -558,5 +563,5 @@
         "NOT IN": "This is not for 'Not Interested'. Use this if the VOF (Voter On File) cannot come to the phone for any reason. Say, “We will try again later. Thank you for your time.” Then code as 'Not In'.",
         "REFUSED": "Code as refused when they refuse a question or patch once the call has begun."
     },
-    "fallback_message": "I'm sorry, I couldn't find an answer for that specific query. Try typing 'list codes', 'common rebuttals', or 'steps for a patch call'. You can also say 'pronounce [word]' to look up a pronunciation."
+    "fallback_message": "I'm sorry, I couldn't find an answer for that specific query. Try typing for example 'list codes', 'common rebuttals', 'what is wrap up time', 'tips on how to reduce wrap up time ' or 'steps for a patch call'. You can also say 'pronounce [word]' to look up a pronunciation."
 }
