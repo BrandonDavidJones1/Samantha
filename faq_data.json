@@ -654,6 +654,15 @@
                 "az1 vs az2", "moving from az2 to az", "become az"
             ],
             "answer": "For any questions or requests regarding AZ assignments, including moving from AZ2 to AZ, please contact Corey. He handles these specific project/team placements."
+        },
+                {
+            "keywords": [
+                "no name in script", "script has no name", "name missing from script", "blank name in script",
+                "what if script has no voter name", "expected a name in script but it's blank",
+                "no VOF in script", "VOF missing", "how to handle call if no name provided",
+                "script name field empty", "name to verify is blank"
+            ],
+            "answer": "If you encounter a script where you expect a voter's name to verify but the name field appears blank or is missing, please proceed as follows:\n\n1.  **Double-check the call type instructions** for that specific project, if available.\n2.  If there are no specific instructions overriding this, and **no name is provided in the script to verify, treat the call as a 'Voter Assumptive' or 'Non-Voter' style call.**\n3.  This means you will **speak with whomever answers the phone.** You can generally proceed with the script's introduction without attempting to confirm a specific individual's name first.\n\nIf this happens frequently or you are consistently unsure, please bring it to your supervisor's attention so they can verify the script data for that project."
         }
     ],
     "call_codes": {
