@@ -108,7 +108,6 @@ def load_faq_data_from_url(): # Renamed and modified
         faq_data = default_faq_structure
     except json.JSONDecodeError as json_err:
         print(f"Error: Could not decode JSON from fetched FAQ data from {FAQ_URL}. Error: {json_err}")
-        # Log part of the response text if available and it's not too large
         response_text_snippet = ""
         if 'response' in locals() and hasattr(response, 'text'):
             response_text_snippet = response.text[:500] if response.text else "Response text was empty."
@@ -309,7 +308,6 @@ async def send_long_message(channel, text_content, view=None):
                 messages_sent.append(msg)
     return messages_sent
 
-# --- New Function for Log Forwarding ---
 async def forward_qa_to_admins(user_query: str, bot_answer: str, original_author: discord.User):
     if not bot_answer:
         return
@@ -340,7 +338,6 @@ async def forward_qa_to_admins(user_query: str, bot_answer: str, original_author
         except Exception as e:
             logger.error(f"Error forwarding Q&A to admin {admin_id}: {e}")
 
-# --- UI Classes for Interactive Buttons ---
 class SuggestionButton(discord.ui.Button):
     def __init__(self, label, style, custom_id, original_query, matched_keyword_text, faq_item_index, helpful):
         super().__init__(label=label, style=style, custom_id=custom_id)
@@ -375,12 +372,11 @@ class SuggestionButton(discord.ui.Button):
             except discord.Forbidden: logger.error(f"Missing permissions to edit message {interaction.message.id}.")
 
 
-# --- Event Handlers ---
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} (ID: {bot.user.id}) has connected to Discord!')
     print(f'Listening for DMs. All interactions are handled as direct messages.')
-    load_faq_data_from_url() # <--- MODIFIED TO USE URL LOADER
+    load_faq_data_from_url()
     activity = discord.Activity(
         name="DM for HELP!",
         type=discord.ActivityType.custom,
@@ -584,8 +580,12 @@ async def on_message(message: discord.Message):
                     temp_suggestion_forward_texts = [intro_message]
                     
                     embed1 = discord.Embed(title=f"🤔 Suggestion 1: '{matched_keyword_primary_text}'", description=answer_primary, color=discord.Color.gold())
-                    view1 = SuggestionButton.construct_view(original_message_content, matched_keyword_primary_text, answer_primary, primary_faq_flat_idx) # Assuming a helper
-                    await message.channel.send(embed=embed1, view=view1)
+                    btn_yes1 = SuggestionButton(label="✅ Helpful!", style=discord.ButtonStyle.success, custom_id=f"sugg_yes_{primary_faq_flat_idx}", original_query=original_message_content, matched_keyword_text=matched_keyword_primary_text, faq_item_index=primary_faq_flat_idx, helpful=True)
+                    btn_no1 = SuggestionButton(label="❌ Not quite", style=discord.ButtonStyle.danger, custom_id=f"sugg_no_{primary_faq_flat_idx}", original_query=original_message_content, matched_keyword_text=matched_keyword_primary_text, faq_item_index=primary_faq_flat_idx, helpful=False)
+                    current_view1 = discord.ui.View(timeout=300)
+                    current_view1.add_item(btn_yes1)
+                    current_view1.add_item(btn_no1)
+                    await message.channel.send(embed=embed1, view=current_view1)
                     temp_suggestion_forward_texts.append(f"Sugg 1 (Score {primary_score:.2f}) '{matched_keyword_primary_text}':\n{answer_primary}")
                     logger.info("Semantic Suggestion 1 offered.", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}, Matched: '{matched_keyword_primary_text}'."})
 
@@ -599,8 +599,12 @@ async def on_message(message: discord.Message):
                                 answer_secondary = matched_item_secondary.get("answer", "Answer not available.")
                                 matched_keyword_secondary_text = faq_questions[secondary_faq_flat_idx].capitalize()
                                 embed2 = discord.Embed(title=f"🤔 Suggestion 2: '{matched_keyword_secondary_text}'", description=answer_secondary, color=discord.Color.gold())
-                                view2 = SuggestionButton.construct_view(original_message_content, matched_keyword_secondary_text, answer_secondary, secondary_faq_flat_idx) # Assuming a helper
-                                await message.channel.send(embed=embed2, view=view2)
+                                btn_yes2 = SuggestionButton(label="✅ Helpful!", style=discord.ButtonStyle.success, custom_id=f"sugg_yes_{secondary_faq_flat_idx}", original_query=original_message_content, matched_keyword_text=matched_keyword_secondary_text, faq_item_index=secondary_faq_flat_idx, helpful=True)
+                                btn_no2 = SuggestionButton(label="❌ Not quite", style=discord.ButtonStyle.danger, custom_id=f"sugg_no_{secondary_faq_flat_idx}", original_query=original_message_content, matched_keyword_text=matched_keyword_secondary_text, faq_item_index=secondary_faq_flat_idx, helpful=False)
+                                current_view2 = discord.ui.View(timeout=300)
+                                current_view2.add_item(btn_yes2)
+                                current_view2.add_item(btn_no2)
+                                await message.channel.send(embed=embed2, view=current_view2)
                                 temp_suggestion_forward_texts.append(f"Sugg 2 (Score {secondary_score:.2f}) '{matched_keyword_secondary_text}':\n{answer_secondary}")
                                 logger.info("Semantic Suggestion 2 offered.", extra={**log_extra_base, 'details': f"Score: {secondary_score:.2f}, Matched: '{matched_keyword_secondary_text}'."})
                     bot_reply_text_for_forwarding = "\n---\n".join(temp_suggestion_forward_texts)

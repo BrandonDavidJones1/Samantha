@@ -244,11 +244,12 @@
             "answer": "VOTER SPECIFIC calls require you to speak ONLY with the VOF (Voter on File) listed in the script. (ABSOLUTELY NO EXCEPTIONS). As a rule, surveys are always VOTER SPECIFIC, unless otherwise instructed. You MUST confirm that you are speaking to the right person to continue the survey, and they MUST confirm they are that person. \n\nIf a relative is suspicious when you ask for the VOF: you may add your name and/or the name of the Company we are calling on behalf of, let them know we will try again later and disposition as 'Not In.'"
         },
         {
-            "keywords": [
-                "voter assumptive call", "assume voter answered", "hello voter name", "if not voter assumptive",
-                "what is voter assumptive", "how do voter assumptive calls work", "voter assumptive procedure"
-            ],
-            "answer": "VOTER ASSUMPTIVE calls mean you will “assume” your voter answered the phone. Instead of asking if the voter is there, you will say “Hello (voter's name)” and continue without pause. If the respondent interrupts to say that they are not that voter, you will reply with, “that's alright, I can speak with you as well” and continue the call without pause. Patches are usually Voter Assumptive."
+         "keywords": [
+             "voter assumptive call", "assume voter answered", "hello voter name", "if not voter assumptive",
+             "what is voter assumptive", "how do voter assumptive calls work", "voter assumptive procedure",
+             "script has name but assumed wrong person", "assumed name but different person answered"
+         ],
+         "answer": "A VOTER ASSUMPTIVE call means you generally begin by assuming the voter listed answered the phone. You'd say, “Hello (voter's name specified in script)” and prepare to continue without pause.\n\n**However, an important rule applies if a specific voter name IS listed in your script:**\n*   If the person who answers says they are **NOT** the voter named in the script, you **CANNOT proceed with them** for that specific voter's record. You must speak to the person named.\n*   In this case, you would treat it like a 'Voter Specific' call where the target voter is not available. You could say something like, 'Okay, thank you. We were trying to reach [Voter's Name]. We can try again later.' Then disposition as 'Not In' or as per project instructions for when the specific voter is unavailable.\n\nIf the script has **NO specific voter name** to begin with (truly assumptive or non-voter), and you simply start with a general greeting, then you can speak with whomever answers.\n\nPatches are often Voter Assumptive in their opening style, but if a specific target name is provided by the system for that patch, you must ensure you are connecting that named individual."
         },
         {
             "keywords": [
@@ -653,7 +654,17 @@
                 "script name field empty", "name to verify is blank"
             ],
             "answer": "If you encounter a script where you expect a voter's name to verify but the name field appears blank or is missing, please proceed as follows:\n\n1.  **Double-check the call type instructions** for that specific project, if available.\n2.  If there are no specific instructions overriding this, and **no name is provided in the script to verify, treat the call as a 'Voter Assumptive' or 'Non-Voter' style call.**\n3.  This means you will **speak with whomever answers the phone.** You can generally proceed with the script's introduction without attempting to confirm a specific individual's name first.\n\nIf this happens frequently or you are consistently unsure, please bring it to your supervisor's attention so they can verify the script data for that project."
-        }
+        },
+        {
+    "keywords": [
+        "answered then hung up", "they answered and hung up", "hang up after answering",
+        "code for answer then hangup", "if they hang up after saying hello",
+        "is it no answer if they hang up", "answered but disconnected",
+        "difference between no answer and refused hangup", "coding hang ups after connection",
+        "rather not say vs no answer for hangups"
+    ],
+    "answer": "If a person answers the phone (you hear them and a connection is made) but then hangs up:\n\n*   **It is generally NOT coded as 'No Answer'.** 'No Answer' is for when the call doesn't connect or is hung up *before* any interaction.\n\n*   **If they hang up *during or after your introduction, or during a question*:** This is typically coded as **'REFUSED'.** They answered but then refused to continue the interaction.\n\n*   **'Rather Not Say' (or similar options like '6'):** This option is usually selected *within a survey script* if a voter is on the line and explicitly declines to answer a *specific question* but doesn't end the call. It's not a final call disposition for a hang-up.\n\n**In summary: If they answer and then hang up, use 'REFUSED'.** If you're unsure based on a specific project's rules, please ask your supervisor."
+}
     ],
     "call_codes": {
         "WRONG NUMBER": "Say, “We will update our records. Thank you for your time.”",
