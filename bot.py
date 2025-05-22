@@ -1,4 +1,3 @@
---- START OF FILE bot.py ---
 
 import discord
 import os
@@ -45,7 +44,7 @@ ADMIN_USER_IDS = {
     770409748922368000,
     1011068427189887037,
 }
-admin_log_activation_status = {}
+admin_log_activation_status = {} # Will be populated in on_ready
 
 # --- Logging Setup ---
 class ContextFilter(logging.Filter):
@@ -315,12 +314,6 @@ async def forward_qa_to_admins(user_query: str, bot_answer: str, original_author
     safe_user_query = user_query.replace("`", "'")
     safe_bot_answer = bot_answer.replace("`", "'")
 
-    # Define maximum lengths for query and answer within the log message
-    # These values are chosen to leave space for formatting and user info,
-    # ensuring the total message is well under Discord's 2000 char limit.
-    # Approx fixed overhead for formatting/user info: ~120-150 chars.
-    # 2000 - 150 = 1850 available for query + answer content.
-    # Let's aim for 600 (query) + 1200 (answer) = 1800. This gives a buffer.
     MAX_QUERY_LOG_LEN = 600
     MAX_ANSWER_LOG_LEN = 1200
 
@@ -338,40 +331,26 @@ async def forward_qa_to_admins(user_query: str, bot_answer: str, original_author
         f"**Bot Answered:** ```\n{log_answer_part}\n```"
     )
 
-    # Final check in case user info is extremely long, though unlikely to exceed with above limits
-    if len(forward_message) > 1990: # Use 1990 as a safe upper bound for DMs
-        # Fallback if the message is still too long (e.g. extremely long username)
-        # This is a very defensive measure.
+    if len(forward_message) > 1990:
         error_notice = "... (Log message content was too long to display fully)"
-        # Calculate remaining space for answer, ensuring it's not negative
-        remaining_space_for_answer = 1990 - (
-            len(f"**User:** {original_author.name}#{original_author.discriminator} (ID: {original_author.id})\n**Asked:** ```\n\n```\n**Bot Answered:** ```\n\n```") +
-            len(error_notice) +
-            20 # some buffer for triple backticks and newlines
-        )
-
-        # Drastically shorten query
         max_query_fallback_len = max(50, MAX_QUERY_LOG_LEN // 3)
-        log_query_part = safe_user_query[:max_query_fallback_len] + "..."
+        log_query_part_fallback = safe_user_query[:max_query_fallback_len] + "..."
 
-        # Recalculate forward_message_base to accurately determine space for answer_part
-        forward_message_base_len = len(
+        base_len_for_fallback = len(
             f"**User:** {original_author.name}#{original_author.discriminator} (ID: {original_author.id})\n"
-            f"**Asked:** ```\n{log_query_part}\n```\n"
-            f"**Bot Answered:** ```\n\n```" # Placeholder for answer and notice
+            f"**Asked:** ```\n{log_query_part_fallback}\n```\n"
+            f"**Bot Answered:** ```\n\n```"
         )
-        
-        max_answer_fallback_len = 1990 - forward_message_base_len - len(error_notice) - 10 # Buffer for formatting
-        max_answer_fallback_len = max(50, max_answer_fallback_len) # Ensure at least 50 chars
+        max_answer_fallback_len = 1990 - base_len_for_fallback - len(error_notice) - 10
+        max_answer_fallback_len = max(50, max_answer_fallback_len)
 
-        log_answer_part = safe_bot_answer[:max_answer_fallback_len - 3] + "..." + f"\n{error_notice}"
-        
+        log_answer_part_fallback = safe_bot_answer[:max_answer_fallback_len - 3] + "..." + f"\n{error_notice}"
+
         forward_message = (
             f"**User:** {original_author.name}#{original_author.discriminator} (ID: {original_author.id})\n"
-            f"**Asked:** ```\n{log_query_part}\n```\n"
-            f"**Bot Answered:** ```\n{log_answer_part}\n```"
+            f"**Asked:** ```\n{log_query_part_fallback}\n```\n"
+            f"**Bot Answered:** ```\n{log_answer_part_fallback}\n```"
         )
-        # If still too long, send a minimal message (should be rare)
         if len(forward_message) > 1990:
             forward_message = (
                 f"**User:** {original_author.name}#{original_author.discriminator} (ID: {original_author.id})\n"
@@ -385,6 +364,7 @@ async def forward_qa_to_admins(user_query: str, bot_answer: str, original_author
         return
 
     for admin_id in active_admin_ids_to_notify:
+        admin_user = None # Initialize for the HTTPException block
         try:
             admin_user = await bot.fetch_user(admin_id)
             if admin_user:
@@ -395,11 +375,10 @@ async def forward_qa_to_admins(user_query: str, bot_answer: str, original_author
             logger.warning(f"Bot is blocked by or cannot DM admin user {admin_id}. Disabling logs for them.")
             admin_log_activation_status[admin_id] = False
         except discord.HTTPException as e:
-            if e.status == 400 and e.code == 50035: # Invalid Form Body (likely too long)
+            if e.status == 400 and e.code == 50035:
                 logger.error(f"Failed to send log to admin {admin_id} due to message length or formatting. Original Message Length: {len(forward_message)}. Query: '{user_query[:50]}...', Answer: '{bot_answer[:50]}...'. Code: {e.code}, Status: {e.status}")
-                # Attempt to send a shorter notification about the failure
                 try:
-                    if admin_user: # Ensure admin_user was fetched before trying to use it
+                    if admin_user:
                          await admin_user.send(f"Failed to send a full Q&A log due to message length. User: {original_author.name}, Query: '{user_query[:100]}...'")
                 except Exception as inner_e:
                     logger.error(f"Failed to send even the short error notification to admin {admin_id}: {inner_e}")
@@ -409,12 +388,12 @@ async def forward_qa_to_admins(user_query: str, bot_answer: str, original_author
             logger.error(f"Error forwarding Q&A to admin {admin_id}: {e}")
 
 class SuggestionButton(discord.ui.Button):
-    def __init__(self, label, style, custom_id, original_query, matched_keyword_text, faq_item_index, original_faq_item_idx, helpful): # Added original_faq_item_idx
+    def __init__(self, label, style, custom_id, original_query, matched_keyword_text, faq_item_index, original_faq_item_idx, helpful):
         super().__init__(label=label, style=style, custom_id=custom_id)
         self.original_query = original_query
         self.matched_keyword_text = matched_keyword_text
-        self.faq_item_index = faq_item_index  # This is the flat_idx of the keyword
-        self.original_faq_item_idx = original_faq_item_idx # Original index of the FAQ item
+        self.faq_item_index = faq_item_index
+        self.original_faq_item_idx = original_faq_item_idx
         self.helpful = helpful
 
     async def callback(self, interaction: discord.Interaction):
@@ -422,8 +401,6 @@ class SuggestionButton(discord.ui.Button):
 
         try:
             feedback_type = "Helpful" if self.helpful else "Not Helpful"
-
-            # We already have self.original_faq_item_idx, no need to recalculate from flat index here for logging
             original_item_idx_str = str(self.original_faq_item_idx) if self.original_faq_item_idx is not None else "N/A"
 
             log_message = f"Suggestion Feedback: User clicked '{feedback_type}'."
@@ -484,6 +461,21 @@ async def on_ready():
     print(f'{bot.user.name} (ID: {bot.user.id}) has connected to Discord!')
     print(f'Listening for DMs. All interactions are handled as direct messages.')
     load_faq_data_from_url()
+
+    # Initialize admin log activation status - ON by default for all admins
+    global admin_log_activation_status # Ensure we are modifying the global dict
+    activated_admins_count = 0
+    if ADMIN_USER_IDS: # Check if there are any admin IDs defined
+        for admin_id in ADMIN_USER_IDS:
+            admin_log_activation_status[admin_id] = True # Default to ON
+            activated_admins_count +=1
+        logger.info(f"Default log forwarding activated for {activated_admins_count} admin(s). Admins can use 'mute logs' to opt-out.")
+        print(f"Default log forwarding activated for {activated_admins_count} admin(s).")
+    else:
+        logger.warning("No ADMIN_USER_IDS defined. Log forwarding will not be active by default for anyone.")
+        print("WARNING: No ADMIN_USER_IDS defined. Log forwarding will not be active by default for anyone.")
+
+
     activity = discord.Activity(
         name="DM for HELP!",
         type=discord.ActivityType.custom,
@@ -521,9 +513,7 @@ async def on_message(message: discord.Message):
         logger.info("Ignoring empty or punctuation-only query.", extra={**log_extra_base, 'details': 'Query was empty or only punctuation.'})
         return
 
-    bot_reply_text_for_forwarding = None # Initialize for each message
-
-    # --- Command Handlers & FAQ Logic ---
+    bot_reply_text_for_forwarding = None
 
     pronounce_prefix = "!pronounce "
     pronounce_prefix_no_bang = "pronounce "
@@ -655,7 +645,6 @@ async def on_message(message: discord.Message):
             await forward_qa_to_admins(original_message_content, bot_reply_text_for_forwarding, message.author)
             return
 
-    # --- Semantic Matching & Fallback (with distinct suggestions) ---
     faq_items_original_list = faq_data.get("general_faqs", [])
     top_indices, top_scores = semantic_search_top_n_matches(user_query_lower, n=CANDIDATES_TO_FETCH_FOR_SUGGESTIONS)
 
@@ -666,7 +655,6 @@ async def on_message(message: discord.Message):
     else:
         primary_score = top_scores[0]
         if primary_score >= SEMANTIC_SEARCH_THRESHOLD:
-            # Direct Hit
             primary_faq_flat_idx = top_indices[0]
             if not (0 <= primary_faq_flat_idx < len(faq_questions) and 0 <= primary_faq_flat_idx < len(faq_original_indices)):
                 logger.error(f"Semantic primary match index {primary_faq_flat_idx} out of bounds for direct hit.", extra=log_extra_base)
@@ -681,13 +669,11 @@ async def on_message(message: discord.Message):
                 else:
                     matched_item_primary = faq_items_original_list[original_faq_item_idx_primary]
                     answer_primary = matched_item_primary.get("answer", "Answer not available.")
-                    # matched_keyword_primary_text = faq_questions[primary_faq_flat_idx].capitalize() # Not strictly needed for display here
                     await send_long_message(message.channel, answer_primary, view=None)
                     bot_reply_text_for_forwarding = answer_primary
                     logger.info("Semantic FAQ Direct Match.", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}, Matched Keyword Flat Idx: '{primary_faq_flat_idx}', Original FAQ Idx: {original_faq_item_idx_primary}."})
 
         elif primary_score >= SUGGESTION_THRESHOLD:
-            # Offer Suggestions (distinct FAQ items)
             suggestions_to_display = []
             shown_original_faq_indices = set()
 
@@ -729,7 +715,7 @@ async def on_message(message: discord.Message):
 
                 for i, sugg_data in enumerate(suggestions_to_display):
                     embed_title = f"🤔 Suggestion {i+1}: Related to '{sugg_data['keyword']}'"
-                    if len(embed_title) > 256: # Discord Embed Title Limit
+                    if len(embed_title) > 256:
                         embed_title = embed_title[:253] + "..."
 
                     embed = discord.Embed(
@@ -752,7 +738,6 @@ async def on_message(message: discord.Message):
                 await message.channel.send(bot_reply_text_for_forwarding)
                 logger.info("Unanswered query, fallback sent (no distinct suggestions met threshold after filtering).", extra=log_extra_base)
         else:
-            # Top score is below suggestion threshold
             bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find an answer for that.")
             await message.channel.send(bot_reply_text_for_forwarding)
             details_str = f"Primary score {primary_score:.2f} below suggestion threshold {SUGGESTION_THRESHOLD}."
@@ -763,13 +748,15 @@ async def on_message(message: discord.Message):
 
 # --- Run the Bot ---
 if __name__ == "__main__":
+    # Ensure ADMIN_USER_IDS contains only integers before using it
+    # This must happen before on_ready uses ADMIN_USER_IDS
     actual_admin_ids = {uid for uid in ADMIN_USER_IDS if isinstance(uid, int)}
     if len(actual_admin_ids) < len(ADMIN_USER_IDS):
-        # This filters out non-integer placeholder strings if they were left in ADMIN_USER_IDS
-        print("INFO: Placeholder admin IDs were filtered out. Ensure all admin IDs are correct integers.")
-    ADMIN_USER_IDS = actual_admin_ids
-    if not ADMIN_USER_IDS:
-        print("WARNING: ADMIN_USER_IDS set is empty. Log forwarding commands will not work for any user.")
+        print("INFO: Placeholder or non-integer admin IDs were filtered out. Ensure all admin IDs are correct integers.")
+    ADMIN_USER_IDS = actual_admin_ids # Update the global set
+
+    if not ADMIN_USER_IDS: # Check after filtering
+        print("WARNING: ADMIN_USER_IDS set is empty after filtering. Log forwarding will not work for any user by default or by command.")
 
 
     if TOKEN:

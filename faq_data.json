@@ -681,7 +681,20 @@
                  "no longer lives in district", "moved out of area", "wrong state for patch"
              ],
              "answer": "If a verified voter says they've moved out of the relevant state/area:\n\n1.  **For the patch/main action in script:** Select 'No' or 'Refused'.\n2.  **Final Call Disposition:**\n    *   Use 'Moved' or 'Update Info' if available for your project.\n    *   Otherwise, typically use **'REFUSED'** (as the main action couldn't be completed).\n3.  **Note the move** if your system allows or inform your supervisor. Do not patch to a representative of their old state.\n\nIf unsure of project specifics, ask your supervisor."
-         }
+         },
+         {
+            "keywords": [
+                "voter moved out of current state",
+                "person no longer in this state",
+                "contact lives in a different state now",
+                "they moved away from the state",
+                "what to do if voter is in wrong state",
+                "script for voter moved state",
+                "handling voter in different state",
+                "voter doesn't reside in state anymore"
+            ],
+            "answer": "i wouldn't let that stop me, if the voter has moved states they may still participate."
+        }
     ],
     "call_codes": {
         "WRONG NUMBER": "Say, “We will update our records. Thank you for your time.”",
