@@ -384,10 +384,10 @@
         {
             "keywords": [
                 "silent listener", "just listening", "they don't talk", "finish script no response", "no response from caller",
-                "is silent listener a complete", "read script they say nothing", "what if they hang up after script",
+                "is silent listener a complete", "read script they say nothing", "what if they hang up after script", "If calling and after introduction they hang up how should I code?",
                 "caller hangs up without speaking"
             ],
-            "answer": "If there is no VOF (Voter on File) to confirm, you have read the whole script, and they have still not responded (or hang up without responding after you've read the script), this is typically coded as 'REFUSED' or another appropriate disposition based on when the silence/hang-up occurred (e.g., 'No Answer' if it's immediate). Always thank them for your time (even if they can't hear you), go to the Next Page, disposition the call, and ensure your State shows Available. You are now ready for the Next Call."
+            "answer": "If there is no VOF (Voter on File) to confirm, you have read the whole script, and they have still not responded (or hang up without responding after you've read the script), this is typically coded as 'REFUSED' or another appropriate disposition based on when the silence/hang-up occurred (e.g., 'No Answer' if it's immediate). \n\n Always thank them for your time (even if they can't hear you), go to the Next Page, disposition the call, and ensure your State shows Available. You are now ready for the Next Call."
         },
         {
             "keywords": [
@@ -602,6 +602,15 @@
             "answer": "Patch steps: \n1. Voter agrees: select YES box, click next. \n2. Read verbiage for voter to repeat on PATCH. \n3. Select NEXT again, read follow-up statement. \n4. Phone rings: select COMPLETE PATCH while thanking voter. Do not listen in."
         },
         {
+        "keywords": [
+                "can't get ahold of corey", "corey not responding", "unable to reach corey",
+                "corey isn't answering", "how to contact corey if he's busy",
+                "trying to reach corey", "corey unavailable", "message corey",
+                "get in touch with corey", "having trouble contacting corey"
+            ],
+            "answer": "Hmm... He might be out returning some video tapes, but I'll let him know you're trying to get a hold of him."
+        },
+        {
             "keywords": [
                 "voter asks for my last name", "voter asks my last name", "agent last name",
                 "can i give my last name to a voter", "sharing my last name with voter", "sharing agent name",
@@ -610,6 +619,17 @@
                 "asked for last name", "voter wants my name", "give out my name"
             ],
             "answer": "You should not share your personal last name with a voter. If a voter asks for your last name, you can politely state that you are not permitted to share full personal details for privacy and security reasons. You can provide your first name as given in the script. If the voter insists or becomes difficult, please contact your supervisor."
+        },
+        {
+            "keywords": [
+                "what does seiu mean", "seiu meaning", "what is seiu", "define seiu",
+                "explain seiu", "s-e-i-u", "s e i u"
+            ],
+            "answer": "SEIU stands for the Service Employees International Union. It is one of the largest labor unions in North America, representing workers in healthcare, public services, and property services."
+        },
+        {
+             "keywords": ["what is usglc", "usglc", "u.s. global leadership coalition", "us global leadership coalition", "explain usglc", "define usglc"],
+             "answer": "USGLC stands for the U.S. Global Leadership Coalition. It's a nonprofit that advocates for strong U.S. global engagement through diplomacy and development alongside defense."
         }
     ],
     "call_codes": {
