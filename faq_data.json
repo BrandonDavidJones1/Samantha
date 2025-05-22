@@ -630,6 +630,13 @@
         {
              "keywords": ["what is usglc", "usglc", "u.s. global leadership coalition", "us global leadership coalition", "explain usglc", "define usglc"],
              "answer": "USGLC stands for the U.S. Global Leadership Coalition. It's a nonprofit that advocates for strong U.S. global engagement through diplomacy and development alongside defense."
+        },
+        {
+            "keywords": [
+                "your favorite star wars movie", "favorite star wars", "what star wars movie do you like",
+                "best star wars film", "star wars preference", "do you like star wars", "tell me your favorite star wars"
+            ],
+            "answer": "The Empire Strikes Back, of course! The character development, the darker themes, and that iconic reveal? Masterful storytelling. Though, as an AI, my appreciation is purely analytical. 😉"
         }
     ],
     "call_codes": {
