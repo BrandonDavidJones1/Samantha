@@ -656,6 +656,14 @@
             "answer": "If you encounter a script where you expect a voter's name to verify but the name field appears blank or is missing, please proceed as follows:\n\n1.  **Double-check the call type instructions** for that specific project, if available.\n2.  If there are no specific instructions overriding this, and **no name is provided in the script to verify, treat the call as a 'Voter Assumptive' or 'Non-Voter' style call.**\n3.  This means you will **speak with whomever answers the phone.** You can generally proceed with the script's introduction without attempting to confirm a specific individual's name first.\n\nIf this happens frequently or you are consistently unsure, please bring it to your supervisor's attention so they can verify the script data for that project."
         },
         {
+           "keywords": [
+               "voter wants more info website", "website for more information", "can i give voter a website",
+               "customer asks for website", "direct voter to website for info", "more info what website",
+               "is there a website for the campaign", "voter requests website", "where to send voter for more details"
+           ],
+           "answer": "If a voter asks for more information or a website:\n\n1.  **Use this as a chance to patch them through!** Say: 'Great question! The best way to get more details is by speaking with their office. Shall I connect you?'\n2.  **If a patch isn't possible or they refuse:**\n    *   Only provide a website if it's **explicitly in your current call script.**\n    *   **Never search for or give unscripted websites.**\n3.  If no patch and no scripted website, thank them and disposition the call appropriately (e.g., 'Refused'). Code quickly."
+}       ,
+        {
     "keywords": [
         "answered then hung up", "they answered and hung up", "hang up after answering",
         "code for answer then hangup", "if they hang up after saying hello",
