@@ -34,651 +34,725 @@
     "general_faqs": [
         {
             "keywords": [
-                "wrap up time", "what is wrap up", "explain wrap up", "wrap up", "define wrap up",
-                "after call work", "post call processing", "disposition time", "time to disposition",
-                "disposition call seconds", "acw", "what is acw", "define acw",
-                "high wrap up", "what is high wrap up", "long wrap up", "wrap up definition",
-                "too much wrap up time", "extended wrap up", "wrap up too long", "wrap up policy",
-                "how long can i stay in wrap up", "rule for wrap up time", "wrap up basics",
-                "what should my wrap up time be", "standard wrap up time"
+                "what is wrap up time precisely", "explain the concept of wrap up", "define acw in call center context",
+                "after call work described", "understanding post call processing", "definition of disposition time",
+                "ideal time for call disposition", "what constitutes high wrap up duration", "explaining long wrap up periods",
+                "issues with too much wrap up", "company policy on wrap up duration",
+                "how long am i permitted to stay in wrap up status", "rules governing wrap up time limits", "basic explanation of wrap up state",
+                "what is the target for my wrap up time metric", "standard duration for wrap up activities"
             ],
             "answer": "Wrap up is the time from the end of the call until the call is coded. It's the period where you select the correct disposition for the call. Aim to disposition a call within 2-3 seconds. \n\n High wrap up means taking too long to do this. Do not sit in WRAP UP; code calls within 2-3 secs and move to the next. For more information ask 'tips on how to reduce wrap up'"
         },
         {
              "keywords": [
-                 "tips to improve wrap up time", "how to reduce wrap up", "faster wrap up", "make wrap up faster",
-                 "quick wrap up tips", "improve my wrap up speed", "wrap up efficiency tips", "acw tips",
-                 "best practices for wrap up", "getting faster at dispositioning", "how to speed up wrap up",
-                 "how to stay in green zone for wrap up", "wrap up time improvement strategies",
-                 "reduce my wrap up", "strategies for quick dispositioning", "wrap up help", "efficient wrap up"
+                 "effective tips to improve wrap up speed", "how can I reduce my wrap up time", "strategies for achieving faster wrap up",
+                 "techniques to make wrap up process quicker", "list of quick wrap up improvement tips",
+                 "how to enhance my wrap up speed performance", "best practices for wrap up time efficiency", "actionable acw reduction tips",
+                 "best practices for efficient call dispositioning after call", "how to become faster at dispositioning calls",
+                 "methods to speed up my overall wrap up time", "how do I stay in the green zone for wrap up time",
+                 "detailed wrap up time improvement strategies", "help me reduce my average wrap up duration",
+                 "specific strategies for quick call dispositioning", "requesting assistance with wrap up speed improvement",
+                 "how to make my wrap up tasks more efficient", "how to avoid high wrap up metric", "tips for quicker acw completion"
              ],
              "answer": "TIPS TO IMPROVE WRAP-UP TIME 🚀\n\n1️⃣ **SELECT THE BEST OPTION.**\n👉 Do not post the scenario in the channel and wait for a response during active wrap-up.\n\n2️⃣ **IF IT'S A SCENARIO (and you're unsure for future calls):**\n✅ After selecting the best option for the current call, *then* post the scenario in the channel and wait for feedback before using that disposition for that specific scenario in the future.\n\n3️⃣ **DON'T AIM FOR PERFECTION DURING WRAP-UP!**\n⏩ Select the best option quickly and move on!\n\n4️⃣ **IF THE GREEN BAR AT THE TOP DISAPPEARS:**\n📞 This means the respondent has hung up.\n🛑 Disposition the call immediately and move on!\n\n**ENSURE THE ENTIRE SCRIPT IS VISIBLE WITHOUT SCROLLING:**\n🖥️ Adjust your monitor to 80–90% zoom to avoid scrolling. This helps you notate efficiently.\n\n💡 **BONUS TIP FOR SURVEYS:**\n🔍 As you conduct the survey, pre-select the most likely answer for each question.\n🖱️ Hover your cursor over the 'NEXT' button.\n📞 If the respondent hangs up unexpectedly, you can quickly double-click to submit the partially completed survey and then disposition.\n🔄 If the answer changes before they hang up, simply adjust your selection and continue.\n\n🟢 **GOAL:** Aim for wrap-up within 1 second to stay in the green zone.\n🚀 Keep moving, stay efficient, and wrap up quickly! 🚀"
          },
         {
-             "keywords": ["what is usglc", "usglc", "u.s. global leadership coalition", "us global leadership coalition", "explain usglc", "define usglc"],
+             "keywords": ["what does usglc stand for specifically", "full meaning of usglc", "define the u.s. global leadership coalition organization",
+                         "can you explain what the us global leadership coalition does", "primary purpose of the usglc non-profit",
+                         "tell me about the mission of usglc", "information about usglc advocacy group"],
              "answer": "USGLC stands for the U.S. Global Leadership Coalition. It's a nonprofit that advocates for strong U.S. global engagement through diplomacy and development alongside defense."
         },
         {
              "keywords": [
-                 "when do we get paid", "pay period", "payday", "pay date", "pay schedule", "get paid",
-                 "when is payday", "payment schedule", "how often do we get paid", "salary schedule"
+                 "when exactly are lts paydays", "explanation of lts pay periods", "what is the next payday date for lts",
+                 "details of the lts payment schedule", "how frequently are lts paychecks distributed",
+                 "specifics regarding the lts salary schedule", "when is the payday for work done 11th to 25th",
+                 "payment date for work performed 26th to 10th", "what if an lts payday falls on a public holiday",
+                 "are we paid earlier if the 1st or 15th is a weekend"
                 ],
              "answer": "Pay Periods are as follows… \n\n 11th-25th paid on the 1st \n 26th-10th paid on the 15th \n\n If the 1st or 15th falls on a weekend or holiday, you are paid early on the previous Friday."
         },
         {
             "keywords": [
-                "stuck", "refresh screen wrap up", "dialer stuck", "frozen screen in wrap", "not getting calls in wrap up",
-                "screen frozen during wrap up", "system stuck after call", "what to do if im stuck"
+                "my dialer is stuck during wrap up what should I do", "how to perform a screen refresh when dialer is in wrap up mode",
+                "what to do if my dialer screen seems frozen", "my screen is unresponsive while in wrap up status",
+                "i'm in wrap up but not receiving any new calls", "what action to take if my screen freezes after completing a call",
+                "my system is stuck after a call ended", "troubleshooting steps for a stuck dialer interface",
+                "dialer appears unresponsive help needed"
             ],
             "answer": "If you know that we are busy and you aren't getting any phone calls within one minute while in wrap up, it means you are probably stuck. If this happens you need to refresh your screen. This is not the refresh you're looking for if it persists, contact a supervisor."
         },
         {
             "keywords": [
-                "start time", "when do we start", "shift start", "I want in tomorrow", "working tomorrow",
-                "what time do we start", "when does shift start", "beginning of shift", "when to log in",
-                "shift begins", "schedule start", "our start", "tomorrow's start time", "daily start time"
+                "what is the official start time for today's lts shift", "when does work begin for us today",
+                "details for today's lts shift commencement", "where can i find the update for tomorrow's lts start time",
+                "at what time should i log into the system for my shift", "when does our lts shift officially commence",
+                "information on the beginning of shift procedures at lts", "how do i know when to log in for my lts work",
+                "when does our team's shift formally begin", "how to check the lts schedule for daily start time",
+                "where is Corey's announcement about start time"
             ],
             "answer": "Make sure you keep your discord notifications open and check the main chat for the most recent update from Corey. May the force be with you!"
         },
         {
             "keywords": [
-                "break", "breaks", "lunch", "take a break", "break policy", "how often can i break",
-                "1099 break", "contractor break", "alert supervisor break", "break queue", "lunch break rules",
-                "can i take a break now", "procedure for taking breaks", "how long are breaks"
+                "lts policy on breaks for contractors", "rules for taking breaks as a 1099 worker at lts",
+                "what is the lts lunch break policy for agents", "how to correctly take a break from dialing",
+                "procedure for 1099 contractor breaks at lts", "do i need to inform my supervisor before taking a break",
+                "information about the lts break queue system", "am I allowed to take extended breaks as a contractor",
+                "official guidelines for taking breaks during lts shifts", "how long can my breaks be at lts",
+                "policy regarding use of the 'break button' in the dialer", "procedure for logging out for break periods"
             ],
             "answer": "As a 1099 contractor at LTS, you are free to break as often as you’d like. Be sure to alert your shift supervisor to be kept in the queue, securing your spot in that project. This way, log out for breaks NEVER USE THE BREAK BUTTON."
         },
         {
             "keywords": [
-                "voter id complete", "confirmed voter name complete", "is voter id complete when", "voter id call complete",
-                "voter id confirmed name", "name confirmed voter id", "voter id project complete", "voter id survey complete",
-                "when is voter id complete", "how to code voter id complete", "what counts as complete for voter id"
+                "under what conditions is a voter id call marked as complete", "what exactly makes a voter id survey complete",
+                "specific criteria for coding a voter id call as 'complete'", "do i mark voter id survey complete after confirming the voter's name",
+                "is a voter id call considered complete if i begin asking the first survey question",
+                "how to correctly use the 'complete' disposition for voter id projects",
+                "what should I do if more than one voter is present during a voter id call",
+                "when is it necessary to check the 'multiple voters present' box in voter id"
             ],
             "answer": "On a Voter ID project, if you confirm the voter's name and start asking the first question, it's considered a complete. Other dispositions (Not In, No Answer, Answering Machine, DNC) still apply as needed. Don't forget to check the box if more than one voter is present!"
         },
         {
             "keywords": [
-                "required for complete voter id", "voter id project complete requirements", "voter id complete rules",
-                "what is a complete voter id", "voter id requirements complete", "voter id definition of complete",
-                "how to complete voter id", "what makes voter id complete", "criteria for voter id complete",
-                "voter id rules for complete", "voter id checklist for complete"
+                "what are all the specific requirements for a voter id 'complete' status",
+                "list all the rules that define voter id project completion",
+                "provide a checklist for achieving a 'complete' voter id call disposition",
+                "defining the 'complete' status within voter id campaign projects",
+                "how is the 'complete' call status precisely determined for voter id projects",
+                "what are the exact conditions that must be met for a voter id 'complete'",
+                "what details make a voter id survey count as fully complete",
+                "detailed criteria list for voter id 'complete' disposition usage"
             ],
             "answer": "For a Voter ID project, a 'complete' means the voter's name has been confirmed and you've started asking the first question. Other dispositions still apply. Don't forget to check the box if more than one voter is present!"
         },
         {
             "keywords": [
-                "answering machine", "voicemail", "got an answering machine", "hit voicemail", "call went to voicemail",
-                "procedure for answering machine", "policy on answering machines", "leaving messages answering machine",
-                "what if i get voicemail", "disconnect answering machine", "let answering machine play", "how to handle voicemail",
-                "can i let the answering machine play", "consequence for letting voicemail play", "answering machine rules"
+                "procedure for when an answering machine picks up", "what to do if a call goes to voicemail",
+                "handling calls that reach an answering machine", "lts policy on encountering answering machines",
+                "are we supposed to leave messages on answering machines for this project",
+                "what if I get a voicemail and we are not leaving messages", "protocol for disconnecting from an answering machine",
+                "can i let the answering machine play out its greeting", "consequences of letting voicemail play if not leaving messages",
+                "rules regarding answering machines when messages are not being left"
             ],
             "answer": "If not leaving messages for the current project, and you get an answering machine, you MUST disconnect immediately. Do not let the answering machine play (this is call avoidance and can result in being signed off). Code as 'Answering Machine'. (See 'list codes')."
         },
         {
             "keywords": [
-                "no answer", "phone rings no answer", "what if no one answers", "procedure for no answer", "call not answered",
-                "they didn't pick up", "never answered", "how to code no answer", "rules for no answer"
+                "how to handle a call if there is no answer", "what to do if the phone rings but no one answers",
+                "procedure when a call is not answered by anyone", "lts protocol for 'no answer' calls",
+                "what if they don't pick up the phone at all", "how should I code a 'no answer' call",
+                "rules for dispositioning a call as 'no answer'", "specific gotv coding for no answer"
             ],
             "answer": "If there is no response, code as 'No Answer'. For GOTV calls without voicemails, even a 'No Answer' might be coded as 'COMPLETE LIVE' - follow project specifics. (See 'list codes' for full No Answer definition)."
         },
         {
             "keywords": [
-                "can i be added", "add me", "request to be added", "can you add me to project", "how to get added",
-                "i want to be added", "add", "join project", "how to join a campaign", "get on a project"
+                "how can i request to be added to a project", "procedure for asking to be added to a campaign",
+                "who do i contact to get added to a new project", "i want to join the current project how to ask",
+                "process for getting assigned to a specific campaign", "how to get on a new project list",
+                "requesting assignment to an active project"
             ],
             "answer": "Please contact your direct supervisor to request being added or for more information on the process."
         },
         {
             "keywords": [
-                "not interested", "not in person", "person not interested", "customer says not interested", "voter not interested",
-                "handling not interested", "procedure for not interested", "they don't want it", "refused service",
-                "declined", "don't call me anymore", "take me off your list general", "how to code not interested",
-                "what if they say they are not interested"
+                "how to handle a voter who says they are not interested", "what to do if a person is not interested in the call",
+                "coding for when a customer states they are not interested", "procedure when a voter expresses no interest",
+                "if they say they don't want the call or service", "response to a voter declining participation",
+                "what if they ask to be taken off our call list but not dnc", "how to code a 'not interested' response from voter",
+                "distinction between 'not interested' and 'do not call list' request"
             ],
             "answer": "If a person indicates they are not interested, or asks to be 'removed from the call list' (but does NOT specifically ask to be put on the 'Do Not Call List'), you will typically code this as 'REFUSED' or follow project-specific instructions for 'Not Interested'. Always thank them for their time. (See 'list codes' for 'REFUSED' and 'DO NOT CALL' for more details)."
         },
         {
             "keywords": [
-                "do not call", "DNC", "add to do not call list", "put on dnc list", "voter wants dnc",
-                "person requests do not call", "handling dnc request", "procedure for do not call", "dnc procedure",
-                "asked to be on dnc", "rebuttal dnc", "argue dnc", "specifically asks dnc", "how to use dnc code"
+                "when to use the 'do not call' or dnc disposition", "how to handle a DNC request from a voter",
+                "procedure for adding someone to the do not call list", "what if a voter specifically asks to be put on the dnc list",
+                "handling requests for do not call status", "lts dnc procedure details", "clarification on when to code as dnc",
+                "should i argue or offer a rebuttal to a dnc request", "criteria for using the DNC code accurately"
             ],
             "answer": "The only time a call is coded “Do Not Call” or DNC, is when the voter specifically asks to be put on the 'Do Not Call list'. Otherwise, any other request to not be contacted (e.g., 'take me off your list') is usually coded as 'REFUSED'. (See 'list codes' for full details)."
         },
         {
             "keywords": [
-                "deceased", "person is deceased", "contact is deceased", "told person passed away", "contact passed away",
-                "handling deceased contact", "procedure for deceased", "caller is deceased", "how to code deceased",
-                "what if they say someone died"
+                "what to do if informed a contact is deceased", "procedure when a person on file has passed away",
+                "how to handle a call where the contact is reported deceased", "lts protocol for deceased contacts",
+                "what to say if someone tells me the caller is deceased", "how to code a call for a deceased individual",
+                "response if family member says voter died"
             ],
             "answer": "If the person you are trying to reach is reported Deceased, say “We will update our records. Thank you for your time.” Then code as 'Deceased'. (See 'list codes')."
         },
         {
             "keywords": [
-                "leave messages", "supposed to leave messages", "do we leave messages", "should i leave a message",
-                "leaving messages campaign", "are we leaving messages", "policy on leaving messages", "message policy",
-                "messages this project", "leave voicemail", "voicemail policy", "when to leave messages"
+                "are we supposed to leave messages on this campaign", "policy on leaving voicemails for the current project",
+                "should i be leaving a message if i get voicemail", "when are we instructed to leave messages",
+                "how do i know if message leaving is active for this project", "lts rules on leaving messages",
+                "what is the voicemail policy for the project i am on", "disconnect if not leaving messages policy"
             ],
             "answer": "You will be directed by the Shift Manager if you are put into a Project where we are leaving messages. Great Question! If not leaving messages, and you get an answering machine, disconnect immediately. Do not let the answering machine play."
         },
         {
             "keywords": [
-                "track hours", "check hours", "hours portal", "how to check my hours", "view hours", "see my hours",
-                "employee portal hours", "hours tracking", "pay period hours", "my hours", "what are my hours",
-                "how many hours have i worked"
+                "how can i track my worked hours", "where to check my total hours for lts", "is there an hours portal for agents",
+                "how to view my hours for the current pay period", "can i see my accumulated hours",
+                "lts employee portal for hours tracking", "pay period hours summary", "how to find out my hours worked",
+                "who to ask for my hours worked totals"
             ],
             "answer": "Corey will give you your totals at the halfway point and at the end of the pay period if you ask."
         },
         {
             "keywords": [
-                "cph", "what is cph", "define cph", "cph meaning", "completes per hour", "explain cph",
-                "cph definition", "what does cph stand for", "how is cph calculated", "cph goal"
+                "what does cph mean in call center", "define cph metric", "explanation of cph",
+                "what does cph stand for exactly", "how is cph calculated for agents", "what is the cph goal for this project",
+                "understanding completes per hour", "meaning of cph in performance"
             ],
             "answer": "CPH stands for “Completes Per Hour”. It refers to how many completed surveys or patches you complete within an hour of dialing. CPH (Completes Per Hour) goals can vary depending on the specific project you are working on. For the most current CPH goal for your current project, please ask your shift supervisor. They will have the up-to-date information."
         },
         {
             "keywords": [
-                "patch", "what is a patch", "patch campaign", "explain patch work", "define patch", "patch call",
-                "patching callers", "patch through", "patch procedure", "patch verbatim", "patch script",
-                "listen to patch conversation", "busy line patch", "how do patch calls work", "patch call meaning",
-                "patch call definition", "what's a patch through call"
+                "what is a patch call specifically", "explain how patch campaigns work", "define a patch-through call",
+                "procedure for patching callers to officials", "do patch scripts need to be read verbatim",
+                "am i supposed to listen to the patch conversation", "what to do if the line is busy during a patch attempt",
+                "how do patch calls function technically", "meaning of a patch call in our work", "patch call definition for agents"
             ],
             "answer": "A 'patch' or 'patch-through call' is when we contact the voter about a concern, ask them to be patched to their official's office, encourage them, and then transfer. Patch scripts are 100% verbatim, including follow-up statements. (See 'list codes' for dispositions and ask 'patch steps' for procedure)."
         },
         {
             "keywords": [
-                "yob", "year of birth", "confirm yob", "repeat yob", "how to ask yob", "yob procedure",
-                "ask year of birth", "ensure yob correct", "verify yob", "checking yob", "yob confirmation",
-                "refused yob", "voter won't give yob", "do i have to repeat year of birth", "yob repetition",
-                "what happens if i don't repeat yob", "consequence for not repeating yob", "why repeat yob"
+                "what is yob and how to confirm it", "procedure for asking year of birth", "do i need to repeat back the yob",
+                "importance of verifying yob correctly", "what to do if a voter refuses to give their yob",
+                "consequences for not repeating the yob as per policy", "why is yob repetition mandatory",
+                "how to ensure yob accuracy during calls"
             ],
             "answer": "When you ask the YOB (Year of Birth) ALWAYS repeat it back to ensure you have it correct (e.g., 'You said 1964, is that correct?'). Failure to repeat back the YOB is grounds for disciplinary action."
         },
         {
             "keywords": [
-                "share personal information", "give my phone number", "my location", "my address", "can i give out my info",
-                "social media voters", "sharing personal details", "agent privacy", "what info can i share"
+                "am i allowed to share my personal information with voters", "can i give my phone number to a contact",
+                "is it okay to share my location or address with callers", "policy on giving out personal info to voters",
+                "can i share my social media details with people i call", "rules about agent privacy during calls",
+                "what personal information am i forbidden from sharing"
             ],
             "answer": "You may NOT give voters contacted during the call ANY personal information, including but not limited to, your phone number, social media, location or address. This is a strict rule, young Padawan."
         },
         {
             "keywords": [
-                "company name", "where are you calling from", "city state address phone number company", "our company info",
-                "give out company info", "what company is this", "who am i calling for", "caller asks for company details"
+                "what is our company name if a voter asks", "can i tell a voter where i am calling from (city/state)",
+                "am i allowed to give out the company address or phone number", "lts policy on revealing company information",
+                "what to say if a caller asks for our company details", "who am i supposed to say i am calling for",
+                "response when a voter demands our company information"
             ],
             "answer": "You may NOT give out our company's name, name of the city/state, address, or direct phone number. If someone asks you from where you are calling, your response should be, “I apologize, but we are not allowed to provide that information for security reasons.”"
         },
         {
             "keywords": [
-                "where do you work", "voter demands more information", "campaign information demand", "caller wants more info",
-                "more info than script", "what if they ask more than script says", "providing extra information"
+                "what if a voter asks where i work or for more campaign info",
+                "procedure if a caller demands more information than the script provides",
+                "can i provide extra details not in the script if asked", "how to handle requests for unscripted information",
+                "response when voter wants info beyond script", "contact supervisor for off-script info requests"
             ],
             "answer": "You may ONLY say that you are calling on behalf of the campaign as indicated in the script. If the person demands more information than what's in the script, you must contact a supervisor to handle the call."
         },
         {
             "keywords": [
-                "share opinions", "my opinion on project", "remain unbiased", "personal views", "giving my thoughts",
-                "can i state my opinion", "staying neutral", "expressing personal beliefs"
+                "am i allowed to share my personal opinions on the project topic", "importance of remaining unbiased during calls",
+                "can i express my personal views on political matters", "guidelines for giving my own thoughts on campaign issues",
+                "policy on stating my opinion as an agent", "how to maintain neutrality when discussing project topics",
+                "rules about expressing personal beliefs on calls"
             ],
             "answer": "You are NOT to give your own opinions on matters being discussed in the project. Your job is to ALWAYS remain unbiased."
         },
         {
             "keywords": [
-                "importance of coding", "accurate coding", "code every call", "disposition accuracy", "why is coding important",
-                "call disposition importance", "correctly coding calls", "impact of wrong coding"
+                "why is accurate call coding so important", "significance of correct dispositioning",
+                "do i need to code every single call accurately", "impact of call disposition accuracy on project",
+                "reasons why proper call coding is crucial", "consequences of incorrect call coding",
+                "importance of call termination status"
             ],
             "answer": "You must accurately code (terminated/disposition) every single call with the appropriate status. Coding is the most important part of the job and your highest responsibility. Failure to do so will result in disciplinary action and if continued, termination. The fate of the galaxy... err, campaign... depends on it!"
         },
         {
             "keywords": [
-                "call ending", "how to end call professionally", "thank you for your time", "professional closing",
-                "proper way to end call", "what to say at end of call"
+                "how should i end a call professionally", "what is the standard closing phrase for calls",
+                "proper way to conclude a call with a voter", "what to say at the very end of every call",
+                "professional call closing etiquette", "call ending protocol"
             ],
             "answer": "ALWAYS be professional and end every call with “Thank you for your time”."
         },
         {
             "keywords": [
-                "voter specific call", "vof", "speak only to voter on file", "confirming voter survey", "who can i talk to",
-                "only talk to person on checkbox", "only speak to person checkbox", "vof rules", "voter on file procedure"
+                "what are voter specific calls or vof calls", "rule about speaking only to the voter on file",
+                "how to confirm i am speaking to the correct voter for a survey", "who am i allowed to talk to on a voter specific call",
+                "can i only speak to the person whose name is on the checkbox", "vof call procedures and rules",
+                "what if a relative is suspicious when i ask for the vof", "voter on file confirmation process"
             ],
             "answer": "VOTER SPECIFIC calls require you to speak ONLY with the VOF (Voter on File) listed in the script. (ABSOLUTELY NO EXCEPTIONS). As a rule, surveys are always VOTER SPECIFIC, unless otherwise instructed. You MUST confirm that you are speaking to the right person to continue the survey, and they MUST confirm they are that person. \n\nIf a relative is suspicious when you ask for the VOF: you may add your name and/or the name of the Company we are calling on behalf of, let them know we will try again later and disposition as 'Not In.'"
         },
         {
          "keywords": [
-             "voter assumptive call", "assume voter answered", "hello voter name", "if not voter assumptive",
-             "what is voter assumptive", "how do voter assumptive calls work", "voter assumptive procedure",
-             "script has name but assumed wrong person", "assumed name but different person answered"
+             "what defines a voter assumptive call", "how do voter assumptive calls differ from voter specific",
+             "procedure for starting a voter assumptive call", "what if the script has a name but it's voter assumptive",
+             "handling a situation where assumed name is incorrect person", "can i proceed if wrong person answers an assumptive call with name",
+             "when can i speak to whoever answers on assumptive call", "patch calls as voter assumptive type"
          ],
          "answer": "A VOTER ASSUMPTIVE call means you generally begin by assuming the voter listed answered the phone. You'd say, “Hello (voter's name specified in script)” and prepare to continue without pause.\n\n**However, an important rule applies if a specific voter name IS listed in your script:**\n*   If the person who answers says they are **NOT** the voter named in the script, you **CANNOT proceed with them** for that specific voter's record. You must speak to the person named.\n*   In this case, you would treat it like a 'Voter Specific' call where the target voter is not available. You could say something like, 'Okay, thank you. We were trying to reach [Voter's Name]. We can try again later.' Then disposition as 'Not In' or as per project instructions for when the specific voter is unavailable.\n\nIf the script has **NO specific voter name** to begin with (truly assumptive or non-voter), and you simply start with a general greeting, then you can speak with whomever answers.\n\nPatches are often Voter Assumptive in their opening style, but if a specific target name is provided by the system for that patch, you must ensure you are connecting that named individual."
         },
         {
             "keywords": [
-                "non-voter call", "non voter campaign", "what is a non voter call", "rules for non voter calls",
-                "do i ask for a name on non voter calls"
+                "what is a non-voter call type", "how do non-voter campaigns work", "rules for conducting non-voter calls",
+                "do i need to ask for a specific name on non-voter calls", "can i speak to anyone who answers on a non-voter call",
+                "procedure for non-voter list calls"
             ],
             "answer": "NON-VOTER calls will not ask for a name. You will speak with whomever answers the phone."
         },
         {
             "keywords": [
-                "gotv calls", "get out to vote coding", "gotv no voicemail", "gotv with voicemail", "gotv coding rules",
-                "how to code gotv", "get out the vote call coding"
+                "how to code get out to vote or gotv calls", "specific coding rules for gotv projects without voicemails",
+                "gotv call coding when voicemails are being left", "dispositioning gotv calls for answering machine or fax",
+                "what is 'complete live' coding for gotv calls", "using 'complete left message' on gotv"
             ],
             "answer": "For GOTV (Get Out To Vote) calls, there are generally two disposition approaches:\n1. WITHOUT VOICEMAILS: Use 'COMPLETE LIVE' on EVERY CALL, regardless of outcome (answering machine, fax, wrong number, DNC list).\n2. WITH VOICEMAILS: Use 'COMPLETE LIVE' on every call EXCEPT when leaving a voicemail (then use 'COMPLETE LEFT MESSAGE'). If you get a fax machine, wrong number, or DNC request, you still code these as 'COMPLETE LIVE'."
         },
         {
             "keywords": [
-                "ask gender", "assume gender", "voter name gender", "non-binary gender", "gender identification",
-                "how to handle gender", "can i ask gender", "gender policy"
+                "am i allowed to ask a voter's gender", "should i assume gender based on voter's name",
+                "how to handle non-binary gender identification on calls", "lts policy on gender questions",
+                "procedure for calls with non-binary gender voters", "can i ask gender if unsure"
             ],
             "answer": "NEVER ASK GENDER. You will assume the gender based on the voter's name. EXCEPTION: When the gender includes more than MALE or FEMALE, such as NON-BINARY (follow specific campaign instructions for these scenarios if provided)."
         },
         {
             "keywords": [
-                "survey verbatim", "read survey exactly", "change survey wording", "script must be verbatim",
-                "add remove words survey", "paid to read not write", "can i rephrase survey questions",
-                "do i need to say every word in the script", "say every word script surveys",
-                "must i read the whole script", "can i skip words in survey script",
-                "is the script 100% word for word", "every single word verbatim",
-                "verbatim", "what is verbatim", "define verbatim", "word for word", "verbatim script rule",
-                "what is word for word", "read script exactly", "script accuracy",
-                "can i skip parts of the script", "can i change the script", "can i add to the script",
-                "can i remove from script", "script integrity", "100% verbatim", "script adherence",
-                "must i read everything", "importance of verbatim", "consequences of not verbatim",
-                "do i gotta read the whole thing"
+                "are survey scripts always 100% verbatim", "can i change the wording of survey questions",
+                "am i allowed to add or remove words from a survey script", "importance of reading scripts exactly as written",
+                "policy on rephrasing survey questions", "do i have to say every single word in the survey script",
+                "can i skip parts of the survey script or summarize", "consequences of not reading survey script verbatim",
+                "rule about script adherence for surveys", "verbatim script policy"
             ],
             "answer": "Surveys are always to be read 100% VERBATIM. There is NO exception to this rule. If it is a survey, you may not ADD or REMOVE a single word from the script. You are paid to read it, not write it. (Not reading 100% verbatim could result in contract termination)."
         },
         {
             "keywords": [
-                "tone of voice", "call professionalism", "be kind courteous", "upbeat enthusiastic", "how should i sound",
-                "customer service pointers", "professional demeanor on calls", "voice quality"
+                "what should my tone of voice be on calls", "guidelines for call professionalism and courtesy",
+                "importance of sounding upbeat and enthusiastic", "how to represent clients professionally on calls",
+                "maintaining a respectful demeanor with voters", "tips for voice quality pace and tone"
             ],
             "answer": "Be kind and courteous, upbeat and enthusiastic on every interaction. You represent the clients and their representatives. Treat each voter with respect and courtesy. Watch your tone, pace, and quality of voice."
         },
         {
             "keywords": [
-                "upset voter", "disruptive voter", "combative voter", "handling difficult callers", "angry caller",
-                "what if voter is angry", "can i hang up on upset voter", "dealing with rude voters", "de-escalation"
+                "how to handle an upset or disruptive voter", "what to do with combative or angry callers",
+                "procedure for dealing with difficult callers", "can i hang up on an abusive voter",
+                "de-escalation techniques for upset voters", "contacting supervisor for disruptive calls",
+                "policy on hanging up on voters"
             ],
             "answer": "Never be combative with the voter. If the voter becomes upset or disruptive, kindly back out of the call – say, “I do apologize and thank you for your time.” If this is not possible, locate a supervisor and NEVER hang up on a voter."
         },
         {
             "keywords": [
-                "calls recorded", "call monitoring", "quality assurance calls", "are my calls listened to",
-                "is this call being recorded", "qa process", "call recording policy"
+                "are all our calls recorded or monitored", "information about call quality assurance practices",
+                "is my call being listened to by a supervisor", "lts call recording and monitoring policy",
+                "purpose of call recording for qa"
             ],
             "answer": "Every call is recorded and can be monitored for quality assurance purposes. So, always be mindful of your tone, pace, and how you speak to voters."
         },
         {
             "keywords": [
-                "beep in ear", "live person connected intro", "hello hello hello", "what does the beep mean",
-                "after the beep sound", "introduction after beep"
+                "what does the beep sound in my ear signify", "what should i say immediately after hearing the beep",
+                "procedure for starting introduction after live person connects", "do i need to say 'hello hello' after the beep",
+                "meaning of the beep for call connection"
             ],
             "answer": "Once you hear the “BEEP” in your ear, which indicates that someone is on the line, go right into your introduction. You don't need to continuously say, “Hello, hello, hello.”"
         },
         {
             "keywords": [
-                "no one on line", "silent call after intro", "dead air after intro", "what if nobody speaks after my intro",
-                "caller is silent after i speak"
+                "what if there is no one on the line after my introduction", "handling silent calls after giving intro",
+                "procedure for dead air after starting the script", "what if nobody speaks after i say my intro",
+                "protocol when a caller is silent after i speak my lines"
             ],
             "answer": "If there is no one on the line after giving your introduction, simply say, “Thank you for your time.” We do this because the call is still recorded and there might be someone there even though you can't hear them."
         },
         {
             "keywords": [
-                "dead air call", "sit on open line", "call avoidance open line", "open line policy",
-                "can i sit on an open line", "what to do with a dead air call", "handling dead air"
+                "what is considered a dead air call", "am i allowed to sit on an open or silent line",
+                "policy on call avoidance by staying on an open line", "what to do if i get a completely dead air call",
+                "how to handle calls with no sound or response", "consequences of sitting on an open line too long"
             ],
             "answer": "Do not sit on an open line. If you receive a dead air call, thank them for your time, quickly disposition, and move on to the next call. It is highly unacceptable for you to sit for 4 minutes on an open line as this is call avoidance and you will be asked to sign off for the day."
         },
         {
             "keywords": [
-                "common rebuttals", "list of rebuttals", "what to say if voter hesitant", "rebuttal examples",
-                "convince voter", "handling objections", "how to respond to reluctance", "rebuttal phrases"
+                "list of common rebuttals for hesitant voters", "examples of what to say if a voter is reluctant",
+                "how to convince a voter to participate in survey", "effective rebuttals for handling objections",
+                "phrases to use when responding to voter reluctance", "rebuttal techniques for surveys"
             ],
             "answer": "Here are some common rebuttals you can use:\n- “I understand, but this will only take a short moment of your time and your opinion would really make a difference!”\n- “I understand, but your opinion really matters!”\n- “Your voice and opinion are very important; every voice does matters!”\n- “It's really important for them to hear your voice!”\n- “It would just take a moment for your voice to be heard!”\n- “Your voice matters!”\n- “We need your voice, so they know your stand!”\n"
         },
         {
             "keywords": [
-                "gotv", "what is gotv", "explain gotv", "gotv project", "am i in gotv", "gotv meaning",
-                "get out the vote definition", "understanding gotv campaigns"
+                "what does gotv mean in campaigns", "explain gotv projects", "how do i know if i am on a gotv project",
+                "definition of get out the vote campaigns", "understanding the purpose of gotv calls",
+                "special coding instructions for gotv projects"
             ],
             "answer": "GOTV stands for 'Get Out The Vote'. These are specific projects focused on encouraging people to vote. Your supervisor will inform you if you are on a GOTV project, and specific coding instructions, especially for 'No Answer' dispositions, may apply. For example, on some GOTV projects without voicemails, even a 'No Answer' is coded as 'COMPLETE LIVE'."
         },
         {
             "keywords": [
-                "not getting calls", "no calls coming in", "why am i not getting calls", "system not giving calls",
-                "available no calls", "calls stopped", "issue with receiving calls", "dialer not sending calls"
+                "why am i not getting any calls when available", "troubleshooting no calls coming into my dialer",
+                "what to do if the system is not giving me calls", "i am in available status but no calls are arriving",
+                "what if calls have stopped coming in suddenly", "issue with receiving calls in available state",
+                "dialer not sending calls to me refresh screen"
             ],
             "answer": "If you are correctly in 'Available' status (Look towards the top left hand side of your screen, it will say State: Available) then anytime you do not receive a call for approx. 90 secs, just refresh your screen and click available again to stay logged in and continue to get calls."
         },
         {
             "keywords": [
-                "agent name", "my name", "different name", "use different name", "can i use a fake name", "alias",
-                "what name do i use", "name to give on calls", "policy on agent names"
+                "what name should i use where the script says agent name", "can i use a different name or an alias on calls",
+                "policy regarding the agent name used on calls", "do i have to use my real name as agent name",
+                "choosing a name for 'agent name' in script"
             ],
             "answer": "Where the script says (Agent Name) it is up to you to use any reasonable name you choose."
         },
         {
             "keywords": [
-                "are we done", "when do we finish", "end time", "shift end", "when does shift end", "shift over",
-                "what time are we done", "logging off time", "end of day"
+                "when do lts shifts typically end", "what is the usual end time for our work day",
+                "how do i know when the shift is over", "are lts end times variable or fixed",
+                "what time are we usually done working", "procedure for logging off at a specific time"
             ],
             "answer": "Our end times are variable. It always depends on the Client. Just keep swimming, your paycheck will thank you. Contact Corey if you need to logout at a specific time."
         },
         {
             "keywords": [
-                "pay scale", "pay rate", "how much do i get paid", "what is my hourly rate", "wage",
-                "salary questions", "compensation details", "questions about pay"
+                "who do i ask about my pay scale or pay rate", "how much do lts agents get paid",
+                "where to direct questions about my hourly wage", "information on lts salary and compensation",
+                "procedure for payroll inquiries at lts", "contact person for pay related questions"
             ],
             "answer": "All questions about your Pay, Pay Scale, Pay Rate, or Payroll should be directed to Corey outside of Dialing hours."
         },
         {
             "keywords": [
-                "silent listener", "just listening", "they don't talk", "finish script no response", "no response from caller",
-                "is silent listener a complete", "read script they say nothing", "what if they hang up after script", "If calling and after introduction they hang up how should I code?",
-                "caller hangs up without speaking"
+                "what if a voter is a silent listener and doesn't talk", "how to handle a call if they finish script but give no response",
+                "coding for when a caller provides no response throughout script", "is a silent listener considered a complete or refused",
+                "what to do if they hang up after i read the whole script without speaking",
+                "how should i code a call if the voter hangs up without saying anything after intro"
             ],
             "answer": "If there is no VOF (Voter on File) to confirm, you have read the whole script, and they have still not responded (or hang up without responding after you've read the script), this is typically coded as 'REFUSED' or another appropriate disposition based on when the silence/hang-up occurred (e.g., 'No Answer' if it's immediate). \n\n Always thank them for your time (even if they can't hear you), go to the Next Page, disposition the call, and ensure your State shows Available. You are now ready for the Next Call."
         },
         {
             "keywords": [
-                "work this month", "working this month", "schedule this month", "are we busy this month", "project outlook",
-                "projects this month", "monthly schedule", "we working this month", "upcoming work", "availability of work"
+                "will there be work available this month at lts", "what is the project outlook for the current month",
+                "information on upcoming projects and schedules for this month", "how to find out about lts work availability",
+                "are we expected to be busy this month", "checking the monthly work schedule at lts"
             ],
             "answer": "Project availability can vary. Please check the main chat for announcements from Corey regarding upcoming work and project schedules. If you have specific questions about your availability or want to confirm, it's best to reach out to your supervisor or Corey directly."
         },
         {
             "keywords": [
-                "dialer crazy", "dialer issues", "system issues", "is dialer down", "problems with dialer", "dialer problems",
-                "my dialer acting up", "anyone else dialer problems", "dialer going crazy", "dialer malfunction"
+                "my dialer is acting crazy or having issues", "what to do if i experience system or dialer problems",
+                "is the lts dialer currently down or having widespread problems", "troubleshooting common dialer issues",
+                "who to contact if my dialer is malfunctioning", "what if my dialer is going crazy",
+                "are other agents reporting dialer problems"
             ],
             "answer": "If you're experiencing issues with the dialer, first try a quick refresh of your screen. If the problem persists, please check the main chat to see if others are reporting similar issues or if there are any system status updates. If it seems specific to you, or if it's urgent, please contact your supervisor immediately for assistance."
         },
         {
             "keywords": [
-                "can't log in", "didn't get logged in", "login problem", "trouble logging in", "login issue",
-                "not able to log in", "i did not get logged in", "login failed", "error logging in"
+                "i can't log into the lts system", "what to do if i didn't get logged in successfully",
+                "troubleshooting login problems for lts dialer", "experiencing issues with lts login credentials",
+                "i am not able to log in to work", "what if my lts login failed or shows an error",
+                "help with lts login issues"
             ],
             "answer": "If you're having trouble logging in, please double-check your credentials and ensure you have a stable internet connection. Try refreshing the login page or clearing your browser cache. If you continue to have issues, please contact your supervisor for assistance with your login."
         },
         {
             "keywords": [
-                "system slow", "computer slow", "stuff is slow", "my connection slow", "internet slow", "dialer slow",
-                "my stuff is too slow", "slow performance", "lagging system", "application slow"
+                "my system or computer is running very slow", "what to do if my internet connection seems slow during work",
+                "the lts dialer application is performing slowly", "troubleshooting slow performance or lagging system",
+                "my computer stuff is too slow for work", "who to inform about significant system slowness"
             ],
             "answer": "If your system or connection seems slow, try closing unnecessary applications or browser tabs. A computer restart or router reboot can sometimes help. If slowness is significantly impacting your work, please inform your supervisor. They might have further troubleshooting steps or be able to advise."
         },
         {
             "keywords": [
-                "logging out for a bit", "taking a short break", "be back in 10", "10 minute break", "quick break",
-                "stepping away for 10", "logging out for 10 minutes", "brb", "need a short break"
+                "i am logging out for a bit maybe 10 minutes", "taking a short break be back soon", "need a quick 10 minute break from dialing",
+                "stepping away for 10 minutes brb", "how to notify for a short break", "logging out for a brief period"
             ],
             "answer": "Okay, thanks for letting us know. Remember to alert your shift supervisor if you're taking a break to ensure you're kept in the queue, as per our break policy. (You can ask 'break policy' for more details)."
         },
         {
             "keywords": [
-                "standby", "on standby", "can i be on standby", "waiting for calls", "standby policy", "standby procedure",
-                "wanna be on standby", "request standby", "how does standby work"
+                "what is standby status at lts", "can i request to be on standby if no calls",
+                "procedure for being on standby waiting for calls", "lts policy on agent standby",
+                "how does standby work for lts agents", "who to contact to be put on standby"
             ],
             "answer": "If you're available but not receiving calls and wish to be on standby, please communicate this to your shift supervisor. They manage the active and standby agent lists and can let you know the current need or procedure for standby."
         },
         {
             "keywords": [
-                "when to code wrong number", "coding a wrong number", "how to handle wrong number", "wrong number call",
-                "procedure for wrong number", "wrong number disposition", "what if it's the wrong person"
+                "exact criteria for coding a call as 'wrong number'", "how to properly handle a wrong number call",
+                "what is the procedure for a wrong number disposition", "what to say when it's a wrong number",
+                "when should i use the 'wrong number' code", "distinguishing wrong number from other dispositions"
             ],
             "answer": "If the person who answers indicates it's the wrong number for the contact you're trying to reach, or if it's clearly not a residential/business line applicable to the campaign (e.g., a fax line that doesn't also trigger 'Answering Machine' first), you should say, “We will update our records. Thank you for your time.” Then, code the call as 'WRONG NUMBER'. See 'list codes' for the exact definition."
         },
         {
             "keywords": [
-                "when to code answering machine", "coding voicemail", "how to handle answering machine", "voicemail coding",
-                "got voicemail what to do", "answering machine disposition", "rules for answering machine code"
+                "when precisely should i code a call as 'answering machine'", "how to handle coding for voicemails or fax tones",
+                "procedure for dispositioning an answering machine call", "rules for using the 'answering machine' code",
+                "what to do when i get a voicemail or answering machine", "importance of quick disconnect on answering machine if not leaving messages"
             ],
             "answer": "You should select 'ANSWERING MACHINE' as the disposition as soon as you hear any robotic voice or pre-recorded message indicating an answering machine or voicemail. This includes fax tones. If the project is not one where you leave messages, you should disconnect immediately without letting the machine play out. Delaying this can flag you for 'sitting on answering machines'. See 'list codes' for more details."
         },
         {
             "keywords": [
-                "when to code no answer", "coding no answer", "phone rings no one picks up", "no pickup",
-                "procedure for no answer call", "no answer disposition", "rules for no answer code"
+                "specific conditions for coding a call as 'no answer'", "when to use 'no answer' if phone rings but no pickup",
+                "procedure for a 'no answer' call disposition", "rules for using the 'no answer' code correctly",
+                "distinguishing 'no answer' from other outcomes like hang-ups", "special 'no answer' coding for gotv projects"
             ],
             "answer": "Use the 'NO ANSWER' disposition if the call rings but is never picked up, or if the call is hung up immediately by the other side before any meaningful interaction or before you can get an answer to the first question (if applicable). Note that for some specific projects, like certain GOTV (Get Out The Vote) campaigns, 'No Answer' might have special coding instructions (e.g., coded as 'COMPLETE LIVE'). Always follow project-specific guidelines. See 'list codes' for the general definition."
         },
         {
             "keywords": [
-                "when to code do not call", "coding dnc", "how to handle dnc request", "dnc coding criteria",
-                "voter asks for do not call list", "do not call disposition", "DNC rules", "when is it DNC"
+                "exact criteria for using the 'do not call' (dnc) code", "how to handle a specific dnc request from vof",
+                "when is it appropriate to use the dnc disposition", "rules for coding a dnc request accurately",
+                "difference between 'do not call list' request and general 'take me off list'", "critical distinction for dnc coding"
             ],
             "answer": "The 'DO NOT CALL' (DNC) disposition is used very specifically. You should ONLY use this if you have confirmed you are speaking with the VOF (Voter On File) AND they explicitly ask to be “added to the Do Not Call List” or use similar specific phrasing. If they just say 'take me off your list' or 'don't call again' without mentioning the 'Do Not Call List' specifically, that is usually coded as 'REFUSED'. This is a critical distinction. See 'list codes' for details."
         },
         {
             "keywords": [
-                "when to code complete patch", "coding successful patch", "how to code complete patch", "patch success",
-                "patch call successful", "complete patch disposition", "rules for complete patch code"
+                "when should i code a call as 'complete patch'", "criteria for a successful patch call disposition",
+                "how to correctly code a 'complete patch' outcome", "rules for using the 'complete patch' code",
+                "procedure after initiating patch and reading closing statement", "what defines a complete patch for coding"
             ],
             "answer": "A call is coded as 'COMPLETE PATCH' if the contact agreed to be connected to their representative (or other target), you successfully initiated the patch, AND you read the entire closing statement as per the script. Typically, once the patch is initiated and the closing is read, you select the appropriate call results (if a page appears, usually option 1), go to the next page, and complete the disposition without waiting to listen to them leave their message. See 'list codes' for the exact definition."
         },
         {
             "keywords": [
-                "when to code unsuccessful patch", "coding failed patch", "how to code unsuccessful patch", "patch failure",
-                "patch call failed", "unsuccessful patch disposition", "rules for unsuccessful patch"
+                "when is a patch call coded as 'unsuccessful patch'", "criteria for a failed patch attempt disposition",
+                "how to code an 'unsuccessful patch' outcome", "rules for using 'unsuccessful patch' code",
+                "reasons for an unsuccessful patch like busy line or hangup", "what defines an unsuccessful patch for coding"
             ],
             "answer": "An 'UNSUCCESSFUL PATCH' is coded when an attempt to patch the contact through does not succeed. This could be due to various reasons such as the representative's line being busy, no answer from the representative's office, the voter hanging up during the patch attempt, or technical issues preventing the connection. Follow project-specific instructions if available, or see 'list codes' for the placeholder definition which might be updated with more specifics per campaign."
         },
         {
             "keywords": [
-                "when to code language barrier", "coding language barrier", "contact speaks different language", "foreign language",
-                "how to handle language barrier", "language barrier disposition", "rules for language barrier code"
+                "when to use the 'language barrier' disposition code", "how to handle a call if contact speaks a different language",
+                "procedure for coding a 'language barrier' call", "rules for 'language barrier' code usage",
+                "what to say if there is a language barrier", "coding for non-english or non-spanish speakers"
             ],
             "answer": "If the person who answers the phone speaks a language other than English (or Spanish, if your project accommodates Spanish speakers and you are not one), and you cannot proceed with the call, you should politely say something like, “We will have someone call you back who speaks [Language, if known, otherwise just state you'll have a suitable agent call]. Thank you for your time.” Then, code the call as 'LANGUAGE BARRIER'. See 'list codes' for more details."
         },
         {
             "keywords": [
-                "when to code deceased", "coding deceased contact", "voter is deceased procedure", "contact died",
-                "how to handle deceased report", "deceased disposition", "rules for deceased code"
+                "when to code a call as 'deceased'", "procedure if informed the voter on file is deceased",
+                "how to handle and code a 'deceased' contact report", "rules for using the 'deceased' disposition",
+                "what to say when someone reports a contact as deceased", "coding for a deceased individual on list"
             ],
             "answer": "If you are informed by someone at the number that the contact (Voter on File) you are trying to reach is deceased, express condolences briefly and professionally, for example, “We will update our records. Thank you for your time.” Then, code the call as 'DECEASED'. See 'list codes' for the exact wording."
         },
         {
             "keywords": [
-                "when to code not in", "coding not in", "voter not available", "contact can't come to phone", "person busy",
-                "not in disposition", "procedure for not in", "rules for not in code"
+                "when is the 'not in' disposition code appropriate", "how to code if the voter on file is not available",
+                "procedure for using 'not in' when contact can't come to phone", "rules for 'not in' code usage",
+                "distinguishing 'not in' from 'not interested'", "what to say for a 'not in' scenario"
             ],
             "answer": "The 'NOT IN' disposition is used when the VOF (Voter On File) you are trying to reach is temporarily unavailable to come to the phone for any reason (e.g., they are busy, not home, someone else answers and says they'll call back, etc.). This is NOT for when they are 'Not Interested'. You should say something like, “We will try again later. Thank you for your time.” Then, code as 'Not In'. See 'list codes'."
         },
         {
             "keywords": [
-                "when to code refused", "coding a call refused", "refused disposition criteria", "voter refused",
-                "what does refused mean in coding", "how do I code a refusal", "general refused coding",
-                "rules for refused code"
+                "when should i code a call as 'refused'", "criteria for using the 'refused' disposition",
+                "how to code a call when voter refuses to participate", "what does 'refused' mean in call coding",
+                "rules for applying the 'refused' code accurately", "distinguishing 'refused' from 'dnc' or 'not in'"
             ],
             "answer": "A call is typically coded as 'REFUSED' when the contact explicitly refuses to participate further in the call, answer a key question, or proceed with a patch after the call has begun and initial engagement occurred. This is different from someone who is simply 'Not In' or if it's a 'Wrong Number'. It's also distinct from a 'Do Not Call' request, which has specific criteria. If a person indicates they are 'not interested' early on, that's often a 'REFUSED'. Check 'list codes' for the exact definition provided for 'REFUSED' or ask your supervisor for project-specific guidance."
         },
         {
             "keywords": [
-                "when to code complete", "coding a call complete", "what makes a call complete", "call completed",
-                "criteria for complete disposition", "general complete coding", "how do I code something as complete",
-                "rules for complete code"
+                "general criteria for coding a call as 'complete'", "what makes a call considered 'complete' for disposition",
+                "how to determine if a call should be coded 'complete'", "rules for using general 'complete' codes",
+                "when is the primary objective of a call met for 'complete' status", "project specific 'complete' coding"
             ],
             "answer": "Generally, a call is coded 'COMPLETE' when the primary objective of the call script or project instructions has been met. This varies by project. For example, on a Voter ID project, confirming the voter's name is a 'complete'. For Get Out The Vote (GOTV) calls, it might be different (see 'GOTV calls' FAQ or 'list codes'). Always refer to specific project instructions or ask your supervisor if unsure. The 'list codes' command can also provide definitions for specific complete codes like 'COMPLETE PATCH'."
         },
         {
              "keywords": [
-                 "how do you say", "how do i say", "pronunciation", "pronounce", "how to pronounce", "pronounce a word",
-                 "how to pronounce senator name", "pronounce state name", "pronounce city name", "name pronunciation",
-                 "saying words correctly", "look up pronunciation", "word pronunciation help",
-                 "word pronunciation guide", "difficult words pronunciation", "pronunciation resources",
-                 "how do you say this name", "how to say [state/city]", "pronounce difficult name"
+                 "how do i look up how to say a difficult word", "can you help me pronounce a specific name",
+                 "tool for checking pronunciation of words or names", "how to use the pronounce command for senator or city names",
+                 "assistance with word pronunciation for calls", "using the bot for pronunciation help"
              ],
              "answer": "For correct pronunciation type only 'pronounce [word]' (don't use spaces, spelling matters on this one)"
          },
         {
             "keywords": [
-                "training status", "what is training mode", "stuck in training", "using training status", "training button",
-                "when to use training mode", "purpose of training status", "click available from training",
-                "how long in training mode", "training mode policy", "agent status training", "available button"
+                "what is the 'training' status in the dialer for", "when should i use the 'training' button or mode",
+                "purpose of being in 'training' agent status", "how to switch from 'training' to 'available' status",
+                "is 'training' mode for breaks or before project assignment", "lts policy on using 'training' status correctly",
+                "how long should i be in training mode at start of shift"
             ],
             "answer": "The 'Training' status is for the very start of your shift **before** a project is assigned. \n\n**Once your supervisor assigns you a project, immediately click 'Available' to start receiving calls.**\n\n'Training' is for brief moments only, not for extended use or breaks. If in 'Training' long after projects start, check with your supervisor."
         },
         {
             "keywords": [
-                "dumping calls", "what is call dumping", "explain dumping calls", "define dumping calls", "call dumping definition",
-                "dispo without talking", "disposition without saying anything", "quick dispo no talk",
-                "call comes in then dispo", "premature disposition", "hanging up on calls immediately",
-                "not speaking on calls", "consequences of call dumping"
+                "what exactly is call dumping", "definition of dumping calls in call center",
+                "explain the practice of call dumping", "what does it mean to dump a call",
+                "is dispositioning a call without talking considered dumping", "consequences of call dumping behavior",
+                "avoiding premature disposition or hanging up immediately on calls"
             ],
             "answer": "Dumping calls is when the call comes in and you just dispo it without saying anything."
         },
         {
             "keywords": [
-                "dead line", "line is dead", "silent call", "no one on line", "no audio", "audio issues",
-                "can't hear caller", "what if the line is dead", "procedure for dead air", "what to do for dead line",
-                "no audio on call", "tyfyt on dead line", "call is silent", "handling silent calls",
-                "what to do if no sound", "hello can you hear me", "can you hear me ok"
+                "what to do if the phone line is dead or silent", "handling calls with no audio or sound",
+                "procedure when i can't hear the caller", "what if there's dead air after connection",
+                "protocol for calls that are completely silent", "should i say 'can you hear me' on a dead line",
+                "how to code a dead line or no audio call"
             ],
             "answer": "You can say “can you hear me ok” one time and then say our closing “tyfyt” and dispo as No Answer."
         },
         {
             "keywords": [
-                "finished training", "completed training", "training complete what next", "after training", "new agent login",
-                "next steps after training", "done with training", "what do I do after training", "first time logging in",
-                "training finished now what", "post training procedure", "just finished training", "login procedure for new agents",
-                "what happens after training is done", "next step after training", "i've finished my training",
-                "training done what's next", "what is next after completing training modules",
-                "training is over now what", "final step after training"
+                "i have finished my lts training what are the next steps", "what to do after completing lts training modules",
+                "procedure for new agents logging in for the first time after training", "important rules for logging in after lts training",
+                "how to get assigned to a project after finishing training", "next actions once lts training is complete",
+                "login credentials request after training"
             ],
             "answer": "Congratulations on completing your initial training! 🎉 **FINAL STEP**\n\nYou may log in during LTS open hours, which are updated in the main chat. Below are the **5 most important RULES** for logging in:\n\n1.  **Open DISCORD** and keep it OPEN throughout your entire shift.\n2.  **ALL updates** in the **MAIN CHAT** must be READ *before* logging in.\n3.  After logging in, DM **“Corey LTS”** to be added to a project (or **“Adam Black”** if he is running the shift).\n4.  Once ADDED to a project, click **AVAILABLE** to start taking calls.\n5.  **Do NOT ever use the BREAK or TRAINING BUTTON.** (If you need to step away for more than a minute, log out completely and then log back in when you return. For very short pauses, just stay available but don't take calls – but this should be rare and brief.)\n\nLastly, if you don't have them yet, contact **@coreyLTS** (or your direct supervisor) for your Login Credentials."
         },
         {
             "keywords": [
-                "dialing hours", "what are dialing hours", "when can i dial", "operating hours", "business hours",
-                "hours of operation", "shift hours", "when are we dialing", "call center hours", "lts hours",
-                "lts open hours", "work hours", "schedule for dialing", "daily hours", "today's hours",
-                "next day hours", "where are hours posted", "what time do we work until"
+                "what are the current lts dialing hours", "when can i start dialing for lts today",
+                "lts operating hours or business hours for agents", "where are lts shift hours posted",
+                "when does lts calling typically take place", "how to find today's or next day's lts hours",
+                "lts work schedule and daily dialing times"
             ],
             "answer": "Dialing hours can change from day to day. The following day's hours are posted in the MAIN CHAT at the end of every shift."
         },
         {
             "keywords": [
-                "specific instructions for surveys", "survey specific instructions", "detailed survey rules",
-                "patch specific instructions", "detailed patch rules", "survey coding details",
-                "detailed coding for surveys", "detailed coding for patches", "project specific coding",
-                "where are survey rules", "where are patch rules", "advanced coding help",
-                "project specific coding surveys", "project specific coding patches",
-                "where to find specific survey instructions", "project details for surveys"
+                "where can i find specific instructions for survey projects", "detailed rules for patch call campaigns",
+                "project-specific coding guidelines for surveys and patches", "advanced coding help for complex projects",
+                "how to access detailed project instructions for surveys", "need more info on patch project specifics",
+                "supervisor provided project details location"
             ],
             "answer": "Surveys and Patches each come with more specific instructions and coding. Always refer to the project details provided by your supervisor."
         },
         {
             "keywords": [
-                "full complete survey", "what is full complete", "define fc survey", "fc survey meaning",
-                "fc survey requirements", "criteria for full complete", "how to get a full complete",
-                "fc meaning survey", "survey fc", "what makes a survey full complete"
+                "what constitutes a full complete or fc survey", "definition of fc survey requirements",
+                "criteria for achieving a full complete survey status", "how to get a survey coded as full complete",
+                "meaning of fc in survey completion", "what makes a survey a full complete outcome",
+                "requirements for yob and all questions answered for fc"
             ],
             "answer": "A Full Complete (FC) survey means: confirming the voter's name, repeating back the 4-digit YOB, AND having an answer to every single question in the survey."
         },
         {
             "keywords": [
-                "partial complete survey", "what is partial complete", "define pc survey", "pc survey meaning",
-                "pc survey requirements", "criteria for partial complete", "how to get a partial complete",
-                "when is survey partially complete", "pc meaning survey", "survey pc", "what makes a survey partial complete"
+                "what is a partial complete or pc survey", "definition of pc survey requirements",
+                "criteria for a survey to be considered partially complete", "how to get a survey coded as partial complete",
+                "when is a survey marked as pc instead of fc", "meaning of pc in survey completion",
+                "what makes a survey a partial complete outcome", "at least one question answered for pc"
             ],
             "answer": "A Partial Complete (PC) survey means: having an answer to at least one question (but not all questions in the survey). This includes confirming the voter's name."
         },
         {
             "keywords": [
-                "patch call steps", "how to do a patch call", "procedure for patch call", "patch process",
-                "steps for patching voter", "patch call procedure", "what are the patch steps",
-                "system steps for patch", "complete patch steps", "guide to patch calls"
+                "what are the exact steps for a patch call procedure", "how to correctly perform a patch call process",
+                "detailed procedure for patching a voter through", "step-by-step guide for patch calls",
+                "system steps involved in completing a patch call", "guide to executing patch calls successfully",
+                "what to do after voter agrees to patch"
             ],
             "answer": "Patch steps: \n1. Voter agrees: select YES box, click next. \n2. Read verbiage for voter to repeat on PATCH. \n3. Select NEXT again, read follow-up statement. \n4. Phone rings: select COMPLETE PATCH while thanking voter. Do not listen in."
         },
         {
         "keywords": [
-                "can't get ahold of corey", "corey not responding", "unable to reach corey",
-                "corey isn't answering", "how to contact corey if he's busy",
-                "trying to reach corey", "corey unavailable", "message corey",
-                "get in touch with corey", "having trouble contacting corey"
+                "i can't get ahold of corey lts", "what to do if corey is not responding to messages",
+                "unable to reach corey for an urgent matter", "corey isn't answering my dms",
+                "alternative way to contact corey if he's busy", "i'm trying to reach corey but no reply",
+                "what if corey is unavailable or out", "how to escalate if i need corey"
             ],
             "answer": "Hmm... He might be out returning some video tapes, but I'll let him know you're trying to get a hold of him."
         },
         {
             "keywords": [
-                "voter asks for my last name", "voter asks my last name", "agent last name",
-                "can i give my last name to a voter", "sharing my last name with voter", "sharing agent name",
-                "what if voter wants my full name", "agent last name privacy", "agent full name",
-                "do i have to give my last name", "voter requesting agent name", "voter wants agent name",
-                "asked for last name", "voter wants my name", "give out my name"
+                "what if a voter asks for my last name", "am i allowed to give my agent last name to a voter",
+                "policy on sharing my last name with callers", "can i provide my full name if a voter requests it",
+                "privacy rules regarding agent's last name", "how to respond if voter wants my full agent name",
+                "do i have to disclose my last name to voter"
             ],
             "answer": "You should not share your personal last name with a voter. If a voter asks for your last name, you can politely state that you are not permitted to share full personal details for privacy and security reasons. You can provide your first name as given in the script. If the voter insists or becomes difficult, please contact your supervisor."
         },
         {
             "keywords": [
-                "what does seiu mean", "seiu meaning", "what is seiu", "define seiu",
-                "explain seiu", "s-e-i-u", "s e i u"
+                "what does seiu acronym mean", "full meaning of seiu", "what is the seiu organization",
+                "can you define seiu for me", "explain what seiu stands for", "information about s-e-i-u union"
             ],
             "answer": "SEIU stands for the Service Employees International Union. It is one of the largest labor unions in North America, representing workers in healthcare, public services, and property services."
         },
         {
-             "keywords": ["what is usglc", "usglc", "u.s. global leadership coalition", "us global leadership coalition", "explain usglc", "define usglc"],
-             "answer": "USGLC stands for the U.S. Global Leadership Coalition. It's a nonprofit that advocates for strong U.S. global engagement through diplomacy and development alongside defense."
-        },
-        {
             "keywords": [
-                "your favorite star wars movie", "favorite star wars", "what star wars movie do you like",
-                "best star wars film", "star wars preference", "do you like star wars", "tell me your favorite star wars"
+                "bot what is your favorite star wars movie", "do you have a favorite star wars film",
+                "which star wars movie do you like best", "tell me your preferred star wars movie",
+                "star wars movie preference of the bot", "does the bot like star wars movies"
             ],
             "answer": "The Empire Strikes Back, of course! The character development, the darker themes, and that iconic reveal? Masterful storytelling. Though, as an AI, my appreciation is purely analytical. 😉"
         },
         {
             "keywords": [
-                "what do i say why i am calling", "reason for calling", "purpose of call",
-                "how to introduce the call", "what to tell caller about the call",
-                "explaining why i'm calling", "confused about call introduction",
-                "introduction script", "opening line for calls", "call purpose statement"
+                "what should i say when explaining why i am calling", "how to state the reason for the call to a voter",
+                "what is the purpose of this call that i should communicate", "how to properly introduce the call's purpose",
+                "guidance on what to tell a caller about why we are calling", "explaining the call's objective from script",
+                "i'm confused about the call introduction wording", "where in script is the opening line for calls",
+                "standard call purpose statement from script"
             ],
             "answer": "The exact reason for your call and what you should say to the voter is **always provided at the beginning of the call script for the specific project you are working on.**\n\n**Key things to remember:**\n\n1.  **Follow the Script Verbatim:** The opening lines are carefully crafted. You must read them exactly as written. This often includes stating who you are calling on behalf of (e.g., a campaign, an organization).\n2.  **Clarity and Conciseness:** The script's introduction is designed to be clear and to the point.\n3.  **Compliance:** Sticking to the script ensures you are compliant with all project requirements and regulations.\n\n**If you are looking at your script and are still unsure about the purpose or how to deliver the opening:**\n*   Please **re-read the first few lines of the script carefully.**\n*   If it's still unclear, **ask your shift supervisor for clarification *before* making calls on that project.** They can walk you through it.\n\nDo not invent your own reasons for calling; always rely on the approved script."
         },
         {
             "keywords": [
-                "how to be az", "move to az", "change to az", "get into az",
-                "what can i do to be az", "request to be az", "az assignment",
-                "az1 vs az2", "moving from az2 to az", "become az"
+                "how can i be assigned to az project", "process to move to az team", "requesting a change to az status",
+                "what are the requirements to get into az", "how do i ask to be an az agent",
+                "procedure for az project assignment", "difference between az1 and az2 roles",
+                "can i move from az2 to the main az group", "path to becoming an az agent"
             ],
             "answer": "For any questions or requests regarding AZ assignments, including moving from AZ2 to AZ, please contact Corey. He handles these specific project/team placements."
         },
                 {
             "keywords": [
-                "no name in script", "script has no name", "name missing from script", "blank name in script",
-                "what if script has no voter name", "expected a name in script but it's blank",
-                "no VOF in script", "VOF missing", "how to handle call if no name provided",
-                "script name field empty", "name to verify is blank"
+                "what if there is no voter name in the script", "procedure when script is missing the contact's name",
+                "handling a call where the name field is blank in script", "what to do if script has no vof name to verify",
+                "how to proceed if expected name in script is missing", "no vof listed in current script",
+                "how to manage a call if the name to verify is blank or empty", "script name field not populated"
             ],
             "answer": "If you encounter a script where you expect a voter's name to verify but the name field appears blank or is missing, please proceed as follows:\n\n1.  **Double-check the call type instructions** for that specific project, if available.\n2.  If there are no specific instructions overriding this, and **no name is provided in the script to verify, treat the call as a 'Voter Assumptive' or 'Non-Voter' style call.**\n3.  This means you will **speak with whomever answers the phone.** You can generally proceed with the script's introduction without attempting to confirm a specific individual's name first.\n\nIf this happens frequently or you are consistently unsure, please bring it to your supervisor's attention so they can verify the script data for that project."
         },
         {
            "keywords": [
-               "voter wants more info website", "website for more information", "can i give voter a website",
-               "customer asks for website", "direct voter to website for info", "more info what website",
-               "is there a website for the campaign", "voter requests website", "where to send voter for more details"
+               "what if a voter wants more information or a website", "can i provide a website if a voter asks for more details",
+               "procedure when a customer requests a website for information", "how to direct a voter to a website if they want more info",
+               "if a voter asks for more info should i give a website or patch", "is there an official campaign website i can share",
+               "policy on giving out website addresses to voters", "where to send a voter who requests more campaign details online"
            ],
            "answer": "If a voter asks for more information or a website:\n\n1.  **Use this as a chance to patch them through!** Say: 'Great question! The best way to get more details is by speaking with their office. Shall I connect you?'\n2.  **If a patch isn't possible or they refuse:**\n    *   Only provide a website if it's **explicitly in your current call script.**\n    *   **Never search for or give unscripted websites.**\n3.  If no patch and no scripted website, thank them and disposition the call appropriately (e.g., 'Refused'). Code quickly."
          },
                  {
              "keywords": [
-                 "answered then hung up", "they answered and hung up", "hang up after answering",
-                 "code for answer then hangup", "if they hang up after saying hello",
-                 "is it no answer if they hang up", "answered but disconnected",
-                 "difference between no answer and refused hangup", "coding hang ups after connection",
-                 "rather not say vs no answer for hangups"
+                 "how to code if someone answers then immediately hangs up", "what is the disposition if they answer and then disconnect",
+                 "coding for a hangup after the call connects and they say hello", "is it 'no answer' if they hang up after initial connection",
+                 "distinguishing 'no answer' from 'refused' for early hangups", "how to code if they answer but hang up before survey starts",
+                 "voter hangs up after saying hello what code", "difference between no answer and refused for quick hang ups"
              ],
              "answer": "If a person answers the phone (you hear them and a connection is made) but then hangs up:\n\n*   **It is generally NOT coded as 'No Answer'.** 'No Answer' is for when the call doesn't connect or is hung up *before* any interaction.\n\n*   **If they hang up *during or after your introduction, or during a question*:** This is typically coded as **'REFUSED'.** They answered but then refused to continue the interaction.\n\n*   **'Rather Not Say' (or similar options like '6'):** This option is usually selected *within a survey script* if a voter is on the line and explicitly declines to answer a *specific question* but doesn't end the call. It's not a final call disposition for a hang-up.\n\n**In summary: If they answer and then hang up, use 'REFUSED'.** If you're unsure based on a specific project's rules, please ask your supervisor."
          },
          {
              "keywords": [
-                 "what do i do if they moved states?","voter moved out of state", "contact moved", "person no longer lives in state",
-                 "verified voter but they moved", "how to code if voter moved", "coding for out of state voter", "they dont live there",
-                 "they moved what disposition", "patch call voter moved", "voter not in service area",
-                 "no longer lives in district", "moved out of area", "wrong state for patch"
+                 "what to do if the voter says they moved out of state", "how to handle a contact who no longer lives in the state",
+                 "procedure when a verified voter has moved to a different state", "how should i code a call if the voter has moved away",
+                 "disposition for an out-of-state voter", "what if they confirm identity but say they moved",
+                 "can a voter participate if they moved states", "patch call for voter who moved out of district",
+                 "voter not in service area due to moving what code"
              ],
             "answer": "If the voter has moved states they may still participate. If they refuse code accordingly."
          }
