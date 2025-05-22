@@ -1,3 +1,5 @@
+--- START OF FILE bot.py ---
+
 import discord
 import os
 import json
@@ -40,7 +42,7 @@ faq_original_indices = []
 # --- Admin and Log Forwarding Globals ---
 ADMIN_USER_IDS = {
     1342311589298311230,
-    770409748922368000, 
+    770409748922368000,
     1011068427189887037,
 }
 admin_log_activation_status = {}
@@ -121,7 +123,7 @@ def load_faq_data_from_url():
     faq_data.setdefault("general_faqs", [])
     faq_data.setdefault("call_codes", {})
     faq_data.setdefault("fallback_message", default_faq_structure["fallback_message"])
-    
+
     build_semantic_embeddings()
 
 def build_semantic_embeddings():
@@ -255,7 +257,7 @@ def semantic_search_top_n_matches(query, n=2): # n is now the number of candidat
         query_embedding = query_embedding.unsqueeze(0)
 
     current_faq_embeddings = faq_embeddings
-    if current_faq_embeddings.ndim == 1: 
+    if current_faq_embeddings.ndim == 1:
         logger.error("Semantic search: FAQ embeddings are 1D, which is unexpected. Re-check build_semantic_embeddings.")
         return [], []
     if query_embedding.device != current_faq_embeddings.device:
@@ -287,12 +289,12 @@ async def send_long_message(channel, text_content, view=None):
         temp_content = text_content
         while len(temp_content) > 0:
             if len(temp_content) > MAX_LEN:
-                split_at = temp_content.rfind('\n\n', 0, MAX_LEN) 
-                if split_at == -1 or split_at < MAX_LEN / 3: 
+                split_at = temp_content.rfind('\n\n', 0, MAX_LEN)
+                if split_at == -1 or split_at < MAX_LEN / 3:
                     split_at = temp_content.rfind('\n', 0, MAX_LEN)
-                if split_at == -1 or split_at < MAX_LEN / 3: 
+                if split_at == -1 or split_at < MAX_LEN / 3:
                     split_at = temp_content.rfind(' ', 0, MAX_LEN)
-                if split_at == -1 or split_at < MAX_LEN / 3: 
+                if split_at == -1 or split_at < MAX_LEN / 3:
                     split_at = MAX_LEN
                 parts.append(temp_content[:split_at])
                 temp_content = temp_content[split_at:].lstrip()
@@ -313,13 +315,72 @@ async def forward_qa_to_admins(user_query: str, bot_answer: str, original_author
     safe_user_query = user_query.replace("`", "'")
     safe_bot_answer = bot_answer.replace("`", "'")
 
+    # Define maximum lengths for query and answer within the log message
+    # These values are chosen to leave space for formatting and user info,
+    # ensuring the total message is well under Discord's 2000 char limit.
+    # Approx fixed overhead for formatting/user info: ~120-150 chars.
+    # 2000 - 150 = 1850 available for query + answer content.
+    # Let's aim for 600 (query) + 1200 (answer) = 1800. This gives a buffer.
+    MAX_QUERY_LOG_LEN = 600
+    MAX_ANSWER_LOG_LEN = 1200
+
+    log_query_part = safe_user_query
+    if len(log_query_part) > MAX_QUERY_LOG_LEN:
+        log_query_part = log_query_part[:MAX_QUERY_LOG_LEN - 3] + "..."
+
+    log_answer_part = safe_bot_answer
+    if len(log_answer_part) > MAX_ANSWER_LOG_LEN:
+        log_answer_part = log_answer_part[:MAX_ANSWER_LOG_LEN - 3] + "..."
+
     forward_message = (
         f"**User:** {original_author.name}#{original_author.discriminator} (ID: {original_author.id})\n"
-        f"**Asked:** ```\n{safe_user_query}\n```\n"
-        f"**Bot Answered:** ```\n{safe_bot_answer[:1800]}\n```"
+        f"**Asked:** ```\n{log_query_part}\n```\n"
+        f"**Bot Answered:** ```\n{log_answer_part}\n```"
     )
+
+    # Final check in case user info is extremely long, though unlikely to exceed with above limits
+    if len(forward_message) > 1990: # Use 1990 as a safe upper bound for DMs
+        # Fallback if the message is still too long (e.g. extremely long username)
+        # This is a very defensive measure.
+        error_notice = "... (Log message content was too long to display fully)"
+        # Calculate remaining space for answer, ensuring it's not negative
+        remaining_space_for_answer = 1990 - (
+            len(f"**User:** {original_author.name}#{original_author.discriminator} (ID: {original_author.id})\n**Asked:** ```\n\n```\n**Bot Answered:** ```\n\n```") +
+            len(error_notice) +
+            20 # some buffer for triple backticks and newlines
+        )
+
+        # Drastically shorten query
+        max_query_fallback_len = max(50, MAX_QUERY_LOG_LEN // 3)
+        log_query_part = safe_user_query[:max_query_fallback_len] + "..."
+
+        # Recalculate forward_message_base to accurately determine space for answer_part
+        forward_message_base_len = len(
+            f"**User:** {original_author.name}#{original_author.discriminator} (ID: {original_author.id})\n"
+            f"**Asked:** ```\n{log_query_part}\n```\n"
+            f"**Bot Answered:** ```\n\n```" # Placeholder for answer and notice
+        )
+        
+        max_answer_fallback_len = 1990 - forward_message_base_len - len(error_notice) - 10 # Buffer for formatting
+        max_answer_fallback_len = max(50, max_answer_fallback_len) # Ensure at least 50 chars
+
+        log_answer_part = safe_bot_answer[:max_answer_fallback_len - 3] + "..." + f"\n{error_notice}"
+        
+        forward_message = (
+            f"**User:** {original_author.name}#{original_author.discriminator} (ID: {original_author.id})\n"
+            f"**Asked:** ```\n{log_query_part}\n```\n"
+            f"**Bot Answered:** ```\n{log_answer_part}\n```"
+        )
+        # If still too long, send a minimal message (should be rare)
+        if len(forward_message) > 1990:
+            forward_message = (
+                f"**User:** {original_author.name}#{original_author.discriminator} (ID: {original_author.id})\n"
+                f"**Asked:** Query received (log too long to display fully).\n"
+                f"**Bot Answered:** Answer provided (log too long to display fully)."
+            )
+
     active_admin_ids_to_notify = [admin_id for admin_id, is_active in admin_log_activation_status.items() if is_active]
-    
+
     if not active_admin_ids_to_notify:
         return
 
@@ -333,6 +394,17 @@ async def forward_qa_to_admins(user_query: str, bot_answer: str, original_author
         except discord.Forbidden:
             logger.warning(f"Bot is blocked by or cannot DM admin user {admin_id}. Disabling logs for them.")
             admin_log_activation_status[admin_id] = False
+        except discord.HTTPException as e:
+            if e.status == 400 and e.code == 50035: # Invalid Form Body (likely too long)
+                logger.error(f"Failed to send log to admin {admin_id} due to message length or formatting. Original Message Length: {len(forward_message)}. Query: '{user_query[:50]}...', Answer: '{bot_answer[:50]}...'. Code: {e.code}, Status: {e.status}")
+                # Attempt to send a shorter notification about the failure
+                try:
+                    if admin_user: # Ensure admin_user was fetched before trying to use it
+                         await admin_user.send(f"Failed to send a full Q&A log due to message length. User: {original_author.name}, Query: '{user_query[:100]}...'")
+                except Exception as inner_e:
+                    logger.error(f"Failed to send even the short error notification to admin {admin_id}: {inner_e}")
+            else:
+                logger.error(f"HTTPException forwarding Q&A to admin {admin_id}: {e}")
         except Exception as e:
             logger.error(f"Error forwarding Q&A to admin {admin_id}: {e}")
 
@@ -347,10 +419,10 @@ class SuggestionButton(discord.ui.Button):
 
     async def callback(self, interaction: discord.Interaction):
         logger.info(f"SuggestionButton callback initiated by user {interaction.user.id} for custom_id {self.custom_id}. Helpful: {self.helpful}. Original FAQ Idx: {self.original_faq_item_idx}")
-        
+
         try:
             feedback_type = "Helpful" if self.helpful else "Not Helpful"
-            
+
             # We already have self.original_faq_item_idx, no need to recalculate from flat index here for logging
             original_item_idx_str = str(self.original_faq_item_idx) if self.original_faq_item_idx is not None else "N/A"
 
@@ -376,22 +448,22 @@ class SuggestionButton(discord.ui.Button):
                 logger.warning(f"SuggestionButton callback: InteractionResponded error for custom_id {self.custom_id}.")
             except Exception as e_resp:
                 logger.error(f"SuggestionButton callback: ERROR sending ephemeral response for custom_id {self.custom_id}. Error: {e_resp}", exc_info=True)
-                return 
+                return
 
-            if self.view: 
+            if self.view:
                 logger.info(f"SuggestionButton callback: View found for custom_id {self.custom_id}. Attempting to disable buttons.")
                 for item in self.view.children:
-                    if isinstance(item, discord.ui.Button): 
+                    if isinstance(item, discord.ui.Button):
                         item.disabled = True
                 try:
-                    if interaction.message: 
+                    if interaction.message:
                         await interaction.message.edit(view=self.view)
                         logger.info(f"SuggestionButton callback: Successfully edited message {interaction.message.id} to disable buttons.")
                     else:
                         logger.error(f"SuggestionButton callback: interaction.message is None for custom_id {self.custom_id}.")
-                except discord.NotFound: 
+                except discord.NotFound:
                     logger.warning(f"SuggestionButton callback: Could not find message to edit for custom_id {self.custom_id}.")
-                except discord.Forbidden: 
+                except discord.Forbidden:
                      logger.error(f"SuggestionButton callback: Missing permissions to edit message for custom_id {self.custom_id}.")
                 except Exception as e_edit:
                     logger.error(f"SuggestionButton callback: ERROR editing message to disable buttons for custom_id {self.custom_id}. Error: {e_edit}", exc_info=True)
@@ -438,12 +510,12 @@ async def on_message(message: discord.Message):
             admin_log_activation_status[author_id] = True
             await message.channel.send("✅ Real-time Q&A log forwarding **activated** for you.")
             logger.info("Admin command: activate logs.", extra={**log_extra_base, 'details': f"Admin {author_name} activated logs."})
-            return 
+            return
         elif user_query_lower == "mute logs":
-            admin_log_activation_status[author_id] = False 
+            admin_log_activation_status[author_id] = False
             await message.channel.send("🔇 Real-time Q&A log forwarding **muted** for you.")
             logger.info("Admin command: mute logs.", extra={**log_extra_base, 'details': f"Admin {author_name} muted logs."})
-            return 
+            return
 
     if is_text_empty_or_punctuation_only(original_message_content):
         logger.info("Ignoring empty or punctuation-only query.", extra={**log_extra_base, 'details': 'Query was empty or only punctuation.'})
@@ -452,8 +524,6 @@ async def on_message(message: discord.Message):
     bot_reply_text_for_forwarding = None # Initialize for each message
 
     # --- Command Handlers & FAQ Logic ---
-    # [This section is a direct copy of your existing command/FAQ logic structure]
-    # [with calls to forward_qa_to_admins added after each response to the user]
 
     pronounce_prefix = "!pronounce "
     pronounce_prefix_no_bang = "pronounce "
@@ -477,7 +547,7 @@ async def on_message(message: discord.Message):
             encoded_word_for_google = urllib.parse.quote_plus(word_to_pronounce_input)
             google_link = f"https://www.google.com/search?q=how+to+pronounce+{encoded_word_for_google}"
             youtube_link = f"https://www.youtube.com/playlist?list=PLvJSE3hDJAyN2a-i1GXZPXOpDPQZcerDc"
-            
+
             response_message_lines = [f"Pronunciation resources for \"**{word_to_pronounce_input}**\":"]
             log_audio_status = "Audio not found from API."
             if audio_url:
@@ -495,7 +565,7 @@ async def on_message(message: discord.Message):
                  await message.channel.send(response_to_user, view=pronunciation_view)
             else:
                  await message.channel.send(response_to_user)
-        
+
         bot_reply_text_for_forwarding = response_to_user + (" (View with buttons also sent)" if pronunciation_view.children else "")
         logger.info(f"Pronunciation request processed for '{word_to_pronounce_input}'.", extra={**log_extra_base, 'details': f"Audio from API: {log_audio_status}. Links provided."})
         await forward_qa_to_admins(original_message_content, bot_reply_text_for_forwarding, message.author)
@@ -524,7 +594,7 @@ async def on_message(message: discord.Message):
                 if field_count >= MAX_FIELDS:
                     logger.warning(f"List codes: Exceeded max embed fields ({MAX_FIELDS}).")
                     await message.channel.send("The list of codes is very long and might be truncated.")
-                    break 
+                    break
                 current_field_value += entry_text
             if current_field_value and field_count < MAX_FIELDS:
                 embed.add_field(name=f"Codes (Part {field_count + 1})" if field_count > 0 or not embed.fields else "Codes", value=current_field_value, inline=False)
@@ -572,7 +642,7 @@ async def on_message(message: discord.Message):
         if match_result:
             matched_keyword_from_fuzz, score = match_result
             response_type = greeting_entry.get("response_type")
-            reply_text = f"Hello {message.author.mention}!" 
+            reply_text = f"Hello {message.author.mention}!"
             if response_type == "standard_greeting":
                 reply_template = greeting_entry.get("greeting_reply_template", "Hello there, {user_mention}!")
                 actual_greeting_cased = next((kw for kw in keywords if kw.lower() == matched_keyword_from_fuzz.lower()), matched_keyword_from_fuzz)
@@ -615,7 +685,7 @@ async def on_message(message: discord.Message):
                     await send_long_message(message.channel, answer_primary, view=None)
                     bot_reply_text_for_forwarding = answer_primary
                     logger.info("Semantic FAQ Direct Match.", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}, Matched Keyword Flat Idx: '{primary_faq_flat_idx}', Original FAQ Idx: {original_faq_item_idx_primary}."})
-        
+
         elif primary_score >= SUGGESTION_THRESHOLD:
             # Offer Suggestions (distinct FAQ items)
             suggestions_to_display = []
@@ -629,7 +699,7 @@ async def on_message(message: discord.Message):
                 if not (0 <= current_flat_idx < len(faq_original_indices) and 0 <= current_flat_idx < len(faq_questions)):
                     logger.warning(f"Suggestion selection: flat_idx {current_flat_idx} out of bounds.")
                     continue
-                
+
                 current_original_faq_idx = faq_original_indices[current_flat_idx]
 
                 if current_original_faq_idx not in shown_original_faq_indices:
@@ -651,15 +721,19 @@ async def on_message(message: discord.Message):
                     shown_original_faq_indices.add(current_original_faq_idx)
 
                 if len(suggestions_to_display) >= MAX_SUGGESTIONS_TO_SHOW: break
-            
+
             if suggestions_to_display:
                 intro_message = f"I'm not sure I have an exact answer for '{original_message_content}', but perhaps one of these is helpful?\n"
                 await send_long_message(message.channel, intro_message)
                 temp_suggestion_forward_texts = [intro_message]
 
                 for i, sugg_data in enumerate(suggestions_to_display):
+                    embed_title = f"🤔 Suggestion {i+1}: Related to '{sugg_data['keyword']}'"
+                    if len(embed_title) > 256: # Discord Embed Title Limit
+                        embed_title = embed_title[:253] + "..."
+
                     embed = discord.Embed(
-                        title=f"🤔 Suggestion {i+1}: Related to '{sugg_data['keyword']}'",
+                        title=embed_title,
                         description=sugg_data['answer'],
                         color=discord.Color.gold()
                     )
@@ -668,22 +742,22 @@ async def on_message(message: discord.Message):
                     sugg_view = discord.ui.View(timeout=300)
                     sugg_view.add_item(btn_yes); sugg_view.add_item(btn_no)
                     await message.channel.send(embed=embed, view=sugg_view)
-                    
+
                     temp_suggestion_forward_texts.append(f"Suggestion {i+1} (Score {sugg_data['score']:.2f}, Orig. FAQ Idx: {sugg_data['original_idx']}) '{sugg_data['keyword']}':\n{sugg_data['answer']}")
                     logger.info(f"Semantic Suggestion {i+1} offered.", extra={**log_extra_base, 'details': f"Score: {sugg_data['score']:.2f}, Keyword: '{sugg_data['keyword']}', Orig. FAQ Idx: {sugg_data['original_idx']}."})
-                
+
                 bot_reply_text_for_forwarding = "\n---\n".join(temp_suggestion_forward_texts)
             else:
                 bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find a clear answer for that.")
                 await message.channel.send(bot_reply_text_for_forwarding)
                 logger.info("Unanswered query, fallback sent (no distinct suggestions met threshold after filtering).", extra=log_extra_base)
-        else: 
+        else:
             # Top score is below suggestion threshold
             bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find an answer for that.")
             await message.channel.send(bot_reply_text_for_forwarding)
             details_str = f"Primary score {primary_score:.2f} below suggestion threshold {SUGGESTION_THRESHOLD}."
             logger.info("Unanswered query, fallback sent (low semantic score).", extra={**log_extra_base, 'details': details_str})
-    
+
     if bot_reply_text_for_forwarding:
         await forward_qa_to_admins(original_message_content, bot_reply_text_for_forwarding, message.author)
 
