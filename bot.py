@@ -16,13 +16,13 @@ from discord import ui # For Buttons and Views
 # --- Configuration ---
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-# FAQ_FILE = "faq_data.json" # No longer primary, but could be a fallback
-FAQ_URL = "https://raw.githubusercontent.com/BrandonDavidJones1/Samantha/main/faq_data.json" # CORRECTED RAW URL
+FAQ_URL = "https://raw.githubusercontent.com/BrandonDavidJones1/Samantha/main/faq_data.json"
 FUZZY_MATCH_THRESHOLD_GREETINGS = 75
 LOG_FILE = "unanswered_queries.log"
 SEMANTIC_SEARCH_THRESHOLD = 0.65
 SUGGESTION_THRESHOLD = 0.45
-MAX_SUGGESTIONS_TO_SHOW = 2 # Max number of suggestions in mid-range
+MAX_SUGGESTIONS_TO_SHOW = 2 # Max number of distinct suggestions to show
+CANDIDATES_TO_FETCH_FOR_SUGGESTIONS = 5 # How many top semantic matches to consider for suggestions
 
 # --- Bot Setup ---
 intents = discord.Intents.default()
@@ -34,17 +34,16 @@ bot = discord.Client(intents=intents)
 faq_data = {}
 model = None
 faq_embeddings = []
-faq_questions = [] # This will store ALL individual keywords
-faq_original_indices = [] # This will map each keyword back to its original FAQ item index
+faq_questions = []
+faq_original_indices = []
 
 # --- Admin and Log Forwarding Globals ---
 ADMIN_USER_IDS = {
-    1342311589298311230,  # Your User ID
-    770409748922368000,   # Corey's Discord User ID
-    1011068427189887037,  # Adam's Discord User ID
+    1342311589298311230,
+    770409748922368000, 
+    1011068427189887037,
 }
 admin_log_activation_status = {}
-
 
 # --- Logging Setup ---
 class ContextFilter(logging.Filter):
@@ -76,7 +75,7 @@ fh.setFormatter(formatter)
 logger.addHandler(fh)
 
 # --- Helper Functions ---
-def load_faq_data_from_url(): # Renamed and modified
+def load_faq_data_from_url():
     global faq_data
     default_faq_structure = {
         "greetings_and_pleasantries": [],
@@ -86,7 +85,7 @@ def load_faq_data_from_url(): # Renamed and modified
     }
     try:
         print(f"Attempting to download FAQ data from: {FAQ_URL}")
-        response = requests.get(FAQ_URL, timeout=15) # Increased timeout slightly
+        response = requests.get(FAQ_URL, timeout=15)
         response.raise_for_status()
         faq_data = response.json()
         print(f"Successfully downloaded and parsed FAQ data from {FAQ_URL}")
@@ -124,7 +123,6 @@ def load_faq_data_from_url(): # Renamed and modified
     faq_data.setdefault("fallback_message", default_faq_structure["fallback_message"])
     
     build_semantic_embeddings()
-
 
 def build_semantic_embeddings():
     global faq_embeddings, faq_questions, model, faq_original_indices
@@ -244,7 +242,7 @@ async def get_pronunciation_audio_url(word_or_phrase: str) -> str | None:
     return None
 
 
-def semantic_search_top_n_matches(query, n=2):
+def semantic_search_top_n_matches(query, n=2): # n is now the number of candidates to fetch
     if model is None:
         logger.warning("Semantic search: Model not ready.")
         return [], []
@@ -271,7 +269,7 @@ def semantic_search_top_n_matches(query, n=2):
     if cosine_scores.numel() == 0:
         return [], []
 
-    actual_n = min(n, cosine_scores.numel())
+    actual_n = min(n, cosine_scores.numel()) # Use the passed 'n' (number of candidates)
     if actual_n == 0 : return [], []
 
     top_scores, top_indices = torch.topk(cosine_scores, actual_n)
@@ -339,37 +337,74 @@ async def forward_qa_to_admins(user_query: str, bot_answer: str, original_author
             logger.error(f"Error forwarding Q&A to admin {admin_id}: {e}")
 
 class SuggestionButton(discord.ui.Button):
-    def __init__(self, label, style, custom_id, original_query, matched_keyword_text, faq_item_index, helpful):
+    def __init__(self, label, style, custom_id, original_query, matched_keyword_text, faq_item_index, original_faq_item_idx, helpful): # Added original_faq_item_idx
         super().__init__(label=label, style=style, custom_id=custom_id)
         self.original_query = original_query
         self.matched_keyword_text = matched_keyword_text
-        self.faq_item_index = faq_item_index 
+        self.faq_item_index = faq_item_index  # This is the flat_idx of the keyword
+        self.original_faq_item_idx = original_faq_item_idx # Original index of the FAQ item
         self.helpful = helpful
 
     async def callback(self, interaction: discord.Interaction):
-        feedback_type = "Helpful" if self.helpful else "Not Helpful"
-        original_item_idx_from_flat_str = "N/A"
-        if 0 <= self.faq_item_index < len(faq_original_indices):
-            original_item_idx_from_flat_str = str(faq_original_indices[self.faq_item_index])
-        log_message = f"Suggestion Feedback: User clicked '{feedback_type}'."
-        log_extra = {
-            'user_id': interaction.user.id,
-            'username': str(interaction.user),
-            'original_query_text': self.original_query,
-            'details': (f"Feedback given: {feedback_type}. "
-                        f"For matched keyword: '{self.matched_keyword_text}'. "
-                        f"FAQ Item Index (flat): {self.faq_item_index}. "
-                        f"Original FAQ Item Index: {original_item_idx_from_flat_str}.")
-        }
-        logger.info(log_message, extra=log_extra)
-        await interaction.response.send_message(f"Thanks for your feedback on the suggestion about '{self.matched_keyword_text}'!", ephemeral=True)
-        if self.view:
-            for item in self.view.children:
-                if isinstance(item, discord.ui.Button): item.disabled = True
+        logger.info(f"SuggestionButton callback initiated by user {interaction.user.id} for custom_id {self.custom_id}. Helpful: {self.helpful}. Original FAQ Idx: {self.original_faq_item_idx}")
+        
+        try:
+            feedback_type = "Helpful" if self.helpful else "Not Helpful"
+            
+            # We already have self.original_faq_item_idx, no need to recalculate from flat index here for logging
+            original_item_idx_str = str(self.original_faq_item_idx) if self.original_faq_item_idx is not None else "N/A"
+
+            log_message = f"Suggestion Feedback: User clicked '{feedback_type}'."
+            log_extra = {
+                'user_id': interaction.user.id,
+                'username': str(interaction.user),
+                'original_query_text': self.original_query,
+                'details': (f"Feedback given: {feedback_type}. "
+                            f"For matched keyword: '{self.matched_keyword_text}'. "
+                            f"FAQ Item Index (flat keyword): {self.faq_item_index}. "
+                            f"Original FAQ Item Index (of answer): {original_item_idx_str}.")
+            }
+            logger.info(log_message, extra=log_extra)
+
             try:
-                await interaction.message.edit(view=self.view)
-            except discord.NotFound: logger.warning(f"Could not find message {interaction.message.id} to disable buttons.")
-            except discord.Forbidden: logger.error(f"Missing permissions to edit message {interaction.message.id}.")
+                if interaction.response.is_done():
+                    logger.warning(f"SuggestionButton callback: Interaction for custom_id {self.custom_id} already responded to.")
+                else:
+                    await interaction.response.send_message(f"Thanks for your feedback on the suggestion about '{self.matched_keyword_text}'!", ephemeral=True)
+                    logger.info(f"SuggestionButton callback: Successfully sent ephemeral response for custom_id {self.custom_id}.")
+            except discord.errors.InteractionResponded:
+                logger.warning(f"SuggestionButton callback: InteractionResponded error for custom_id {self.custom_id}.")
+            except Exception as e_resp:
+                logger.error(f"SuggestionButton callback: ERROR sending ephemeral response for custom_id {self.custom_id}. Error: {e_resp}", exc_info=True)
+                return 
+
+            if self.view: 
+                logger.info(f"SuggestionButton callback: View found for custom_id {self.custom_id}. Attempting to disable buttons.")
+                for item in self.view.children:
+                    if isinstance(item, discord.ui.Button): 
+                        item.disabled = True
+                try:
+                    if interaction.message: 
+                        await interaction.message.edit(view=self.view)
+                        logger.info(f"SuggestionButton callback: Successfully edited message {interaction.message.id} to disable buttons.")
+                    else:
+                        logger.error(f"SuggestionButton callback: interaction.message is None for custom_id {self.custom_id}.")
+                except discord.NotFound: 
+                    logger.warning(f"SuggestionButton callback: Could not find message to edit for custom_id {self.custom_id}.")
+                except discord.Forbidden: 
+                     logger.error(f"SuggestionButton callback: Missing permissions to edit message for custom_id {self.custom_id}.")
+                except Exception as e_edit:
+                    logger.error(f"SuggestionButton callback: ERROR editing message to disable buttons for custom_id {self.custom_id}. Error: {e_edit}", exc_info=True)
+            else:
+                logger.warning(f"SuggestionButton callback: self.view is None for custom_id {self.custom_id}.")
+
+        except Exception as e_outer:
+            logger.error(f"SuggestionButton callback: UNHANDLED EXCEPTION in callback for custom_id {self.custom_id}. Error: {e_outer}", exc_info=True)
+            try:
+                if not interaction.response.is_done():
+                    await interaction.response.send_message("Sorry, there was an error processing your feedback.", ephemeral=True)
+            except discord.errors.InteractionResponded: pass
+            except Exception: logger.error(f"SuggestionButton callback: CRITICAL - Failed to even send a generic error message after outer exception.", exc_info=True)
 
 
 @bot.event
@@ -414,7 +449,11 @@ async def on_message(message: discord.Message):
         logger.info("Ignoring empty or punctuation-only query.", extra={**log_extra_base, 'details': 'Query was empty or only punctuation.'})
         return
 
-    bot_reply_text_for_forwarding = None
+    bot_reply_text_for_forwarding = None # Initialize for each message
+
+    # --- Command Handlers & FAQ Logic ---
+    # [This section is a direct copy of your existing command/FAQ logic structure]
+    # [with calls to forward_qa_to_admins added after each response to the user]
 
     pronounce_prefix = "!pronounce "
     pronounce_prefix_no_bang = "pronounce "
@@ -546,72 +585,104 @@ async def on_message(message: discord.Message):
             await forward_qa_to_admins(original_message_content, bot_reply_text_for_forwarding, message.author)
             return
 
+    # --- Semantic Matching & Fallback (with distinct suggestions) ---
     faq_items_original_list = faq_data.get("general_faqs", [])
-    top_indices, top_scores = semantic_search_top_n_matches(user_query_lower, n=MAX_SUGGESTIONS_TO_SHOW)
+    top_indices, top_scores = semantic_search_top_n_matches(user_query_lower, n=CANDIDATES_TO_FETCH_FOR_SUGGESTIONS)
 
     if not top_indices:
         bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find an answer right now.")
         await message.channel.send(bot_reply_text_for_forwarding)
         logger.info("Unanswered query, fallback sent (no semantic hits).", extra=log_extra_base)
     else:
-        primary_faq_flat_idx = top_indices[0]; primary_score = top_scores[0]
-        if not (0 <= primary_faq_flat_idx < len(faq_questions) and 0 <= primary_faq_flat_idx < len(faq_original_indices)):
-            logger.error(f"Semantic primary match index {primary_faq_flat_idx} out of bounds.", extra=log_extra_base)
-            bot_reply_text_for_forwarding = faq_data.get("fallback_message", "Sorry, an error occurred.")
-            await message.channel.send(bot_reply_text_for_forwarding)
-        else:
-            original_faq_item_idx_primary = faq_original_indices[primary_faq_flat_idx]
-            if not (0 <= original_faq_item_idx_primary < len(faq_items_original_list)):
-                logger.error(f"Semantic primary original item index {original_faq_item_idx_primary} out of bounds.", extra=log_extra_base)
+        primary_score = top_scores[0]
+        if primary_score >= SEMANTIC_SEARCH_THRESHOLD:
+            # Direct Hit
+            primary_faq_flat_idx = top_indices[0]
+            if not (0 <= primary_faq_flat_idx < len(faq_questions) and 0 <= primary_faq_flat_idx < len(faq_original_indices)):
+                logger.error(f"Semantic primary match index {primary_faq_flat_idx} out of bounds for direct hit.", extra=log_extra_base)
                 bot_reply_text_for_forwarding = faq_data.get("fallback_message", "Sorry, an error occurred.")
                 await message.channel.send(bot_reply_text_for_forwarding)
             else:
-                matched_item_primary = faq_items_original_list[original_faq_item_idx_primary]
-                answer_primary = matched_item_primary.get("answer", "Answer not available.")
-                matched_keyword_primary_text = faq_questions[primary_faq_flat_idx].capitalize()
-
-                if primary_score >= SEMANTIC_SEARCH_THRESHOLD:
+                original_faq_item_idx_primary = faq_original_indices[primary_faq_flat_idx]
+                if not (0 <= original_faq_item_idx_primary < len(faq_items_original_list)):
+                    logger.error(f"Semantic primary original item index {original_faq_item_idx_primary} out of bounds for direct hit.", extra=log_extra_base)
+                    bot_reply_text_for_forwarding = faq_data.get("fallback_message", "Sorry, an error occurred.")
+                    await message.channel.send(bot_reply_text_for_forwarding)
+                else:
+                    matched_item_primary = faq_items_original_list[original_faq_item_idx_primary]
+                    answer_primary = matched_item_primary.get("answer", "Answer not available.")
+                    # matched_keyword_primary_text = faq_questions[primary_faq_flat_idx].capitalize() # Not strictly needed for display here
                     await send_long_message(message.channel, answer_primary, view=None)
                     bot_reply_text_for_forwarding = answer_primary
-                    logger.info("Semantic FAQ Direct Match.", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}, Matched: '{matched_keyword_primary_text}'."})
-                elif primary_score >= SUGGESTION_THRESHOLD:
-                    intro_message = f"I'm not sure I have an exact answer for '{original_message_content}', but perhaps one of these is helpful?\n"
-                    await send_long_message(message.channel, intro_message)
-                    temp_suggestion_forward_texts = [intro_message]
-                    
-                    embed1 = discord.Embed(title=f"🤔 Suggestion 1: '{matched_keyword_primary_text}'", description=answer_primary, color=discord.Color.gold())
-                    btn_yes1 = SuggestionButton(label="✅ Helpful!", style=discord.ButtonStyle.success, custom_id=f"sugg_yes_{primary_faq_flat_idx}", original_query=original_message_content, matched_keyword_text=matched_keyword_primary_text, faq_item_index=primary_faq_flat_idx, helpful=True)
-                    btn_no1 = SuggestionButton(label="❌ Not quite", style=discord.ButtonStyle.danger, custom_id=f"sugg_no_{primary_faq_flat_idx}", original_query=original_message_content, matched_keyword_text=matched_keyword_primary_text, faq_item_index=primary_faq_flat_idx, helpful=False)
-                    current_view1 = discord.ui.View(timeout=300)
-                    current_view1.add_item(btn_yes1)
-                    current_view1.add_item(btn_no1)
-                    await message.channel.send(embed=embed1, view=current_view1)
-                    temp_suggestion_forward_texts.append(f"Sugg 1 (Score {primary_score:.2f}) '{matched_keyword_primary_text}':\n{answer_primary}")
-                    logger.info("Semantic Suggestion 1 offered.", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}, Matched: '{matched_keyword_primary_text}'."})
+                    logger.info("Semantic FAQ Direct Match.", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}, Matched Keyword Flat Idx: '{primary_faq_flat_idx}', Original FAQ Idx: {original_faq_item_idx_primary}."})
+        
+        elif primary_score >= SUGGESTION_THRESHOLD:
+            # Offer Suggestions (distinct FAQ items)
+            suggestions_to_display = []
+            shown_original_faq_indices = set()
 
-                    if len(top_indices) > 1:
-                        secondary_faq_flat_idx = top_indices[1]; secondary_score = top_scores[1]
-                        if secondary_score >= SUGGESTION_THRESHOLD and \
-                           (0 <= secondary_faq_flat_idx < len(faq_questions) and 0 <= secondary_faq_flat_idx < len(faq_original_indices)):
-                            original_faq_item_idx_secondary = faq_original_indices[secondary_faq_flat_idx]
-                            if 0 <= original_faq_item_idx_secondary < len(faq_items_original_list):
-                                matched_item_secondary = faq_items_original_list[original_faq_item_idx_secondary]
-                                answer_secondary = matched_item_secondary.get("answer", "Answer not available.")
-                                matched_keyword_secondary_text = faq_questions[secondary_faq_flat_idx].capitalize()
-                                embed2 = discord.Embed(title=f"🤔 Suggestion 2: '{matched_keyword_secondary_text}'", description=answer_secondary, color=discord.Color.gold())
-                                btn_yes2 = SuggestionButton(label="✅ Helpful!", style=discord.ButtonStyle.success, custom_id=f"sugg_yes_{secondary_faq_flat_idx}", original_query=original_message_content, matched_keyword_text=matched_keyword_secondary_text, faq_item_index=secondary_faq_flat_idx, helpful=True)
-                                btn_no2 = SuggestionButton(label="❌ Not quite", style=discord.ButtonStyle.danger, custom_id=f"sugg_no_{secondary_faq_flat_idx}", original_query=original_message_content, matched_keyword_text=matched_keyword_secondary_text, faq_item_index=secondary_faq_flat_idx, helpful=False)
-                                current_view2 = discord.ui.View(timeout=300)
-                                current_view2.add_item(btn_yes2)
-                                current_view2.add_item(btn_no2)
-                                await message.channel.send(embed=embed2, view=current_view2)
-                                temp_suggestion_forward_texts.append(f"Sugg 2 (Score {secondary_score:.2f}) '{matched_keyword_secondary_text}':\n{answer_secondary}")
-                                logger.info("Semantic Suggestion 2 offered.", extra={**log_extra_base, 'details': f"Score: {secondary_score:.2f}, Matched: '{matched_keyword_secondary_text}'."})
-                    bot_reply_text_for_forwarding = "\n---\n".join(temp_suggestion_forward_texts)
-                else: 
-                    bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find an answer.")
-                    await message.channel.send(bot_reply_text_for_forwarding)
-                    logger.info("Unanswered query, fallback sent (low semantic score).", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}."})
+            for i in range(len(top_indices)):
+                current_flat_idx = top_indices[i]
+                current_score = top_scores[i]
+
+                if current_score < SUGGESTION_THRESHOLD: break
+                if not (0 <= current_flat_idx < len(faq_original_indices) and 0 <= current_flat_idx < len(faq_questions)):
+                    logger.warning(f"Suggestion selection: flat_idx {current_flat_idx} out of bounds.")
+                    continue
+                
+                current_original_faq_idx = faq_original_indices[current_flat_idx]
+
+                if current_original_faq_idx not in shown_original_faq_indices:
+                    if not (0 <= current_original_faq_idx < len(faq_items_original_list)):
+                        logger.warning(f"Suggestion selection: original_faq_idx {current_original_faq_idx} out of bounds.")
+                        continue
+
+                    matched_item = faq_items_original_list[current_original_faq_idx]
+                    answer_text = matched_item.get("answer", "Answer not available.")
+                    matched_keyword_text = faq_questions[current_flat_idx].capitalize()
+
+                    suggestions_to_display.append({
+                        "score": current_score,
+                        "flat_idx": current_flat_idx,
+                        "original_idx": current_original_faq_idx,
+                        "answer": answer_text,
+                        "keyword": matched_keyword_text
+                    })
+                    shown_original_faq_indices.add(current_original_faq_idx)
+
+                if len(suggestions_to_display) >= MAX_SUGGESTIONS_TO_SHOW: break
+            
+            if suggestions_to_display:
+                intro_message = f"I'm not sure I have an exact answer for '{original_message_content}', but perhaps one of these is helpful?\n"
+                await send_long_message(message.channel, intro_message)
+                temp_suggestion_forward_texts = [intro_message]
+
+                for i, sugg_data in enumerate(suggestions_to_display):
+                    embed = discord.Embed(
+                        title=f"🤔 Suggestion {i+1}: Related to '{sugg_data['keyword']}'",
+                        description=sugg_data['answer'],
+                        color=discord.Color.gold()
+                    )
+                    btn_yes = SuggestionButton(label="✅ Helpful!", style=discord.ButtonStyle.success, custom_id=f"sugg_yes_{sugg_data['flat_idx']}_{sugg_data['original_idx']}", original_query=original_message_content, matched_keyword_text=sugg_data['keyword'], faq_item_index=sugg_data['flat_idx'], original_faq_item_idx=sugg_data['original_idx'], helpful=True)
+                    btn_no = SuggestionButton(label="❌ Not quite", style=discord.ButtonStyle.danger, custom_id=f"sugg_no_{sugg_data['flat_idx']}_{sugg_data['original_idx']}", original_query=original_message_content, matched_keyword_text=sugg_data['keyword'], faq_item_index=sugg_data['flat_idx'], original_faq_item_idx=sugg_data['original_idx'], helpful=False)
+                    sugg_view = discord.ui.View(timeout=300)
+                    sugg_view.add_item(btn_yes); sugg_view.add_item(btn_no)
+                    await message.channel.send(embed=embed, view=sugg_view)
+                    
+                    temp_suggestion_forward_texts.append(f"Suggestion {i+1} (Score {sugg_data['score']:.2f}, Orig. FAQ Idx: {sugg_data['original_idx']}) '{sugg_data['keyword']}':\n{sugg_data['answer']}")
+                    logger.info(f"Semantic Suggestion {i+1} offered.", extra={**log_extra_base, 'details': f"Score: {sugg_data['score']:.2f}, Keyword: '{sugg_data['keyword']}', Orig. FAQ Idx: {sugg_data['original_idx']}."})
+                
+                bot_reply_text_for_forwarding = "\n---\n".join(temp_suggestion_forward_texts)
+            else:
+                bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find a clear answer for that.")
+                await message.channel.send(bot_reply_text_for_forwarding)
+                logger.info("Unanswered query, fallback sent (no distinct suggestions met threshold after filtering).", extra=log_extra_base)
+        else: 
+            # Top score is below suggestion threshold
+            bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find an answer for that.")
+            await message.channel.send(bot_reply_text_for_forwarding)
+            details_str = f"Primary score {primary_score:.2f} below suggestion threshold {SUGGESTION_THRESHOLD}."
+            logger.info("Unanswered query, fallback sent (low semantic score).", extra={**log_extra_base, 'details': details_str})
     
     if bot_reply_text_for_forwarding:
         await forward_qa_to_admins(original_message_content, bot_reply_text_for_forwarding, message.author)
@@ -620,8 +691,12 @@ async def on_message(message: discord.Message):
 if __name__ == "__main__":
     actual_admin_ids = {uid for uid in ADMIN_USER_IDS if isinstance(uid, int)}
     if len(actual_admin_ids) < len(ADMIN_USER_IDS):
-        print("WARNING: Placeholder admin IDs detected in ADMIN_USER_IDS. Please replace them.")
+        # This filters out non-integer placeholder strings if they were left in ADMIN_USER_IDS
+        print("INFO: Placeholder admin IDs were filtered out. Ensure all admin IDs are correct integers.")
     ADMIN_USER_IDS = actual_admin_ids
+    if not ADMIN_USER_IDS:
+        print("WARNING: ADMIN_USER_IDS set is empty. Log forwarding commands will not work for any user.")
+
 
     if TOKEN:
         try:
