@@ -6,16 +6,6 @@
             "greeting_reply_template": "{actual_greeting_cased}, {user_mention}! Try typing 'list codes' or ask a question!"
         },
         {
-            "keywords": ["good morning", "good afternoon", "good evening"],
-            "response_type": "standard_greeting",
-            "greeting_reply_template": "{actual_greeting_cased}, {user_mention}! How can I assist you?"
-        },
-        {
-            "keywords": ["what about you", "and you", "you too"],
-            "response_type": "specific_reply",
-            "reply_text": "I'm here and ready to assist! What can I do for you?"
-        },
-        {
             "keywords": ["thank you", "thanks", "ty", "thx", "thank u"],
             "response_type": "specific_reply",
             "reply_text": "You're welcome! Happy to help, I am. 🙂"
