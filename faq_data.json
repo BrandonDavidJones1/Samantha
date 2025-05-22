@@ -662,17 +662,26 @@
                "is there a website for the campaign", "voter requests website", "where to send voter for more details"
            ],
            "answer": "If a voter asks for more information or a website:\n\n1.  **Use this as a chance to patch them through!** Say: 'Great question! The best way to get more details is by speaking with their office. Shall I connect you?'\n2.  **If a patch isn't possible or they refuse:**\n    *   Only provide a website if it's **explicitly in your current call script.**\n    *   **Never search for or give unscripted websites.**\n3.  If no patch and no scripted website, thank them and disposition the call appropriately (e.g., 'Refused'). Code quickly."
-}       ,
-        {
-    "keywords": [
-        "answered then hung up", "they answered and hung up", "hang up after answering",
-        "code for answer then hangup", "if they hang up after saying hello",
-        "is it no answer if they hang up", "answered but disconnected",
-        "difference between no answer and refused hangup", "coding hang ups after connection",
-        "rather not say vs no answer for hangups"
-    ],
-    "answer": "If a person answers the phone (you hear them and a connection is made) but then hangs up:\n\n*   **It is generally NOT coded as 'No Answer'.** 'No Answer' is for when the call doesn't connect or is hung up *before* any interaction.\n\n*   **If they hang up *during or after your introduction, or during a question*:** This is typically coded as **'REFUSED'.** They answered but then refused to continue the interaction.\n\n*   **'Rather Not Say' (or similar options like '6'):** This option is usually selected *within a survey script* if a voter is on the line and explicitly declines to answer a *specific question* but doesn't end the call. It's not a final call disposition for a hang-up.\n\n**In summary: If they answer and then hang up, use 'REFUSED'.** If you're unsure based on a specific project's rules, please ask your supervisor."
-}
+         },
+                 {
+             "keywords": [
+                 "answered then hung up", "they answered and hung up", "hang up after answering",
+                 "code for answer then hangup", "if they hang up after saying hello",
+                 "is it no answer if they hang up", "answered but disconnected",
+                 "difference between no answer and refused hangup", "coding hang ups after connection",
+                 "rather not say vs no answer for hangups"
+             ],
+             "answer": "If a person answers the phone (you hear them and a connection is made) but then hangs up:\n\n*   **It is generally NOT coded as 'No Answer'.** 'No Answer' is for when the call doesn't connect or is hung up *before* any interaction.\n\n*   **If they hang up *during or after your introduction, or during a question*:** This is typically coded as **'REFUSED'.** They answered but then refused to continue the interaction.\n\n*   **'Rather Not Say' (or similar options like '6'):** This option is usually selected *within a survey script* if a voter is on the line and explicitly declines to answer a *specific question* but doesn't end the call. It's not a final call disposition for a hang-up.\n\n**In summary: If they answer and then hang up, use 'REFUSED'.** If you're unsure based on a specific project's rules, please ask your supervisor."
+         },
+         {
+             "keywords": [
+                 "voter moved out of state", "contact moved", "person no longer lives in state",
+                 "verified voter but they moved", "how to code if voter moved", "coding for out of state voter",
+                 "they moved what disposition", "patch call voter moved", "voter not in service area",
+                 "no longer lives in district", "moved out of area", "wrong state for patch"
+             ],
+             "answer": "If a verified voter says they've moved out of the relevant state/area:\n\n1.  **For the patch/main action in script:** Select 'No' or 'Refused'.\n2.  **Final Call Disposition:**\n    *   Use 'Moved' or 'Update Info' if available for your project.\n    *   Otherwise, typically use **'REFUSED'** (as the main action couldn't be completed).\n3.  **Note the move** if your system allows or inform your supervisor. Do not patch to a representative of their old state.\n\nIf unsure of project specifics, ask your supervisor."
+         }
     ],
     "call_codes": {
         "WRONG NUMBER": "Say, “We will update our records. Thank you for your time.”",
