@@ -234,7 +234,7 @@
                 "am i allowed to share my personal information with voters", "can i give my phone number to a contact",
                 "is it okay to share my location or address with callers", "policy on giving out personal info to voters",
                 "can i share my social media details with people i call", "rules about agent privacy during calls",
-                "what personal information am i forbidden from sharing"
+                "what personal information am i forbidden from sharing", "they asked about our location"
             ],
             "answer": "You may NOT give voters contacted during the call ANY personal information, including but not limited to, your phone number, social media, location or address. This is a strict rule, young Padawan."
         },
