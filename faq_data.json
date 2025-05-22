@@ -637,6 +637,23 @@
                 "best star wars film", "star wars preference", "do you like star wars", "tell me your favorite star wars"
             ],
             "answer": "The Empire Strikes Back, of course! The character development, the darker themes, and that iconic reveal? Masterful storytelling. Though, as an AI, my appreciation is purely analytical. 😉"
+        },
+        {
+            "keywords": [
+                "what do i say why i am calling", "reason for calling", "purpose of call",
+                "how to introduce the call", "what to tell caller about the call",
+                "explaining why i'm calling", "confused about call introduction",
+                "introduction script", "opening line for calls", "call purpose statement"
+            ],
+            "answer": "The exact reason for your call and what you should say to the voter is **always provided at the beginning of the call script for the specific project you are working on.**\n\n**Key things to remember:**\n\n1.  **Follow the Script Verbatim:** The opening lines are carefully crafted. You must read them exactly as written. This often includes stating who you are calling on behalf of (e.g., a campaign, an organization).\n2.  **Clarity and Conciseness:** The script's introduction is designed to be clear and to the point.\n3.  **Compliance:** Sticking to the script ensures you are compliant with all project requirements and regulations.\n\n**If you are looking at your script and are still unsure about the purpose or how to deliver the opening:**\n*   Please **re-read the first few lines of the script carefully.**\n*   If it's still unclear, **ask your shift supervisor for clarification *before* making calls on that project.** They can walk you through it.\n\nDo not invent your own reasons for calling; always rely on the approved script."
+        },
+        {
+            "keywords": [
+                "how to be az", "move to az", "change to az", "get into az",
+                "what can i do to be az", "request to be az", "az assignment",
+                "az1 vs az2", "moving from az2 to az", "become az"
+            ],
+            "answer": "For any questions or requests regarding AZ assignments, including moving from AZ2 to AZ, please contact Corey. He handles these specific project/team placements."
         }
     ],
     "call_codes": {
