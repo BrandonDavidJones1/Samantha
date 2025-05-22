@@ -9,16 +9,15 @@ from sentence_transformers import SentenceTransformer, util
 import torch
 import re
 import urllib.parse
-
-# --- New Imports for Pronunciation Feature ---
-import requests
+import requests # Added for fetching from URL
 import asyncio
 from discord import ui # For Buttons and Views
 
 # --- Configuration ---
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-FAQ_FILE = "faq_data.json"
+# FAQ_FILE = "faq_data.json" # No longer primary, but could be a fallback
+FAQ_URL = "https://raw.githubusercontent.com/BrandonDavidJones1/Samantha/main/faq_data.json" # CORRECTED RAW URL
 FUZZY_MATCH_THRESHOLD_GREETINGS = 75
 LOG_FILE = "unanswered_queries.log"
 SEMANTIC_SEARCH_THRESHOLD = 0.65
@@ -41,19 +40,13 @@ faq_original_indices = [] # This will map each keyword back to its original FAQ 
 # --- Admin and Log Forwarding Globals ---
 ADMIN_USER_IDS = {
     1342311589298311230,  # Your User ID
-    770409748922368000,  # Replace with Corey's Discord User ID
-    1011068427189887037,  # Replace with Adam's Discord User ID
+    770409748922368000,   # Corey's Discord User ID
+    1011068427189887037,  # Adam's Discord User ID
 }
-# Remove placeholders if they are not yet available, e.g., ADMIN_USER_IDS = {1342311589298311230}
-# Ensure only valid integer IDs are in the set.
-
-# Dictionary to store the logging state for each admin
-# Key: admin_user_id, Value: boolean (True if logs active, False if muted)
 admin_log_activation_status = {}
 
 
 # --- Logging Setup ---
-# Define a context filter to ensure custom log attributes have defaults
 class ContextFilter(logging.Filter):
     def __init__(self, default_user_id='SYSTEM', default_username='SYSTEM', default_original_query='N/A', default_details=''):
         super().__init__()
@@ -72,7 +65,7 @@ class ContextFilter(logging.Filter):
 logger = logging.getLogger('discord_faq_bot')
 logger.setLevel(logging.INFO)
 context_filter = ContextFilter()
-logger.addFilter(context_filter) # Add filter to the logger instance
+logger.addFilter(context_filter)
 
 fh = logging.FileHandler(LOG_FILE, encoding='utf-8')
 fh.setLevel(logging.INFO)
@@ -83,28 +76,54 @@ fh.setFormatter(formatter)
 logger.addHandler(fh)
 
 # --- Helper Functions ---
-def load_faq_data():
+def load_faq_data_from_url(): # Renamed and modified
     global faq_data
+    default_faq_structure = {
+        "greetings_and_pleasantries": [],
+        "general_faqs": [],
+        "call_codes": {},
+        "fallback_message": "Sorry, I couldn't find an answer. Critical configuration error: FAQ data unavailable."
+    }
     try:
-        with open(FAQ_FILE, 'r', encoding='utf-8') as f:
-            faq_data = json.load(f)
-        faq_data.setdefault("greetings_and_pleasantries", [])
-        faq_data.setdefault("general_faqs", [])
-        faq_data.setdefault("call_codes", {})
-        faq_data.setdefault("fallback_message", "Sorry, I couldn't find an answer. Please ask your manager for assistance.")
-        print(f"Successfully loaded data from {FAQ_FILE}")
-    except FileNotFoundError:
-        print(f"Error: {FAQ_FILE} not found. Creating a default structure.")
-        faq_data = {
-            "greetings_and_pleasantries": [], "general_faqs": [], "call_codes": {},
-            "fallback_message": "Sorry, I couldn't find an answer. Please ask your manager for assistance."
-        }
-    except json.JSONDecodeError:
-        print(f"Error: Could not decode JSON from {FAQ_FILE}. Check its format.")
-        faq_data = {
-            "greetings_and_pleasantries": [], "general_faqs": [], "call_codes": {},
-            "fallback_message": "Sorry, I couldn't find an answer. Please ask your manager for assistance."
-        }
+        print(f"Attempting to download FAQ data from: {FAQ_URL}")
+        response = requests.get(FAQ_URL, timeout=15) # Increased timeout slightly
+        response.raise_for_status()
+        faq_data = response.json()
+        print(f"Successfully downloaded and parsed FAQ data from {FAQ_URL}")
+    except requests.exceptions.HTTPError as http_err:
+        print(f"HTTP error occurred while fetching FAQ data: {http_err} from {FAQ_URL}")
+        logger.error(f"HTTP error occurred while fetching FAQ data from {FAQ_URL}: {http_err}")
+        faq_data = default_faq_structure
+    except requests.exceptions.ConnectionError as conn_err:
+        print(f"Connection error occurred while fetching FAQ data: {conn_err} from {FAQ_URL}")
+        logger.error(f"Connection error occurred while fetching FAQ data from {FAQ_URL}: {conn_err}")
+        faq_data = default_faq_structure
+    except requests.exceptions.Timeout as timeout_err:
+        print(f"Timeout occurred while fetching FAQ data: {timeout_err} from {FAQ_URL}")
+        logger.error(f"Timeout occurred while fetching FAQ data from {FAQ_URL}: {timeout_err}")
+        faq_data = default_faq_structure
+    except requests.exceptions.RequestException as req_err:
+        print(f"An error occurred during the request for FAQ data: {req_err} from {FAQ_URL}")
+        logger.error(f"An error occurred during the request for FAQ data from {FAQ_URL}: {req_err}")
+        faq_data = default_faq_structure
+    except json.JSONDecodeError as json_err:
+        print(f"Error: Could not decode JSON from fetched FAQ data from {FAQ_URL}. Error: {json_err}")
+        # Log part of the response text if available and it's not too large
+        response_text_snippet = ""
+        if 'response' in locals() and hasattr(response, 'text'):
+            response_text_snippet = response.text[:500] if response.text else "Response text was empty."
+        logger.error(f"Could not decode JSON from {FAQ_URL}. Response text snippet: {response_text_snippet}")
+        faq_data = default_faq_structure
+    except Exception as e:
+        print(f"An unexpected error occurred while loading FAQ data from URL {FAQ_URL}: {e}")
+        logger.exception(f"Unexpected error loading FAQ data from {FAQ_URL}")
+        faq_data = default_faq_structure
+
+    faq_data.setdefault("greetings_and_pleasantries", [])
+    faq_data.setdefault("general_faqs", [])
+    faq_data.setdefault("call_codes", {})
+    faq_data.setdefault("fallback_message", default_faq_structure["fallback_message"])
+    
     build_semantic_embeddings()
 
 
@@ -118,11 +137,10 @@ def build_semantic_embeddings():
             logger.info("Sentence transformer model loaded.")
 
         general_faqs_list = faq_data.get("general_faqs", [])
-        # ... (rest of build_semantic_embeddings is unchanged) ...
         logger.info(f"Raw general_faqs_list type: {type(general_faqs_list)}, length: {len(general_faqs_list) if isinstance(general_faqs_list, list) else 'N/A'}")
 
         if not isinstance(general_faqs_list, list):
-            logger.error(f"CRITICAL: general_faqs in {FAQ_FILE} is not a list. Semantic search will FAIL.")
+            logger.error(f"CRITICAL: general_faqs in {FAQ_URL} result is not a list. Semantic search will FAIL.")
             general_faqs_list = []
 
         current_flat_faq_questions = []
@@ -181,7 +199,6 @@ def is_text_empty_or_punctuation_only(text):
     return not text or all(char in string.punctuation or char.isspace() for char in text)
 
 async def get_pronunciation_audio_url(word_or_phrase: str) -> str | None:
-    # ... (get_pronunciation_audio_url is unchanged) ...
     audio_url = None
     response_obj = None
     try:
@@ -229,7 +246,6 @@ async def get_pronunciation_audio_url(word_or_phrase: str) -> str | None:
 
 
 def semantic_search_top_n_matches(query, n=2):
-    # ... (semantic_search_top_n_matches is unchanged) ...
     if model is None:
         logger.warning("Semantic search: Model not ready.")
         return [], []
@@ -242,7 +258,7 @@ def semantic_search_top_n_matches(query, n=2):
         query_embedding = query_embedding.unsqueeze(0)
 
     current_faq_embeddings = faq_embeddings
-    if current_faq_embeddings.ndim == 1: # Should not happen if build_semantic_embeddings is correct
+    if current_faq_embeddings.ndim == 1: 
         logger.error("Semantic search: FAQ embeddings are 1D, which is unexpected. Re-check build_semantic_embeddings.")
         return [], []
     if query_embedding.device != current_faq_embeddings.device:
@@ -264,7 +280,6 @@ def semantic_search_top_n_matches(query, n=2):
 
 
 async def send_long_message(channel, text_content, view=None):
-    # ... (send_long_message is unchanged) ...
     MAX_LEN = 1980
     messages_sent = []
     if len(text_content) <= MAX_LEN:
@@ -275,12 +290,12 @@ async def send_long_message(channel, text_content, view=None):
         temp_content = text_content
         while len(temp_content) > 0:
             if len(temp_content) > MAX_LEN:
-                split_at = temp_content.rfind('\n\n', 0, MAX_LEN) # Prefer splitting at double newlines
-                if split_at == -1 or split_at < MAX_LEN / 3: # If no double newline or too short, try single
+                split_at = temp_content.rfind('\n\n', 0, MAX_LEN) 
+                if split_at == -1 or split_at < MAX_LEN / 3: 
                     split_at = temp_content.rfind('\n', 0, MAX_LEN)
-                if split_at == -1 or split_at < MAX_LEN / 3: # If no newline or too short, try space
+                if split_at == -1 or split_at < MAX_LEN / 3: 
                     split_at = temp_content.rfind(' ', 0, MAX_LEN)
-                if split_at == -1 or split_at < MAX_LEN / 3: # Force split if no good break found
+                if split_at == -1 or split_at < MAX_LEN / 3: 
                     split_at = MAX_LEN
                 parts.append(temp_content[:split_at])
                 temp_content = temp_content[split_at:].lstrip()
@@ -296,25 +311,20 @@ async def send_long_message(channel, text_content, view=None):
 
 # --- New Function for Log Forwarding ---
 async def forward_qa_to_admins(user_query: str, bot_answer: str, original_author: discord.User):
-    """
-    Forwards the question and answer to admins who have logs activated.
-    """
-    if not bot_answer: # Don't forward if the bot didn't actually answer
+    if not bot_answer:
         return
 
-    # Sanitize user_query and bot_answer to prevent markdown injection by replacing backticks
     safe_user_query = user_query.replace("`", "'")
     safe_bot_answer = bot_answer.replace("`", "'")
 
     forward_message = (
         f"**User:** {original_author.name}#{original_author.discriminator} (ID: {original_author.id})\n"
         f"**Asked:** ```\n{safe_user_query}\n```\n"
-        f"**Bot Answered:** ```\n{safe_bot_answer[:1800]}\n```" # Truncate answer
+        f"**Bot Answered:** ```\n{safe_bot_answer[:1800]}\n```"
     )
-
     active_admin_ids_to_notify = [admin_id for admin_id, is_active in admin_log_activation_status.items() if is_active]
     
-    if not active_admin_ids_to_notify: # No admins have logs active
+    if not active_admin_ids_to_notify:
         return
 
     for admin_id in active_admin_ids_to_notify:
@@ -326,13 +336,12 @@ async def forward_qa_to_admins(user_query: str, bot_answer: str, original_author
             logger.warning(f"Could not find admin user with ID {admin_id} to forward logs.")
         except discord.Forbidden:
             logger.warning(f"Bot is blocked by or cannot DM admin user {admin_id}. Disabling logs for them.")
-            admin_log_activation_status[admin_id] = False # Auto-mute if blocked
+            admin_log_activation_status[admin_id] = False
         except Exception as e:
             logger.error(f"Error forwarding Q&A to admin {admin_id}: {e}")
 
 # --- UI Classes for Interactive Buttons ---
 class SuggestionButton(discord.ui.Button):
-    # ... (SuggestionButton is unchanged) ...
     def __init__(self, label, style, custom_id, original_query, matched_keyword_text, faq_item_index, helpful):
         super().__init__(label=label, style=style, custom_id=custom_id)
         self.original_query = original_query
@@ -342,11 +351,9 @@ class SuggestionButton(discord.ui.Button):
 
     async def callback(self, interaction: discord.Interaction):
         feedback_type = "Helpful" if self.helpful else "Not Helpful"
-
         original_item_idx_from_flat_str = "N/A"
         if 0 <= self.faq_item_index < len(faq_original_indices):
             original_item_idx_from_flat_str = str(faq_original_indices[self.faq_item_index])
-
         log_message = f"Suggestion Feedback: User clicked '{feedback_type}'."
         log_extra = {
             'user_id': interaction.user.id,
@@ -357,22 +364,15 @@ class SuggestionButton(discord.ui.Button):
                         f"FAQ Item Index (flat): {self.faq_item_index}. "
                         f"Original FAQ Item Index: {original_item_idx_from_flat_str}.")
         }
-        logger.info(
-            log_message, extra=log_extra
-        )
-
+        logger.info(log_message, extra=log_extra)
         await interaction.response.send_message(f"Thanks for your feedback on the suggestion about '{self.matched_keyword_text}'!", ephemeral=True)
-
         if self.view:
             for item in self.view.children:
-                if isinstance(item, discord.ui.Button):
-                    item.disabled = True
+                if isinstance(item, discord.ui.Button): item.disabled = True
             try:
                 await interaction.message.edit(view=self.view)
-            except discord.NotFound:
-                logger.warning(f"Could not find message {interaction.message.id} to disable buttons for suggestion feedback.")
-            except discord.Forbidden:
-                 logger.error(f"Missing permissions to edit message {interaction.message.id} for suggestion feedback.")
+            except discord.NotFound: logger.warning(f"Could not find message {interaction.message.id} to disable buttons.")
+            except discord.Forbidden: logger.error(f"Missing permissions to edit message {interaction.message.id}.")
 
 
 # --- Event Handlers ---
@@ -380,7 +380,7 @@ class SuggestionButton(discord.ui.Button):
 async def on_ready():
     print(f'{bot.user.name} (ID: {bot.user.id}) has connected to Discord!')
     print(f'Listening for DMs. All interactions are handled as direct messages.')
-    load_faq_data()
+    load_faq_data_from_url() # <--- MODIFIED TO USE URL LOADER
     activity = discord.Activity(
         name="DM for HELP!",
         type=discord.ActivityType.custom,
@@ -388,7 +388,7 @@ async def on_ready():
     )
     await bot.change_presence(activity=activity)
     logger.info("Bot started and ready.",
-                extra={'details': 'Bot presence set, FAQ loaded, listening for DMs.'})
+                extra={'details': 'Bot presence set, FAQ loaded from URL, listening for DMs.'})
 
 
 @bot.event
@@ -402,28 +402,24 @@ async def on_message(message: discord.Message):
     author_name = str(message.author)
     log_extra_base = {'user_id': author_id, 'username': author_name, 'original_query_text': original_message_content}
 
-    # --- Admin Log Activation/Deactivation Commands ---
     if author_id in ADMIN_USER_IDS:
         if user_query_lower == "activate logs":
             admin_log_activation_status[author_id] = True
             await message.channel.send("✅ Real-time Q&A log forwarding **activated** for you.")
             logger.info("Admin command: activate logs.", extra={**log_extra_base, 'details': f"Admin {author_name} activated logs."})
-            return # Command processed, no further FAQ handling needed
+            return 
         elif user_query_lower == "mute logs":
-            admin_log_activation_status[author_id] = False # Using False for muted
+            admin_log_activation_status[author_id] = False 
             await message.channel.send("🔇 Real-time Q&A log forwarding **muted** for you.")
             logger.info("Admin command: mute logs.", extra={**log_extra_base, 'details': f"Admin {author_name} muted logs."})
-            return # Command processed
+            return 
 
     if is_text_empty_or_punctuation_only(original_message_content):
         logger.info("Ignoring empty or punctuation-only query.", extra={**log_extra_base, 'details': 'Query was empty or only punctuation.'})
         return
 
-    # Variables to store bot's response for forwarding
     bot_reply_text_for_forwarding = None
-    # Note: We will try to capture the primary text. Embeds/complex views will be summarized for forwarding.
 
-    # 1. !pronounce Command
     pronounce_prefix = "!pronounce "
     pronounce_prefix_no_bang = "pronounce "
     word_to_pronounce_input = None
@@ -470,7 +466,6 @@ async def on_message(message: discord.Message):
         await forward_qa_to_admins(original_message_content, bot_reply_text_for_forwarding, message.author)
         return
 
-    # 2. "list codes" Command
     if user_query_lower == "list codes":
         call_codes_data = faq_data.get("call_codes", {})
         if not call_codes_data:
@@ -480,77 +475,60 @@ async def on_message(message: discord.Message):
             logger.info("Command 'list codes' - no codes found.", extra=log_extra_base)
         else:
             embed = discord.Embed(title="☎️ Call Disposition Codes", color=discord.Color.blue())
-            # ... (embed building logic unchanged) ...
             current_field_value = ""
             field_count = 0
-            MAX_FIELD_VALUE_LEN = 1020 # Max length for an embed field value
-            MAX_FIELDS = 24 # Discord's practical limit for fields in an embed
-
+            MAX_FIELD_VALUE_LEN = 1020
+            MAX_FIELDS = 24
             temp_forward_text_parts = ["Call Codes Sent:"]
-
             for code, description in call_codes_data.items():
                 entry_text = f"**{code.upper()}**: {description}\n\n"
-                temp_forward_text_parts.append(f"{code.upper()}: {description}") # For forwarding
-
+                temp_forward_text_parts.append(f"{code.upper()}: {description}")
                 if len(current_field_value) + len(entry_text) > MAX_FIELD_VALUE_LEN and field_count < MAX_FIELDS:
                     embed.add_field(name=f"Codes (Part {field_count + 1})" if field_count > 0 else "Codes", value=current_field_value, inline=False)
-                    current_field_value = ""
-                    field_count += 1
-                
+                    current_field_value = ""; field_count += 1
                 if field_count >= MAX_FIELDS:
-                    logger.warning(f"List codes: Exceeded max embed fields ({MAX_FIELDS}). Some codes might not be displayed in the embed.")
-                    await message.channel.send("The list of codes is very long and might be truncated in this display. Please refer to documentation or ask a supervisor if needed.")
+                    logger.warning(f"List codes: Exceeded max embed fields ({MAX_FIELDS}).")
+                    await message.channel.send("The list of codes is very long and might be truncated.")
                     break 
                 current_field_value += entry_text
-            
-            if current_field_value and field_count < MAX_FIELDS: # Add any remaining part
+            if current_field_value and field_count < MAX_FIELDS:
                 embed.add_field(name=f"Codes (Part {field_count + 1})" if field_count > 0 or not embed.fields else "Codes", value=current_field_value, inline=False)
-            
-            if not embed.fields and not current_field_value: # Should not happen if call_codes_data is not empty
+            if not embed.fields and not current_field_value:
                 reply_text = "No call codes formatted. Check data."
-                await message.channel.send(reply_text)
-                bot_reply_text_for_forwarding = reply_text
+                await message.channel.send(reply_text); bot_reply_text_for_forwarding = reply_text
                 logger.info("Command 'list codes' - no codes formatted.", extra=log_extra_base)
-            elif not embed.fields: # Should also be rare
-                reply_text = "Found codes, but couldn't display them in the embed. Try again or ask your manager."
-                await message.channel.send(reply_text)
-                bot_reply_text_for_forwarding = reply_text
+            elif not embed.fields:
+                reply_text = "Found codes, but couldn't display them. Try again/ask manager."
+                await message.channel.send(reply_text); bot_reply_text_for_forwarding = reply_text
             else:
                 await message.channel.send(embed=embed)
                 bot_reply_text_for_forwarding = "[Bot sent 'list codes' as an embed.]\n" + "\n".join(temp_forward_text_parts)
-
             logger.info("Command 'list codes' processed.", extra={**log_extra_base, 'details': f"Displayed {len(call_codes_data) if call_codes_data else 0} codes."})
-        
         await forward_qa_to_admins(original_message_content, bot_reply_text_for_forwarding, message.author)
         return
 
-    # 3. "define [code]" Command
     match_define_code = re.match(r"^(?:what is|define|explain)\s+([\w\s-]+)\??$", user_query_lower)
     if match_define_code:
         code_name_query_original_case = match_define_code.group(1).strip()
         code_name_query_upper = code_name_query_original_case.upper()
         call_codes_data = faq_data.get("call_codes", {})
         found_code_key = next((k for k in call_codes_data if k.upper() == code_name_query_upper), None)
-        
         defined_code_embed = None
         if found_code_key:
             defined_code_embed = discord.Embed(title=f"Definition: {found_code_key.upper()}", description=call_codes_data[found_code_key], color=discord.Color.purple())
             bot_reply_text_for_forwarding = f"Definition: {found_code_key.upper()}\n{call_codes_data[found_code_key]}"
-            logger.info(f"Defined code '{found_code_key.upper()}' (exact match).", extra={**log_extra_base, 'details': f"Query for code: '{code_name_query_original_case}'"})
+            logger.info(f"Defined code '{found_code_key.upper()}' (exact match).", extra={**log_extra_base})
         else:
-            best_match_code, score = process.extractOne(code_name_query_original_case, list(call_codes_data.keys()), scorer=fuzz.token_set_ratio) # Ensure list for extractOne
-            if score > 80 and best_match_code: # Check if best_match_code is not None
+            best_match_code, score = process.extractOne(code_name_query_original_case, list(call_codes_data.keys()), scorer=fuzz.token_set_ratio)
+            if score > 80 and best_match_code:
                 defined_code_embed = discord.Embed(title=f"Definition (for '{code_name_query_original_case}'): {best_match_code.upper()}", description=call_codes_data[best_match_code], color=discord.Color.purple())
                 bot_reply_text_for_forwarding = f"Definition (for '{code_name_query_original_case}'): {best_match_code.upper()}\n{call_codes_data[best_match_code]}"
-                logger.info(f"Defined code '{best_match_code.upper()}' (fuzzy match).", extra={**log_extra_base, 'details': f"Query for code: '{code_name_query_original_case}', Score: {score}."})
-        
+                logger.info(f"Defined code '{best_match_code.upper()}' (fuzzy match).", extra={**log_extra_base, 'details': f"Score: {score}."})
         if defined_code_embed:
             await message.channel.send(embed=defined_code_embed)
             await forward_qa_to_admins(original_message_content, bot_reply_text_for_forwarding, message.author)
             return
-        # If no exact or good fuzzy match for "define [code]", it will fall through to semantic search
 
-    # 4. Greetings Handler
     greetings_data = faq_data.get("greetings_and_pleasantries", [])
     for greeting_entry in greetings_data:
         keywords = greeting_entry.get("keywords", [])
@@ -559,45 +537,37 @@ async def on_message(message: discord.Message):
         if match_result:
             matched_keyword_from_fuzz, score = match_result
             response_type = greeting_entry.get("response_type")
-            reply_text = f"Hello {message.author.mention}!" # Default
+            reply_text = f"Hello {message.author.mention}!" 
             if response_type == "standard_greeting":
                 reply_template = greeting_entry.get("greeting_reply_template", "Hello there, {user_mention}!")
                 actual_greeting_cased = next((kw for kw in keywords if kw.lower() == matched_keyword_from_fuzz.lower()), matched_keyword_from_fuzz)
                 reply_text = reply_template.format(actual_greeting_cased=actual_greeting_cased.capitalize(), user_mention=message.author.mention)
             elif response_type == "specific_reply":
                 reply_text = greeting_entry.get("reply_text", "I acknowledge that.")
-            
             await message.channel.send(reply_text)
             bot_reply_text_for_forwarding = reply_text
-            logger.info(f"Greeting matched.", extra={**log_extra_base, 'details': f"Matched keyword: '{matched_keyword_from_fuzz}', Score: {score}. Response type: {response_type}."})
+            logger.info(f"Greeting matched.", extra={**log_extra_base, 'details': f"Matched: '{matched_keyword_from_fuzz}', Score: {score}."})
             await forward_qa_to_admins(original_message_content, bot_reply_text_for_forwarding, message.author)
             return
 
-    # 5. Semantic Matching & Fallback
     faq_items_original_list = faq_data.get("general_faqs", [])
-    if not isinstance(faq_items_original_list, list): # Should be caught by load_faq_data
-        logger.error("CRITICAL: general_faqs is not a list. Semantic search will fail.")
-        faq_items_original_list = []
-
     top_indices, top_scores = semantic_search_top_n_matches(user_query_lower, n=MAX_SUGGESTIONS_TO_SHOW)
 
     if not top_indices:
-        bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find an answer for that right now.")
+        bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find an answer right now.")
         await message.channel.send(bot_reply_text_for_forwarding)
-        logger.info("Unanswered query, fallback sent.", extra={**log_extra_base, 'details': "No semantic hits found."})
+        logger.info("Unanswered query, fallback sent (no semantic hits).", extra=log_extra_base)
     else:
-        primary_faq_flat_idx = top_indices[0]
-        primary_score = top_scores[0]
-
+        primary_faq_flat_idx = top_indices[0]; primary_score = top_scores[0]
         if not (0 <= primary_faq_flat_idx < len(faq_questions) and 0 <= primary_faq_flat_idx < len(faq_original_indices)):
             logger.error(f"Semantic primary match index {primary_faq_flat_idx} out of bounds.", extra=log_extra_base)
-            bot_reply_text_for_forwarding = faq_data.get("fallback_message", "Sorry, an error occurred finding an answer.")
+            bot_reply_text_for_forwarding = faq_data.get("fallback_message", "Sorry, an error occurred.")
             await message.channel.send(bot_reply_text_for_forwarding)
         else:
             original_faq_item_idx_primary = faq_original_indices[primary_faq_flat_idx]
             if not (0 <= original_faq_item_idx_primary < len(faq_items_original_list)):
                 logger.error(f"Semantic primary original item index {original_faq_item_idx_primary} out of bounds.", extra=log_extra_base)
-                bot_reply_text_for_forwarding = faq_data.get("fallback_message", "Sorry, an error occurred retrieving an answer.")
+                bot_reply_text_for_forwarding = faq_data.get("fallback_message", "Sorry, an error occurred.")
                 await message.channel.send(bot_reply_text_for_forwarding)
             else:
                 matched_item_primary = faq_items_original_list[original_faq_item_idx_primary]
@@ -605,70 +575,49 @@ async def on_message(message: discord.Message):
                 matched_keyword_primary_text = faq_questions[primary_faq_flat_idx].capitalize()
 
                 if primary_score >= SEMANTIC_SEARCH_THRESHOLD:
-                    # For direct match, send_long_message handles splitting if answer_primary is long.
-                    # The forwarded text will be the full answer_primary.
                     await send_long_message(message.channel, answer_primary, view=None)
                     bot_reply_text_for_forwarding = answer_primary
-                    logger.info("Semantic FAQ Direct Match.", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}. Matched: '{matched_keyword_primary_text}'. Original Index: {original_faq_item_idx_primary}."})
-                
+                    logger.info("Semantic FAQ Direct Match.", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}, Matched: '{matched_keyword_primary_text}'."})
                 elif primary_score >= SUGGESTION_THRESHOLD:
                     intro_message = f"I'm not sure I have an exact answer for '{original_message_content}', but perhaps one of these is helpful?\n"
-                    await send_long_message(message.channel, intro_message) # Send intro first
-
+                    await send_long_message(message.channel, intro_message)
                     temp_suggestion_forward_texts = [intro_message]
+                    
+                    embed1 = discord.Embed(title=f"🤔 Suggestion 1: '{matched_keyword_primary_text}'", description=answer_primary, color=discord.Color.gold())
+                    view1 = SuggestionButton.construct_view(original_message_content, matched_keyword_primary_text, answer_primary, primary_faq_flat_idx) # Assuming a helper
+                    await message.channel.send(embed=embed1, view=view1)
+                    temp_suggestion_forward_texts.append(f"Sugg 1 (Score {primary_score:.2f}) '{matched_keyword_primary_text}':\n{answer_primary}")
+                    logger.info("Semantic Suggestion 1 offered.", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}, Matched: '{matched_keyword_primary_text}'."})
 
-                    # Suggestion 1
-                    embed1 = discord.Embed(title=f"🤔 Suggestion 1: Related to '{matched_keyword_primary_text}'", description=answer_primary, color=discord.Color.gold())
-                    btn_yes1 = SuggestionButton(label="✅ Helpful!", style=discord.ButtonStyle.success, custom_id=f"sugg_yes_{primary_faq_flat_idx}", original_query=original_message_content, matched_keyword_text=matched_keyword_primary_text, faq_item_index=primary_faq_flat_idx, helpful=True)
-                    btn_no1 = SuggestionButton(label="❌ Not quite", style=discord.ButtonStyle.danger, custom_id=f"sugg_no_{primary_faq_flat_idx}", original_query=original_message_content, matched_keyword_text=matched_keyword_primary_text, faq_item_index=primary_faq_flat_idx, helpful=False)
-                    current_view1 = discord.ui.View(timeout=300)
-                    current_view1.add_item(btn_yes1); current_view1.add_item(btn_no1)
-                    await message.channel.send(embed=embed1, view=current_view1)
-                    temp_suggestion_forward_texts.append(f"Suggestion 1 (Score {primary_score:.2f}) - '{matched_keyword_primary_text}':\n{answer_primary}")
-                    logger.info("Semantic Suggestion 1 offered.", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}. Matched: '{matched_keyword_primary_text}'. Flat Index: {primary_faq_flat_idx}."})
-
-                    # Suggestion 2
                     if len(top_indices) > 1:
-                        secondary_faq_flat_idx = top_indices[1]
-                        secondary_score = top_scores[1]
-                        if secondary_score >= SUGGESTION_THRESHOLD:
-                            # Safely access secondary suggestion details
-                            if 0 <= secondary_faq_flat_idx < len(faq_questions) and \
-                               0 <= secondary_faq_flat_idx < len(faq_original_indices):
-                                original_faq_item_idx_secondary = faq_original_indices[secondary_faq_flat_idx]
-                                if 0 <= original_faq_item_idx_secondary < len(faq_items_original_list):
-                                    matched_item_secondary = faq_items_original_list[original_faq_item_idx_secondary]
-                                    answer_secondary = matched_item_secondary.get("answer", "Answer not available.")
-                                    matched_keyword_secondary_text = faq_questions[secondary_faq_flat_idx].capitalize()
-
-                                    embed2 = discord.Embed(title=f"🤔 Suggestion 2: Related to '{matched_keyword_secondary_text}'", description=answer_secondary, color=discord.Color.gold())
-                                    btn_yes2 = SuggestionButton(label="✅ Helpful!", style=discord.ButtonStyle.success, custom_id=f"sugg_yes_{secondary_faq_flat_idx}", original_query=original_message_content, matched_keyword_text=matched_keyword_secondary_text, faq_item_index=secondary_faq_flat_idx, helpful=True)
-                                    btn_no2 = SuggestionButton(label="❌ Not quite", style=discord.ButtonStyle.danger, custom_id=f"sugg_no_{secondary_faq_flat_idx}", original_query=original_message_content, matched_keyword_text=matched_keyword_secondary_text, faq_item_index=secondary_faq_flat_idx, helpful=False)
-                                    current_view2 = discord.ui.View(timeout=300)
-                                    current_view2.add_item(btn_yes2); current_view2.add_item(btn_no2)
-                                    await message.channel.send(embed=embed2, view=current_view2)
-                                    temp_suggestion_forward_texts.append(f"Suggestion 2 (Score {secondary_score:.2f}) - '{matched_keyword_secondary_text}':\n{answer_secondary}")
-                                    logger.info("Semantic Suggestion 2 offered.", extra={**log_extra_base, 'details': f"Score: {secondary_score:.2f}. Matched: '{matched_keyword_secondary_text}'. Flat Index: {secondary_faq_flat_idx}."})
+                        secondary_faq_flat_idx = top_indices[1]; secondary_score = top_scores[1]
+                        if secondary_score >= SUGGESTION_THRESHOLD and \
+                           (0 <= secondary_faq_flat_idx < len(faq_questions) and 0 <= secondary_faq_flat_idx < len(faq_original_indices)):
+                            original_faq_item_idx_secondary = faq_original_indices[secondary_faq_flat_idx]
+                            if 0 <= original_faq_item_idx_secondary < len(faq_items_original_list):
+                                matched_item_secondary = faq_items_original_list[original_faq_item_idx_secondary]
+                                answer_secondary = matched_item_secondary.get("answer", "Answer not available.")
+                                matched_keyword_secondary_text = faq_questions[secondary_faq_flat_idx].capitalize()
+                                embed2 = discord.Embed(title=f"🤔 Suggestion 2: '{matched_keyword_secondary_text}'", description=answer_secondary, color=discord.Color.gold())
+                                view2 = SuggestionButton.construct_view(original_message_content, matched_keyword_secondary_text, answer_secondary, secondary_faq_flat_idx) # Assuming a helper
+                                await message.channel.send(embed=embed2, view=view2)
+                                temp_suggestion_forward_texts.append(f"Sugg 2 (Score {secondary_score:.2f}) '{matched_keyword_secondary_text}':\n{answer_secondary}")
+                                logger.info("Semantic Suggestion 2 offered.", extra={**log_extra_base, 'details': f"Score: {secondary_score:.2f}, Matched: '{matched_keyword_secondary_text}'."})
                     bot_reply_text_for_forwarding = "\n---\n".join(temp_suggestion_forward_texts)
-                else: # Fallback if score is below SUGGESTION_THRESHOLD
-                    bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find a clear answer for that.")
+                else: 
+                    bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find an answer.")
                     await message.channel.send(bot_reply_text_for_forwarding)
-                    logger.info("Unanswered query, fallback sent.", extra={**log_extra_base, 'details': f"Low semantic score ({primary_score:.2f})."})
+                    logger.info("Unanswered query, fallback sent (low semantic score).", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}."})
     
-    # Call forwarding function if a bot reply was determined
     if bot_reply_text_for_forwarding:
         await forward_qa_to_admins(original_message_content, bot_reply_text_for_forwarding, message.author)
 
-
 # --- Run the Bot ---
 if __name__ == "__main__":
-    # Make sure to replace placeholder IDs in ADMIN_USER_IDS
-    # Example: Filter out placeholders if they exist
     actual_admin_ids = {uid for uid in ADMIN_USER_IDS if isinstance(uid, int)}
     if len(actual_admin_ids) < len(ADMIN_USER_IDS):
-        print("WARNING: Placeholder admin IDs detected. Please replace them with actual numerical Discord User IDs.")
-        print(f"Current ADMIN_USER_IDS: {ADMIN_USER_IDS}")
-    ADMIN_USER_IDS = actual_admin_ids # Use only valid IDs
+        print("WARNING: Placeholder admin IDs detected in ADMIN_USER_IDS. Please replace them.")
+    ADMIN_USER_IDS = actual_admin_ids
 
     if TOKEN:
         try:
