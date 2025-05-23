@@ -831,4 +831,3 @@ if __name__ == "__main__":
     else:
         print("Error: DISCORD_TOKEN not found in .env file or environment variables. Bot cannot start.")
         logger.critical("DISCORD_TOKEN not found. Bot cannot start.", extra={'details': 'Token Missing'})
---- END OF FILE bot.py ---
