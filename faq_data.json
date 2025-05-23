@@ -218,7 +218,7 @@
                 "am i supposed to listen to the patch conversation", "what to do if the line is busy during a patch attempt",
                 "how do patch calls function technically", "meaning of a patch call in our work", "patch call definition for agents"
             ],
-            "answer": "A 'patch' or 'patch-through call' is when we contact the voter about a concern, ask them to be patched to their official's office, encourage them, and then transfer. Patch scripts are 100% verbatim, including follow-up statements. (See 'list codes' for dispositions and ask 'patch steps' for procedure)."
+            "answer": "A 'patch' or 'patch-through call' is when we contact the voter about a concern, ask them to be patched to their official's office, encourage them, and then transfer. All scripts are 100% verbatim, including follow-up statements. (See 'list codes' for dispositions and ask 'patch steps' for procedure)."
         },
         {
             "keywords": [
@@ -332,7 +332,7 @@
                 "can i skip parts of the survey script or summarize", "consequences of not reading survey script verbatim",
                 "rule about script adherence for surveys", "verbatim script policy"
             ],
-            "answer": "Surveys are always to be read 100% VERBATIM. There is NO exception to this rule. If it is a survey, you may not ADD or REMOVE a single word from the script. You are paid to read it, not write it. (Not reading 100% verbatim could result in contract termination)."
+            "answer": "All scripts are always to be read 100% VERBATIM. There is NO exception to this rule. If it is a survey, you may not ADD or REMOVE a single word from the script. You are paid to read it, not write it. (Not reading 100% verbatim could result in contract termination)."
         },
         {
             "keywords": [
