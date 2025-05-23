@@ -1,4 +1,3 @@
-
 import discord
 import os
 import json
@@ -20,10 +19,18 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 FAQ_URL = "https://raw.githubusercontent.com/BrandonDavidJones1/Samantha/main/faq_data.json"
 FUZZY_MATCH_THRESHOLD_GREETINGS = 75
 LOG_FILE = "unanswered_queries.log"
-SEMANTIC_SEARCH_THRESHOLD = 0.60
-SUGGESTION_THRESHOLD = 0.45
-MAX_SUGGESTIONS_TO_SHOW = 2 # Max number of distinct suggestions to show
-CANDIDATES_TO_FETCH_FOR_SUGGESTIONS = 5 # How many top semantic matches to consider for suggestions
+SEMANTIC_SEARCH_THRESHOLD = 0.65 # Base threshold for considering a direct answer
+SUGGESTION_THRESHOLD = 0.45    # Base threshold for considering an item as a suggestion
+MAX_SUGGESTIONS_TO_SHOW = 2    # Max number of distinct suggestions to show
+CANDIDATES_TO_FETCH_FOR_SUGGESTIONS = 5 # How many top semantic matches to consider
+
+# Dynamic Threshold Configuration
+DYNAMIC_THRESHOLD_ENABLED = True       # Set to False to revert to static threshold logic
+CONFIDENCE_GAP_FOR_DIRECT_ANSWER = 0.15  # If dynamic, top score must be this much higher than 2nd for direct
+                                        # (and top score >= SEMANTIC_SEARCH_THRESHOLD)
+SIMILAR_SCORE_CLUSTER_THRESHOLD = 0.07 # If dynamic, and top score is high, but gap to 2nd is < this,
+                                        # it's an "ambiguous cluster" -> prefer suggestions.
+                                        # (Secondary score should also be >= SUGGESTION_THRESHOLD)
 
 # --- Bot Setup ---
 intents = discord.Intents.default()
@@ -522,7 +529,7 @@ async def on_message(message: discord.Message):
         word_to_pronounce_input = original_message_content[len(pronounce_prefix):].strip()
     elif user_query_lower.startswith(pronounce_prefix_no_bang):
         temp_word = original_message_content[len(pronounce_prefix_no_bang):].strip()
-        if temp_word and len(user_query_lower.split()) < 5:
+        if temp_word and len(user_query_lower.split()) < 5: # Avoid triggering for long sentences that happen to start with "pronounce"
              word_to_pronounce_input = temp_word
 
     if word_to_pronounce_input:
@@ -536,7 +543,7 @@ async def on_message(message: discord.Message):
                 audio_url = await get_pronunciation_audio_url(word_to_pronounce_input)
             encoded_word_for_google = urllib.parse.quote_plus(word_to_pronounce_input)
             google_link = f"https://www.google.com/search?q=how+to+pronounce+{encoded_word_for_google}"
-            youtube_link = f"https://www.youtube.com/playlist?list=PLvJSE3hDJAyN2a-i1GXZPXOpDPQZcerDc"
+            youtube_link = f"https://www.youtube.com/playlist?list=PLvJSE3hDJAyN2a-i1GXZPXOpDPQZcerDc" # Generic LTS playlist
 
             response_message_lines = [f"Pronunciation resources for \"**{word_to_pronounce_input}**\":"]
             log_audio_status = "Audio not found from API."
@@ -547,14 +554,14 @@ async def on_message(message: discord.Message):
                 response_message_lines.append(f"• Sorry, I couldn't find a direct audio pronunciation for \"{word_to_pronounce_input}\" from an API.")
             pronunciation_view.add_item(discord.ui.Button(label="Search on Google", style=discord.ButtonStyle.link, url=google_link))
             pronunciation_view.add_item(discord.ui.Button(label="Check LTS YouTube Playlist", style=discord.ButtonStyle.link, url=youtube_link))
-            if not audio_url:
+            if not audio_url: # Add this only if API audio is missing
                  response_message_lines.append(f"• You can check Google/YouTube for pronunciation resources.")
             response_to_user = "\n".join(response_message_lines)
 
-            if pronunciation_view.children:
+            if pronunciation_view.children: # Only send view if it has items
                  await message.channel.send(response_to_user, view=pronunciation_view)
             else:
-                 await message.channel.send(response_to_user)
+                 await message.channel.send(response_to_user) # Should not happen with current logic but safe
 
         bot_reply_text_for_forwarding = response_to_user + (" (View with buttons also sent)" if pronunciation_view.children else "")
         logger.info(f"Pronunciation request processed for '{word_to_pronounce_input}'.", extra={**log_extra_base, 'details': f"Audio from API: {log_audio_status}. Links provided."})
@@ -573,28 +580,32 @@ async def on_message(message: discord.Message):
             current_field_value = ""
             field_count = 0
             MAX_FIELD_VALUE_LEN = 1020
-            MAX_FIELDS = 24
+            MAX_FIELDS = 24 # Discord embed field limit is 25, title counts as one visually
             temp_forward_text_parts = ["Call Codes Sent:"]
             for code, description in call_codes_data.items():
                 entry_text = f"**{code.upper()}**: {description}\n\n"
                 temp_forward_text_parts.append(f"{code.upper()}: {description}")
                 if len(current_field_value) + len(entry_text) > MAX_FIELD_VALUE_LEN and field_count < MAX_FIELDS:
                     embed.add_field(name=f"Codes (Part {field_count + 1})" if field_count > 0 else "Codes", value=current_field_value, inline=False)
-                    current_field_value = ""; field_count += 1
+                    current_field_value = ""
+                    field_count += 1
                 if field_count >= MAX_FIELDS:
-                    logger.warning(f"List codes: Exceeded max embed fields ({MAX_FIELDS}).")
-                    await message.channel.send("The list of codes is very long and might be truncated.")
+                    logger.warning(f"List codes: Exceeded max embed fields ({MAX_FIELDS}). Some codes might be truncated.")
+                    await message.channel.send("The list of codes is very long and might be truncated from the display.")
                     break
                 current_field_value += entry_text
-            if current_field_value and field_count < MAX_FIELDS:
+            if current_field_value and field_count < MAX_FIELDS: # Add any remaining text
                 embed.add_field(name=f"Codes (Part {field_count + 1})" if field_count > 0 or not embed.fields else "Codes", value=current_field_value, inline=False)
-            if not embed.fields and not current_field_value:
-                reply_text = "No call codes formatted. Check data."
-                await message.channel.send(reply_text); bot_reply_text_for_forwarding = reply_text
-                logger.info("Command 'list codes' - no codes formatted.", extra=log_extra_base)
-            elif not embed.fields:
-                reply_text = "Found codes, but couldn't display them. Try again/ask manager."
-                await message.channel.send(reply_text); bot_reply_text_for_forwarding = reply_text
+
+            if not embed.fields and not current_field_value: # Should not happen if call_codes_data is not empty
+                reply_text = "No call codes were formatted for display. Please check the data source."
+                await message.channel.send(reply_text)
+                bot_reply_text_for_forwarding = reply_text
+                logger.info("Command 'list codes' - no codes formatted despite data existing.", extra=log_extra_base)
+            elif not embed.fields: # Also should be rare
+                reply_text = "Found codes, but couldn't display them in the embed. Try again or ask a manager."
+                await message.channel.send(reply_text)
+                bot_reply_text_for_forwarding = reply_text
             else:
                 await message.channel.send(embed=embed)
                 bot_reply_text_for_forwarding = "[Bot sent 'list codes' as an embed.]\n" + "\n".join(temp_forward_text_parts)
@@ -614,8 +625,9 @@ async def on_message(message: discord.Message):
             bot_reply_text_for_forwarding = f"Definition: {found_code_key.upper()}\n{call_codes_data[found_code_key]}"
             logger.info(f"Defined code '{found_code_key.upper()}' (exact match).", extra={**log_extra_base})
         else:
+            # Fuzzy match if no exact match
             best_match_code, score = process.extractOne(code_name_query_original_case, list(call_codes_data.keys()), scorer=fuzz.token_set_ratio)
-            if score > 80 and best_match_code:
+            if score > 80 and best_match_code: # Threshold for fuzzy match confidence
                 defined_code_embed = discord.Embed(title=f"Definition (for '{code_name_query_original_case}'): {best_match_code.upper()}", description=call_codes_data[best_match_code], color=discord.Color.purple())
                 bot_reply_text_for_forwarding = f"Definition (for '{code_name_query_original_case}'): {best_match_code.upper()}\n{call_codes_data[best_match_code]}"
                 logger.info(f"Defined code '{best_match_code.upper()}' (fuzzy match).", extra={**log_extra_base, 'details': f"Score: {score}."})
@@ -623,6 +635,7 @@ async def on_message(message: discord.Message):
             await message.channel.send(embed=defined_code_embed)
             await forward_qa_to_admins(original_message_content, bot_reply_text_for_forwarding, message.author)
             return
+        # If no exact or good fuzzy match for define, let it fall through to semantic search
 
     greetings_data = faq_data.get("greetings_and_pleasantries", [])
     for greeting_entry in greetings_data:
@@ -632,21 +645,26 @@ async def on_message(message: discord.Message):
         if match_result:
             matched_keyword_from_fuzz, score = match_result
             response_type = greeting_entry.get("response_type")
-            reply_text = f"Hello {message.author.mention}!"
+            reply_text = f"Hello {message.author.mention}!" # Default generic greeting
             if response_type == "standard_greeting":
                 reply_template = greeting_entry.get("greeting_reply_template", "Hello there, {user_mention}!")
+                # Try to get the original casing of the matched keyword for a more natural reply
                 actual_greeting_cased = next((kw for kw in keywords if kw.lower() == matched_keyword_from_fuzz.lower()), matched_keyword_from_fuzz)
                 reply_text = reply_template.format(actual_greeting_cased=actual_greeting_cased.capitalize(), user_mention=message.author.mention)
             elif response_type == "specific_reply":
-                reply_text = greeting_entry.get("reply_text", "I acknowledge that.")
+                reply_text = greeting_entry.get("reply_text", "I acknowledge that.") # Fallback if reply_text is missing
             await message.channel.send(reply_text)
             bot_reply_text_for_forwarding = reply_text
             logger.info(f"Greeting matched.", extra={**log_extra_base, 'details': f"Matched: '{matched_keyword_from_fuzz}', Score: {score}."})
             await forward_qa_to_admins(original_message_content, bot_reply_text_for_forwarding, message.author)
             return
 
+    # --- Semantic Search and Dynamic Threshold Logic ---
     faq_items_original_list = faq_data.get("general_faqs", [])
     top_indices, top_scores = semantic_search_top_n_matches(user_query_lower, n=CANDIDATES_TO_FETCH_FOR_SUGGESTIONS)
+
+    action = "fallback" # Default action
+    dynamic_decision_details = "N/A"
 
     if not top_indices:
         bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find an answer right now.")
@@ -654,26 +672,67 @@ async def on_message(message: discord.Message):
         logger.info("Unanswered query, fallback sent (no semantic hits).", extra=log_extra_base)
     else:
         primary_score = top_scores[0]
-        if primary_score >= SEMANTIC_SEARCH_THRESHOLD:
+        num_candidates = len(top_scores)
+
+        if DYNAMIC_THRESHOLD_ENABLED:
+            secondary_score = top_scores[1] if num_candidates > 1 else 0.0
+            gap = primary_score - secondary_score
+
+            if primary_score >= SEMANTIC_SEARCH_THRESHOLD:
+                is_dynamically_confirmed_direct = (num_candidates == 1 or gap >= CONFIDENCE_GAP_FOR_DIRECT_ANSWER)
+                is_ambiguous_cluster_for_suggestions = (num_candidates > 1 and
+                                                       gap < SIMILAR_SCORE_CLUSTER_THRESHOLD and
+                                                       secondary_score >= SUGGESTION_THRESHOLD) # Secondary needs to be relevant
+
+                if is_dynamically_confirmed_direct:
+                    action = "direct_answer"
+                    dynamic_decision_details = f"Dynamic: Direct. P={primary_score:.2f}, S={secondary_score:.2f}. Gap {gap:.2f} >= {CONFIDENCE_GAP_FOR_DIRECT_ANSWER}."
+                elif is_ambiguous_cluster_for_suggestions:
+                    action = "suggestions"
+                    dynamic_decision_details = f"Dynamic: Suggestions (ambiguous cluster). P={primary_score:.2f}, S={secondary_score:.2f}. Gap {gap:.2f} < {SIMILAR_SCORE_CLUSTER_THRESHOLD} & S >= {SUGGESTION_THRESHOLD}."
+                else: # Primary score >= SEMANTIC_SEARCH_THRESHOLD, but not a dynamic direct, nor an ambiguous cluster.
+                      # Under dynamic rules, this isn't "confident enough" for direct, so becomes suggestions.
+                    if primary_score >= SUGGESTION_THRESHOLD:
+                        action = "suggestions"
+                        dynamic_decision_details = f"Dynamic: Suggestions (P >= SemThresh but not dyn_direct/cluster). P={primary_score:.2f}, S={secondary_score:.2f}. Gap {gap:.2f}."
+                    # else: remains fallback (should be rare here as P >= SEMANTIC_SEARCH_THRESHOLD)
+            elif primary_score >= SUGGESTION_THRESHOLD: # Primary score is below SEMANTIC_SEARCH_THRESHOLD but above SUGGESTION_THRESHOLD
+                action = "suggestions"
+                dynamic_decision_details = f"Dynamic: Suggestions (P < SemThresh but P >= SugThresh). P={primary_score:.2f}."
+            # else: action remains "fallback" (primary_score < SUGGESTION_THRESHOLD)
+            if action == "fallback" and dynamic_decision_details == "N/A": # ensure details if fallback
+                dynamic_decision_details = f"Dynamic: Fallback. P={primary_score:.2f} < {SUGGESTION_THRESHOLD}."
+
+
+        else: # Static Threshold Logic
+            dynamic_decision_details = "Static Thresholds Used."
+            if primary_score >= SEMANTIC_SEARCH_THRESHOLD:
+                action = "direct_answer"
+            elif primary_score >= SUGGESTION_THRESHOLD:
+                action = "suggestions"
+            # else: action remains "fallback"
+
+        # --- Execute Action ---
+        if action == "direct_answer":
             primary_faq_flat_idx = top_indices[0]
             if not (0 <= primary_faq_flat_idx < len(faq_questions) and 0 <= primary_faq_flat_idx < len(faq_original_indices)):
-                logger.error(f"Semantic primary match index {primary_faq_flat_idx} out of bounds for direct hit.", extra=log_extra_base)
-                bot_reply_text_for_forwarding = faq_data.get("fallback_message", "Sorry, an error occurred.")
+                logger.error(f"Semantic primary match index {primary_faq_flat_idx} out of bounds for direct hit. {dynamic_decision_details}", extra=log_extra_base)
+                bot_reply_text_for_forwarding = faq_data.get("fallback_message", "Sorry, an error occurred processing your query.")
                 await message.channel.send(bot_reply_text_for_forwarding)
             else:
                 original_faq_item_idx_primary = faq_original_indices[primary_faq_flat_idx]
                 if not (0 <= original_faq_item_idx_primary < len(faq_items_original_list)):
-                    logger.error(f"Semantic primary original item index {original_faq_item_idx_primary} out of bounds for direct hit.", extra=log_extra_base)
-                    bot_reply_text_for_forwarding = faq_data.get("fallback_message", "Sorry, an error occurred.")
+                    logger.error(f"Semantic primary original item index {original_faq_item_idx_primary} out of bounds. {dynamic_decision_details}", extra=log_extra_base)
+                    bot_reply_text_for_forwarding = faq_data.get("fallback_message", "Sorry, an error occurred finding the answer.")
                     await message.channel.send(bot_reply_text_for_forwarding)
                 else:
                     matched_item_primary = faq_items_original_list[original_faq_item_idx_primary]
-                    answer_primary = matched_item_primary.get("answer", "Answer not available.")
+                    answer_primary = matched_item_primary.get("answer", "Answer not available for this item.")
                     await send_long_message(message.channel, answer_primary, view=None)
                     bot_reply_text_for_forwarding = answer_primary
-                    logger.info("Semantic FAQ Direct Match.", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}, Matched Keyword Flat Idx: '{primary_faq_flat_idx}', Original FAQ Idx: {original_faq_item_idx_primary}."})
+                    logger.info("Semantic FAQ Direct Match.", extra={**log_extra_base, 'details': f"Score: {primary_score:.2f}. Matched Keyword Flat Idx: {primary_faq_flat_idx}. Original FAQ Idx: {original_faq_item_idx_primary}. Decision: {dynamic_decision_details}"})
 
-        elif primary_score >= SUGGESTION_THRESHOLD:
+        elif action == "suggestions":
             suggestions_to_display = []
             shown_original_faq_indices = set()
 
@@ -681,21 +740,25 @@ async def on_message(message: discord.Message):
                 current_flat_idx = top_indices[i]
                 current_score = top_scores[i]
 
-                if current_score < SUGGESTION_THRESHOLD: break
+                if current_score < SUGGESTION_THRESHOLD: break # Stop if score too low for suggestions
                 if not (0 <= current_flat_idx < len(faq_original_indices) and 0 <= current_flat_idx < len(faq_questions)):
-                    logger.warning(f"Suggestion selection: flat_idx {current_flat_idx} out of bounds.")
+                    logger.warning(f"Suggestion selection: flat_idx {current_flat_idx} out of bounds. Decision: {dynamic_decision_details}")
                     continue
 
                 current_original_faq_idx = faq_original_indices[current_flat_idx]
 
                 if current_original_faq_idx not in shown_original_faq_indices:
                     if not (0 <= current_original_faq_idx < len(faq_items_original_list)):
-                        logger.warning(f"Suggestion selection: original_faq_idx {current_original_faq_idx} out of bounds.")
+                        logger.warning(f"Suggestion selection: original_faq_idx {current_original_faq_idx} out of bounds. Decision: {dynamic_decision_details}")
                         continue
 
                     matched_item = faq_items_original_list[current_original_faq_idx]
                     answer_text = matched_item.get("answer", "Answer not available.")
-                    matched_keyword_text = faq_questions[current_flat_idx].capitalize()
+                    # Ensure keyword text is capitalized properly
+                    matched_keyword_text = faq_questions[current_flat_idx]
+                    if matched_keyword_text: # Check if not empty
+                        matched_keyword_text = matched_keyword_text[0].upper() + matched_keyword_text[1:]
+
 
                     suggestions_to_display.append({
                         "score": current_score,
@@ -712,10 +775,11 @@ async def on_message(message: discord.Message):
                 intro_message = f"I'm not sure I have an exact answer for '{original_message_content}', but perhaps one of these is helpful?\n"
                 await send_long_message(message.channel, intro_message)
                 temp_suggestion_forward_texts = [intro_message]
+                logger_details_base = f"Decision: {dynamic_decision_details}. Primary Score: {primary_score:.2f}."
 
                 for i, sugg_data in enumerate(suggestions_to_display):
                     embed_title = f"🤔 Suggestion {i+1}: Related to '{sugg_data['keyword']}'"
-                    if len(embed_title) > 256:
+                    if len(embed_title) > 256: # Discord embed title limit
                         embed_title = embed_title[:253] + "..."
 
                     embed = discord.Embed(
@@ -725,39 +789,35 @@ async def on_message(message: discord.Message):
                     )
                     btn_yes = SuggestionButton(label="✅ Helpful!", style=discord.ButtonStyle.success, custom_id=f"sugg_yes_{sugg_data['flat_idx']}_{sugg_data['original_idx']}", original_query=original_message_content, matched_keyword_text=sugg_data['keyword'], faq_item_index=sugg_data['flat_idx'], original_faq_item_idx=sugg_data['original_idx'], helpful=True)
                     btn_no = SuggestionButton(label="❌ Not quite", style=discord.ButtonStyle.danger, custom_id=f"sugg_no_{sugg_data['flat_idx']}_{sugg_data['original_idx']}", original_query=original_message_content, matched_keyword_text=sugg_data['keyword'], faq_item_index=sugg_data['flat_idx'], original_faq_item_idx=sugg_data['original_idx'], helpful=False)
-                    sugg_view = discord.ui.View(timeout=300)
-                    sugg_view.add_item(btn_yes); sugg_view.add_item(btn_no)
+                    sugg_view = discord.ui.View(timeout=300) # 5 minutes timeout for buttons
+                    sugg_view.add_item(btn_yes)
+                    sugg_view.add_item(btn_no)
                     await message.channel.send(embed=embed, view=sugg_view)
 
                     temp_suggestion_forward_texts.append(f"Suggestion {i+1} (Score {sugg_data['score']:.2f}, Orig. FAQ Idx: {sugg_data['original_idx']}) '{sugg_data['keyword']}':\n{sugg_data['answer']}")
-                    logger.info(f"Semantic Suggestion {i+1} offered.", extra={**log_extra_base, 'details': f"Score: {sugg_data['score']:.2f}, Keyword: '{sugg_data['keyword']}', Orig. FAQ Idx: {sugg_data['original_idx']}."})
-
+                    logger.info(f"Semantic Suggestion {i+1} offered.", extra={**log_extra_base, 'details': f"{logger_details_base} Sugg Score: {sugg_data['score']:.2f}, Keyword: '{sugg_data['keyword']}', Orig. FAQ Idx: {sugg_data['original_idx']}."})
                 bot_reply_text_for_forwarding = "\n---\n".join(temp_suggestion_forward_texts)
-            else:
+            else: # No distinct suggestions met threshold after filtering
                 bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find a clear answer for that.")
                 await message.channel.send(bot_reply_text_for_forwarding)
-                logger.info("Unanswered query, fallback sent (no distinct suggestions met threshold after filtering).", extra=log_extra_base)
-        else:
+                logger.info("Unanswered query, fallback sent (no distinct suggestions met threshold).", extra={**log_extra_base, 'details': dynamic_decision_details})
+        else: # action == "fallback"
             bot_reply_text_for_forwarding = faq_data.get("fallback_message", "I'm sorry, I couldn't find an answer for that.")
             await message.channel.send(bot_reply_text_for_forwarding)
-            details_str = f"Primary score {primary_score:.2f} below suggestion threshold {SUGGESTION_THRESHOLD}."
-            logger.info("Unanswered query, fallback sent (low semantic score).", extra={**log_extra_base, 'details': details_str})
+            logger.info("Unanswered query, fallback sent (low semantic score or dynamic rules).", extra={**log_extra_base, 'details': dynamic_decision_details})
 
     if bot_reply_text_for_forwarding:
         await forward_qa_to_admins(original_message_content, bot_reply_text_for_forwarding, message.author)
 
 # --- Run the Bot ---
 if __name__ == "__main__":
-    # Ensure ADMIN_USER_IDS contains only integers before using it
-    # This must happen before on_ready uses ADMIN_USER_IDS
     actual_admin_ids = {uid for uid in ADMIN_USER_IDS if isinstance(uid, int)}
     if len(actual_admin_ids) < len(ADMIN_USER_IDS):
         print("INFO: Placeholder or non-integer admin IDs were filtered out. Ensure all admin IDs are correct integers.")
-    ADMIN_USER_IDS = actual_admin_ids # Update the global set
+    ADMIN_USER_IDS = actual_admin_ids
 
-    if not ADMIN_USER_IDS: # Check after filtering
+    if not ADMIN_USER_IDS:
         print("WARNING: ADMIN_USER_IDS set is empty after filtering. Log forwarding will not work for any user by default or by command.")
-
 
     if TOKEN:
         try:
@@ -771,3 +831,4 @@ if __name__ == "__main__":
     else:
         print("Error: DISCORD_TOKEN not found in .env file or environment variables. Bot cannot start.")
         logger.critical("DISCORD_TOKEN not found. Bot cannot start.", extra={'details': 'Token Missing'})
+--- END OF FILE bot.py ---
