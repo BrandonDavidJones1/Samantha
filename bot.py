@@ -1,4 +1,5 @@
 
+
 import discord
 import os
 import json
@@ -13,6 +14,7 @@ import urllib.parse
 import requests # Added for fetching from URL
 import asyncio
 from discord import ui # For Buttons and Views
+import collections # Added for deque
 
 # --- Configuration ---
 load_dotenv()
@@ -31,6 +33,11 @@ CONFIDENCE_GAP_FOR_DIRECT_ANSWER = 0.15
 SIMILAR_SCORE_CLUSTER_THRESHOLD = 0.07
 ABSOLUTE_HIGH_SCORE_OVERRIDE = 0.95 # If primary score is above this, direct answer regardless of gap (if DYNAMIC_THRESHOLD_ENABLED)
 
+# Context Handling Configuration
+CONTEXT_WINDOW_SIZE = 3
+CONTEXT_QUERY_LENGTH_THRESHOLD = 6 # Max words for a query to be considered "short" for context
+CONTEXT_PRONOUNS = {"it", "that", "this", "those", "them", "they", "he", "she", "him", "her", "its"}
+
 
 # --- Bot Setup ---
 intents = discord.Intents.default()
@@ -44,13 +51,15 @@ model = None
 faq_embeddings = []
 faq_questions = []
 faq_original_indices = []
+user_context_history = {} # UserID: deque([(user_query_original_case, bot_answer_main_part)], maxlen=CONTEXT_WINDOW_SIZE)
+
 
 # --- Admin and Log Forwarding Globals ---
 ADMIN_USER_IDS = {
     1342311589298311230,
     770409748922368000,
     1011068427189887037,
-}
+} # Replace with actual integer Admin User IDs
 admin_log_activation_status = {} # Will be populated in on_ready
 
 # --- Logging Setup ---
@@ -463,7 +472,6 @@ class SuggestionButton(discord.ui.Button):
             except discord.errors.InteractionResponded: pass # Already responded, nothing more to do
             except Exception: logger.error(f"SuggestionButton callback: CRITICAL - Failed to even send a generic error message after outer exception.", exc_info=True)
 
-
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} (ID: {bot.user.id}) has connected to Discord!')
@@ -497,14 +505,15 @@ async def on_message(message: discord.Message):
     if message.author == bot.user or not isinstance(message.channel, discord.DMChannel):
         return
 
-    initial_user_message_content_for_forwarding = message.content.strip() # Store for forwarding
-    user_query_lower_for_processing = message.content.lower().strip()
-    original_message_content_for_processing = message.content.strip() # This will be modified if greeting is stripped
+    initial_user_message_content_for_forwarding = message.content.strip()
+    user_query_lower_for_processing = message.content.lower().strip() # Raw user input, lowercased
+    original_message_content_for_processing = message.content.strip() # Raw user input, original case
 
     author_id = message.author.id
     author_name = str(message.author)
-    # log_extra_base will be updated if greeting is stripped
     log_extra_base = {'user_id': author_id, 'username': author_name, 'original_query_text': original_message_content_for_processing}
+    
+    context_was_applied_this_turn = False # For specific logging of enhanced queries
 
 
     if author_id in ADMIN_USER_IDS:
@@ -523,12 +532,49 @@ async def on_message(message: discord.Message):
         logger.info("Ignoring empty or punctuation-only query.", extra={**log_extra_base, 'details': 'Query was empty or only punctuation.'})
         return
 
-    # This will hold the text of the bot's full reply (greeting + FAQ, or just one)
-    # It will be built up and then used for forwarding.
     bot_reply_parts_for_forwarding = []
 
+    current_query_for_faq_lower = user_query_lower_for_processing
+    current_original_content_for_faq = original_message_content_for_processing
 
-    # --- Pronunciation Handling ---
+    # --- Contextual Query Enhancement ---
+    if author_id in user_context_history and user_context_history[author_id]:
+        # Use the current turn's original short query characteristics for decision
+        # Clean the query for word splitting to avoid punctuation issues with len()
+        cleaned_query_for_word_count = re.sub(r'[^\w\s]', '', user_query_lower_for_processing)
+        query_words = cleaned_query_for_word_count.split()
+
+        # CORRECTED CONDITION HERE:
+        if len(query_words) <= CONTEXT_QUERY_LENGTH_THRESHOLD and \
+           any(word in CONTEXT_PRONOUNS for word in query_words): # Check original lowercased words for pronouns
+            previous_user_query_context, _ = user_context_history[author_id][-1] 
+            if previous_user_query_context:
+                enhanced_original_content = f"{previous_user_query_context} {original_message_content_for_processing}"
+                enhanced_lower_query = f"{previous_user_query_context.lower()} {user_query_lower_for_processing}"
+
+                logger.info(
+                    "Context Used: Short pronoun query. Prepended previous query context.",
+                    extra={
+                        'user_id': author_id, 'username': author_name,
+                        'original_query_text': initial_user_message_content_for_forwarding, 
+                        'details': f"Short query: '{original_message_content_for_processing}' (length {len(query_words)}). Prev context Q: '{previous_user_query_context}'. Enhanced: '{enhanced_original_content}'"
+                    }
+                )
+                current_query_for_faq_lower = enhanced_lower_query
+                current_original_content_for_faq = enhanced_original_content
+                log_extra_base['original_query_text'] = current_original_content_for_faq # Update log_extra for subsequent logs
+                context_was_applied_this_turn = True # Mark that context was applied
+            else:
+                logger.info("Context NOT Used: Previous context query part was empty.", extra=log_extra_base)
+        else:
+            pronoun_check = any(word in CONTEXT_PRONOUNS for word in user_query_lower_for_processing.split())
+            logger.info(
+                f"Context NOT Used: Conditions not met. Query len: {len(query_words)} (threshold: <={CONTEXT_QUERY_LENGTH_THRESHOLD}), Pronoun found: {pronoun_check}",
+                extra=log_extra_base
+            )
+
+
+    # --- Pronunciation Handling (uses raw input from user_query_lower_for_processing, original_message_content_for_processing) ---
     pronounce_prefix = "!pronounce "
     pronounce_prefix_no_bang = "pronounce "
     word_to_pronounce_input = None
@@ -536,15 +582,13 @@ async def on_message(message: discord.Message):
         word_to_pronounce_input = original_message_content_for_processing[len(pronounce_prefix):].strip()
     elif user_query_lower_for_processing.startswith(pronounce_prefix_no_bang):
         temp_word = original_message_content_for_processing[len(pronounce_prefix_no_bang):].strip()
-        # Avoid triggering for long sentences that happen to start with "pronounce"
         if temp_word and len(user_query_lower_for_processing.split()) < 5:
              word_to_pronounce_input = temp_word
 
     if word_to_pronounce_input:
-        # ... (pronunciation logic as before, appends to bot_reply_parts_for_forwarding)
         response_to_user = ""
         pronunciation_view = discord.ui.View()
-        if not word_to_pronounce_input: # Word is empty
+        if not word_to_pronounce_input:
             response_to_user = "Please tell me what word or phrase you want to pronounce. Usage: `pronounce [word or phrase]`"
             await message.channel.send(response_to_user)
         else:
@@ -572,19 +616,20 @@ async def on_message(message: discord.Message):
             else:
                  await message.channel.send(response_to_user)
         bot_reply_parts_for_forwarding.append(response_to_user + (" (View with buttons also sent)" if pronunciation_view.children else ""))
-        logger.info(f"Pronunciation request processed for '{word_to_pronounce_input}'.", extra={**log_extra_base, 'details': f"Audio from API: {log_audio_status}. Links provided."})
+        current_log_extra_cmd = {'user_id': author_id, 'username': author_name, 'original_query_text': initial_user_message_content_for_forwarding}
+        logger.info(f"Pronunciation request processed for '{word_to_pronounce_input}'.", extra={**current_log_extra_cmd, 'details': f"Audio from API: {log_audio_status}. Links provided."})
         await forward_qa_to_admins(initial_user_message_content_for_forwarding, "\n".join(bot_reply_parts_for_forwarding), message.author)
         return
 
-    # --- List Codes Handling ---
+    # --- List Codes Handling (uses raw input: user_query_lower_for_processing) ---
     if user_query_lower_for_processing == "list codes":
-        # ... (list codes logic as before, appends to bot_reply_parts_for_forwarding)
         call_codes_data = faq_data.get("call_codes", {})
+        current_log_extra_cmd = {'user_id': author_id, 'username': author_name, 'original_query_text': initial_user_message_content_for_forwarding}
         if not call_codes_data:
             reply_text = "I don't have any call codes defined at the moment."
             await message.channel.send(reply_text)
             bot_reply_parts_for_forwarding.append(reply_text)
-            logger.info("Command 'list codes' - no codes found.", extra=log_extra_base)
+            logger.info("Command 'list codes' - no codes found.", extra=current_log_extra_cmd)
         else:
             embed = discord.Embed(title="☎️ Call Disposition Codes", color=discord.Color.blue())
             current_field_value = ""
@@ -611,7 +656,7 @@ async def on_message(message: discord.Message):
                 reply_text = "No call codes formatted. Check data."
                 await message.channel.send(reply_text)
                 bot_reply_parts_for_forwarding.append(reply_text)
-                logger.info("Command 'list codes' - no codes formatted.", extra=log_extra_base)
+                logger.info("Command 'list codes' - no codes formatted.", extra=current_log_extra_cmd)
             elif not embed.fields:
                 reply_text = "Found codes, but couldn't display them. Try again/ask manager."
                 await message.channel.send(reply_text)
@@ -619,44 +664,39 @@ async def on_message(message: discord.Message):
             else:
                 await message.channel.send(embed=embed)
                 bot_reply_parts_for_forwarding.append("[Bot sent 'list codes' as an embed.]\n" + "\n".join(temp_forward_text_parts_for_log))
-            logger.info("Command 'list codes' processed.", extra={**log_extra_base, 'details': f"Displayed {len(call_codes_data) if call_codes_data else 0} codes."})
+            logger.info("Command 'list codes' processed.", extra={**current_log_extra_cmd, 'details': f"Displayed {len(call_codes_data) if call_codes_data else 0} codes."})
         await forward_qa_to_admins(initial_user_message_content_for_forwarding, "\n".join(bot_reply_parts_for_forwarding), message.author)
         return
 
-    # --- Define Code Handling ---
+    # --- Define Code Handling (uses raw input: user_query_lower_for_processing) ---
     match_define_code = re.match(r"^(?:what is|define|explain)\s+([\w\s-]+)\??$", user_query_lower_for_processing)
     if match_define_code:
         code_name_query_original_case = match_define_code.group(1).strip()
-        # ... (define code logic as before, appends to bot_reply_parts_for_forwarding)
         code_name_query_upper = code_name_query_original_case.upper()
         call_codes_data = faq_data.get("call_codes", {})
         found_code_key = next((k for k in call_codes_data if k.upper() == code_name_query_upper), None)
         defined_code_embed = None
         temp_bot_reply = None
+        current_log_extra_cmd = {'user_id': author_id, 'username': author_name, 'original_query_text': initial_user_message_content_for_forwarding}
         if found_code_key:
             defined_code_embed = discord.Embed(title=f"Definition: {found_code_key.upper()}", description=call_codes_data[found_code_key], color=discord.Color.purple())
             temp_bot_reply = f"Definition: {found_code_key.upper()}\n{call_codes_data[found_code_key]}"
-            logger.info(f"Defined code '{found_code_key.upper()}' (exact match).", extra=log_extra_base)
+            logger.info(f"Defined code '{found_code_key.upper()}' (exact match).", extra=current_log_extra_cmd)
         else:
             best_match_code, score = process.extractOne(code_name_query_original_case, list(call_codes_data.keys()), scorer=fuzz.token_set_ratio)
             if score > 80 and best_match_code:
                 defined_code_embed = discord.Embed(title=f"Definition (for '{code_name_query_original_case}'): {best_match_code.upper()}", description=call_codes_data[best_match_code], color=discord.Color.purple())
                 temp_bot_reply = f"Definition (for '{code_name_query_original_case}'): {best_match_code.upper()}\n{call_codes_data[best_match_code]}"
-                logger.info(f"Defined code '{best_match_code.upper()}' (fuzzy match).", extra={**log_extra_base, 'details': f"Score: {score}."})
+                logger.info(f"Defined code '{best_match_code.upper()}' (fuzzy match).", extra={**current_log_extra_cmd, 'details': f"Score: {score}."})
         if defined_code_embed:
             await message.channel.send(embed=defined_code_embed)
             if temp_bot_reply: bot_reply_parts_for_forwarding.append(temp_bot_reply)
             await forward_qa_to_admins(initial_user_message_content_for_forwarding, "\n".join(bot_reply_parts_for_forwarding), message.author)
             return
-        # If no match for define, let it fall through
 
-    # --- Greeting Handling (Potentially with Follow-up Question) ---
+    # --- Greeting Handling (Operates on current_query_for_faq_lower, current_original_content_for_faq) ---
     greetings_data = faq_data.get("greetings_and_pleasantries", [])
     greeting_matched_this_interaction = False
-    # Use a copy for potential modification if greeting is stripped
-    current_query_for_faq_lower = user_query_lower_for_processing
-    current_original_content_for_faq = original_message_content_for_processing
-
     best_greeting_match_entry = None
     len_of_matched_greeting_keyword = 0
     matched_greeting_keyword_original_casing = None
@@ -666,13 +706,11 @@ async def on_message(message: discord.Message):
         if not keywords: continue
         for kw in keywords:
             kw_lower = kw.lower()
-            if user_query_lower_for_processing.startswith(kw_lower):
-                # Check if this is a better (longer) prefix match
+            if current_query_for_faq_lower.startswith(kw_lower):
                 if len(kw_lower) > len_of_matched_greeting_keyword:
                     len_of_matched_greeting_keyword = len(kw_lower)
                     best_greeting_match_entry = greeting_entry
-                    matched_greeting_keyword_original_casing = original_message_content_for_processing[:len(kw_lower)]
-
+                    matched_greeting_keyword_original_casing = current_original_content_for_faq[:len(kw_lower)]
 
     if best_greeting_match_entry:
         greeting_matched_this_interaction = True
@@ -689,8 +727,7 @@ async def on_message(message: discord.Message):
         await message.channel.send(greeting_reply_text)
         bot_reply_parts_for_forwarding.append(greeting_reply_text)
 
-        remainder_after_greeting = original_message_content_for_processing[len_of_matched_greeting_keyword:].strip()
-        # Clean common leading punctuation from remainder
+        remainder_after_greeting = current_original_content_for_faq[len_of_matched_greeting_keyword:].strip()
         if remainder_after_greeting and remainder_after_greeting[0] in string.punctuation:
             remainder_after_greeting = remainder_after_greeting[1:].strip()
 
@@ -698,24 +735,20 @@ async def on_message(message: discord.Message):
 
         if not is_text_empty_or_punctuation_only(remainder_after_greeting) and len(remainder_after_greeting) > 3:
             current_query_for_faq_lower = remainder_after_greeting.lower()
-            current_original_content_for_faq = remainder_after_greeting
-            # Update log_extra_base for subsequent FAQ logging to reflect the remainder
-            log_extra_base['original_query_text'] = current_original_content_for_faq
+            current_original_content_for_faq = remainder_after_greeting 
+            log_extra_base['original_query_text'] = current_original_content_for_faq 
             logger.info(f"Processing remainder of query after greeting: '{current_original_content_for_faq}'", extra=log_extra_base)
-            # Allow to fall through to FAQ processing
         else:
-            # No substantial query after greeting, forward and stop.
             await forward_qa_to_admins(initial_user_message_content_for_forwarding, "\n".join(bot_reply_parts_for_forwarding), message.author)
             return
-    # If no greeting prefix match, try general fuzzy match for greetings IF the whole query is short (likely just a greeting)
-    elif len(user_query_lower_for_processing) < 30: # Arbitrary short query length
+    elif len(current_query_for_faq_lower) < 30: 
         for greeting_entry in greetings_data:
             keywords = greeting_entry.get("keywords", [])
             if not keywords: continue
-            match_result = process.extractOne(user_query_lower_for_processing, keywords, scorer=fuzz.token_set_ratio, score_cutoff=FUZZY_MATCH_THRESHOLD_GREETINGS)
+            match_result = process.extractOne(current_query_for_faq_lower, keywords, scorer=fuzz.token_set_ratio, score_cutoff=FUZZY_MATCH_THRESHOLD_GREETINGS)
             if match_result:
                 matched_keyword_from_fuzz, score = match_result
-                greeting_matched_this_interaction = True # Mark as greeting
+                greeting_matched_this_interaction = True
                 response_type = greeting_entry.get("response_type")
                 reply_text = f"Hello {message.author.mention}!"
                 if response_type == "standard_greeting":
@@ -728,18 +761,36 @@ async def on_message(message: discord.Message):
                 bot_reply_parts_for_forwarding.append(reply_text)
                 logger.info(f"Greeting matched (fuzzy, short query).", extra={**log_extra_base, 'details': f"Matched: '{matched_keyword_from_fuzz}', Score: {score}."})
                 await forward_qa_to_admins(initial_user_message_content_for_forwarding, "\n".join(bot_reply_parts_for_forwarding), message.author)
-                return # This was solely a greeting
+                return
 
-    # --- Semantic Search and Dynamic Threshold Logic (operates on current_query_for_faq_lower) ---
+    # --- Semantic Search and Dynamic Threshold Logic (operates on current_query_for_faq_lower/current_original_content_for_faq) ---
     faq_items_original_list = faq_data.get("general_faqs", [])
     top_indices, top_scores = semantic_search_top_n_matches(current_query_for_faq_lower, n=CANDIDATES_TO_FETCH_FOR_SUGGESTIONS)
 
+    if context_was_applied_this_turn:
+        top_matches_log_details = []
+        if top_indices:
+            for i_log in range(min(len(top_indices), 3)): 
+                idx_log = top_indices[i_log]
+                score_log = top_scores[i_log]
+                if 0 <= idx_log < len(faq_original_indices) and 0 <= idx_log < len(faq_questions):
+                    original_faq_idx_log = faq_original_indices[idx_log]
+                    keyword_text_log = faq_questions[idx_log]
+                    top_matches_log_details.append(f"(Score: {score_log:.3f}, OrigFAQIdx: {original_faq_idx_log}, MatchedKW: '{keyword_text_log[:60]}...')")
+                else:
+                    top_matches_log_details.append(f"(Score: {score_log:.3f}, FlatIdx: {idx_log} - out of bounds for keyword/original_idx lookup)")
+        
+        logger.info(
+            f"Semantic search ran on CONTEXT-ENHANCED query. Top matches: {'; '.join(top_matches_log_details) if top_matches_log_details else 'No semantic hits.'}",
+            extra={**log_extra_base, 'details': f"Enhanced query was: '{current_original_content_for_faq}'. Raw short query for this turn: '{original_message_content_for_processing}'."}
+        )
+
     action = "fallback"
     dynamic_decision_details = "N/A"
-    faq_answer_part_text = None # Text of the FAQ answer/suggestions/fallback for the (potentially remaining) query
+    faq_answer_part_text = None 
 
     if not top_indices:
-        if not greeting_matched_this_interaction: # Only send fallback if no greeting was already sent
+        if not greeting_matched_this_interaction:
             faq_answer_part_text = faq_data.get("fallback_message", "I'm sorry, I couldn't find an answer right now.")
             await message.channel.send(faq_answer_part_text)
             logger.info("Unanswered query, fallback sent (no semantic hits).", extra=log_extra_base)
@@ -766,17 +817,15 @@ async def on_message(message: discord.Message):
                     action = "suggestions"
                     dynamic_decision_details = f"Dynamic: Suggestions (ambiguous cluster). P={primary_score:.2f}, S={secondary_score:.2f}. Gap {gap:.2f} < {SIMILAR_SCORE_CLUSTER_THRESHOLD} & S >= {SUGGESTION_THRESHOLD}."
                 else:
-                    if primary_score >= SUGGESTION_THRESHOLD: # Should always be true if >= SEMANTIC_SEARCH_THRESHOLD
+                    if primary_score >= SUGGESTION_THRESHOLD:
                         action = "suggestions"
                         dynamic_decision_details = f"Dynamic: Suggestions (P >= SemThresh but not dyn_direct/cluster). P={primary_score:.2f}, S={secondary_score:.2f}. Gap {gap:.2f}."
-                    # else: remains fallback (P was >= SEMANTIC_SEARCH_THRESHOLD but somehow not >= SUGGESTION_THRESHOLD - should be rare)
             elif primary_score >= SUGGESTION_THRESHOLD:
                 action = "suggestions"
                 dynamic_decision_details = f"Dynamic: Suggestions (P < SemThresh but P >= SugThresh). P={primary_score:.2f}."
-            # else: action remains "fallback"
             if action == "fallback" and dynamic_decision_details == "N/A":
                 dynamic_decision_details = f"Dynamic: Fallback. P={primary_score:.2f} < {SUGGESTION_THRESHOLD}."
-        else: # Static Threshold Logic
+        else: 
             dynamic_decision_details = "Static Thresholds Used."
             if primary_score >= SEMANTIC_SEARCH_THRESHOLD:
                 action = "direct_answer"
@@ -854,23 +903,60 @@ async def on_message(message: discord.Message):
                 await message.channel.send(faq_answer_part_text)
                 logger.info("Unanswered query, fallback sent (low semantic score or dynamic rules).", extra={**log_extra_base, 'details': dynamic_decision_details})
 
+    # --- Context Storage ---
+    if faq_answer_part_text: 
+        if author_id not in user_context_history:
+            user_context_history[author_id] = collections.deque(maxlen=CONTEXT_WINDOW_SIZE)
+        
+        user_context_history[author_id].append((current_original_content_for_faq, faq_answer_part_text))
+        context_storage_log_extra = {'user_id': author_id, 'username': author_name, 
+                                     'original_query_text': initial_user_message_content_for_forwarding}
+        logger.info(
+            f"Context Stored: For user {author_id}.",
+            extra={
+                **context_storage_log_extra,
+                'details': f"Stored Q-part for context: '{current_original_content_for_faq[:100]}...'. Stored A-part for context: '{faq_answer_part_text[:100]}...'"
+            }
+        )
+
     # --- Consolidate bot replies for forwarding ---
-    if faq_answer_part_text: # If there was an FAQ part (answer, suggestions, or fallback for remainder)
-        bot_reply_parts_for_forwarding.append(faq_answer_part_text)
+    if faq_answer_part_text: 
+        # Avoid appending if faq_answer_part_text is already the last element (e.g., if no greeting)
+        if not bot_reply_parts_for_forwarding or bot_reply_parts_for_forwarding[-1] != faq_answer_part_text:
+            bot_reply_parts_for_forwarding.append(faq_answer_part_text)
 
-    if bot_reply_parts_for_forwarding: # If anything was said by the bot
-        # Join with a clear separator if both greeting and FAQ parts exist
+    if bot_reply_parts_for_forwarding:
         final_bot_reply_for_forwarding = ""
-        if greeting_matched_this_interaction and faq_answer_part_text:
-            # First part is greeting, second is FAQ response for remainder
-            final_bot_reply_for_forwarding = f"{bot_reply_parts_for_forwarding[0]}\n" \
-                                             f"THEN, for the rest of the query ('{current_original_content_for_faq}'):\n" \
-                                             f"{faq_answer_part_text}"
-        else: # Only one part (either just greeting, or just FAQ processing)
-            final_bot_reply_for_forwarding = "\n".join(bot_reply_parts_for_forwarding)
+        is_greeting_present = greeting_matched_this_interaction
+        
+        greeting_text_from_list = ""
+        faq_text_from_list_for_forward = "" # This will be the text of the FAQ answer, suggestions, or fallback.
 
-        await forward_qa_to_admins(initial_user_message_content_for_forwarding, final_bot_reply_for_forwarding, message.author)
-
+        if is_greeting_present and len(bot_reply_parts_for_forwarding) > 0:
+            # Assuming the greeting, if sent, is the first item in bot_reply_parts_for_forwarding
+            greeting_text_from_list = bot_reply_parts_for_forwarding[0]
+        
+        # faq_answer_part_text holds the direct answer/suggestions/fallback for the
+        # (potentially remaining or context-enhanced) query. This is what we want for the "FAQ part" of the forward.
+        if faq_answer_part_text:
+            faq_text_from_list_for_forward = faq_answer_part_text
+            
+        if greeting_text_from_list and faq_text_from_list_for_forward:
+            # Both a greeting was sent, and a subsequent FAQ-related response was generated
+            # current_original_content_for_faq at this stage is the text that was processed by the semantic search
+            # (i.e., the remainder after greeting, or the context-enhanced query)
+            final_bot_reply_for_forwarding = (
+                f"{greeting_text_from_list}\n"
+                f"THEN, for the query part ('{current_original_content_for_faq}'):\n"
+                f"{faq_text_from_list_for_forward}"
+            )
+        elif greeting_text_from_list: 
+            final_bot_reply_for_forwarding = greeting_text_from_list
+        elif faq_text_from_list_for_forward: 
+            final_bot_reply_for_forwarding = faq_text_from_list_for_forward
+        
+        if final_bot_reply_for_forwarding:
+             await forward_qa_to_admins(initial_user_message_content_for_forwarding, final_bot_reply_for_forwarding, message.author)
 
 # --- Run the Bot ---
 if __name__ == "__main__":
