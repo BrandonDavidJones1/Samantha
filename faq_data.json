@@ -773,5 +773,5 @@
         "NOT IN": "This is not for 'Not Interested'. Use this if the VOF (Voter On File) cannot come to the phone for any reason. Say, “We will try again later. Thank you for your time.” Then code as 'Not In'.",
         "REFUSED": "Code as refused when they refuse a question or patch once the call has begun."
     },
-    "fallback_message": "I'm sorry, I couldn't find an answer for that specific query. Try typing for example 'list codes', 'common rebuttals', 'what is wrap up time', 'how can I reduce my wrap up time' or 'steps for a patch call'. You can also type 'pronounce [word]' to look up a pronunciation."
+     "fallback_message": "I couldn't find that. Try asking general questions (e.g., 'what is wrap up time?' then.. 'how can i reduce that?'), typing 'list codes' (then ask about one, like 'the first one'), or typing 'pronounce [word]' for resources."   
 }
