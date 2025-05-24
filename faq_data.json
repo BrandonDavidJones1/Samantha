@@ -876,5 +876,5 @@
             "answer": "Code as refused when they refuse a question or patch once the call has begun."
         }
     },
-     "fallback_message": "I couldn't find that. Try asking general questions (e.g., 'what is wrap up time?' then.. 'how can i reduce that?'), typing 'list codes' (then ask about one, like 'the first one' or 'define [code]'), or typing 'pronounce [word]' for resources."   
+     "fallback_message": "I couldn't find that. \n\n Try asking general questions \n (e.g., 'what is wrap up time?' then.. 'how can i reduce that?'), \n\n typing 'list codes' (then ask about one, like 'the first one' or 'define [code]'), \n\n or typing 'pronounce [word]' for resources."   
 }
