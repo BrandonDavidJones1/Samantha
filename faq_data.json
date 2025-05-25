@@ -35,7 +35,7 @@
         {
             "keywords": [
                 "what is wrap up time precisely", "What's high wrap up", "explain the concept of wrap up", "define acw in call center context",
-                "after call work described", "understanding post call processing", "definition of disposition time",
+                "understanding post call processing", "definition of disposition time",
                 "ideal time for call disposition", "what constitutes high wrap up duration", "explaining long wrap up periods",
                 "issues with too much wrap up", "company policy on wrap up duration",
                 "how long am i permitted to stay in wrap up status", "rules governing wrap up time limits", "basic explanation of wrap up state",
@@ -46,7 +46,7 @@
         },
         {
              "keywords": [
-                 "effective tips to improve wrap up speed", "how can I reduce my wrap up time", "strategies for achieving faster wrap up",
+                 "effective tips to improve wrap up speed", "improve wrap up time", "make wrap up better", "enhance wrap up efficiency.", "how can I reduce my wrap up time", "strategies for achieving faster wrap up",
                  "techniques to make wrap up process quicker", "list of quick wrap up improvement tips",
                  "how to enhance my wrap up speed performance", "best practices for wrap up time efficiency", "actionable acw reduction tips",
                  "best practices for efficient call dispositioning after call", "how to become faster at dispositioning calls",
@@ -368,7 +368,7 @@
         },
         {
             "keywords": [
-                "how to handle an upset or disruptive voter", "what to do with combative or angry callers",
+                "how to handle an upset or disruptive voter", "difficult person", "caller is difficult", "argumentative agressive person", "what to do with combative or angry callers",
                 "procedure for dealing with difficult callers", "can i hang up on an abusive voter",
                 "de-escalation techniques for upset voters", "contacting supervisor for disruptive calls",
                 "policy on hanging up on voters",
@@ -823,7 +823,22 @@
          {
             "keywords": ["I'm hungry", "I'm starving", "i need some food", "hungry", "starving", "need food"],
             "answer": "Then you should take a break and eat.  I like breakfast burritos. My favorite is bacon, egg and cheese!"
-         }
+         },
+         {
+            "keywords": [
+                "help",
+                "how do i use you",
+                "what can you do",
+                "bot commands",
+                "how to ask questions",
+                "usage instructions",
+                "can you help me",
+                "samantha help",
+                "bot help",
+                "what are your capabilities"
+            ],
+            "answer": "Hello! I can help you with a variety of things. Here's a quick guide:\n\n**1. Ask General Questions:**\nJust type out your question naturally! For example:\n*   `what is the policy on breaks?`\n*   `how do I handle a DNC request?`\n*   `what does CPH mean?`\nIf your first question is short and you have a follow-up, I'll try to use the context (e.g., after `what is wrap up time?`, you can ask `how can I reduce that?`).\n\n**2. Explore Call Codes:**\n*   Type `list codes` to see all available call disposition codes and their brief descriptions.\n*   After listing them, you can ask for more detail about a specific code, like:\n    *   `define wrong number`\n    *   `what is the third code?`\n    *   `tell me about the first one`\n\n**3. Get Pronunciation Help:**\nIf you're unsure how to say a word, name, or phrase:\n*   Type `pronounce [word]`\n    *   e.g., `pronounce hawaii`\n    *     I'll try to find an audio pronunciation and give you links to Google and YouTube for more resources.\n\n**Tips for Best Results:**\n*   Keep questions fairly specific if you have a particular topic in mind.\n*   If I offer suggestions, check if one of those is what you need!\n\nIf you're still stuck, don't hesitate to ask your supervisor. I'm always learning! 😊"
+        }
     ],
     "call_codes": {
         "1: WRONG NUMBER": {
@@ -867,5 +882,5 @@
             "answer": "Code as refused when they refuse a question or patch once the call has begun."
         }
     },
-     "fallback_message": "I couldn't find that. \n\nTry asking general questions \n'what is wrap up time?' \nthen.. \n'how can i reduce that?' \n\nTry typing 'list codes' \n\nask about one! \n'the first one' or 'define [code]'), \n\nor try typing 'pronounce [word]' for resources."   
-}
+        "fallback_message": "🤔 I couldn't quite find what you were looking for. \n\n**Here are some things you can try:**\n\n*   **Ask general questions:**\n    *   e.g., `what is wrap up time?`\n    *   then follow up with: `how can I reduce that?`\n\n*   **Explore Call Codes:**\n    *   Type `list codes` to see all codes.\n    *   Then ask about one, like: `the first one` or `define [code name]`\n\n*   **Pronunciation Help:**\n    *   Type `pronounce [word]` (e.g., `pronounce legislature`)"        "fallback_message": "🤔 I couldn't quite find what you were looking for. \n\n**Here are some things you can try:**\n\n*   **Ask general questions:**\n    *   e.g., `what is wrap up time?`\n    *   then follow up with: `how can I reduce that?`\n\n*   **Explore Call Codes:**\n    *   Type `list codes` to see all codes.\n    *   Then ask about one, like: `the first one` or `define [code name]`\n\n*   **Pronunciation Help:**\n    *   Type `pronounce [word]` (e.g., `pronounce legislature`)"
+    }
