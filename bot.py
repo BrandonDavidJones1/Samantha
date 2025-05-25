@@ -32,11 +32,12 @@ SIMILAR_SCORE_CLUSTER_THRESHOLD = 0.07
 ABSOLUTE_HIGH_SCORE_OVERRIDE = 0.85
 
 CONTEXT_WINDOW_SIZE = 3
-CONTEXT_QUERY_LENGTH_THRESHOLD = 6 # Max words for a query to be considered "short" for context
+CONTEXT_QUERY_LENGTH_THRESHOLD = 15 # Max words for a query to be considered "short" for context
 CONTEXT_PRONOUNS = {
     "it", "that", "this", "those", "them", "they", "he", "she", "him", "her", "its", # Subject/Object
     "one" # Can sometimes be used contextually e.g. "how about that one?"
 }
+interrogative_words = {"what", "who", "which", "whose", "where", "when", "why", "how"}
 # For pronoun replacement, map pronoun to a generic "thing" if we can't find a better noun
 PRONOUN_MAP_SUBJECT = {"it", "that", "this", "he", "she", "they"} # Pronouns that can act as subjects
 PRONOUN_MAP_OBJECT = {"it", "that", "this", "him", "her", "them", "one"} # Pronouns that can act as objects
@@ -112,28 +113,100 @@ def get_likely_referent_from_previous_query(text: str) -> str | None:
     if not nlp or not text:
         return None
     doc = nlp(text)
-    noun_chunks = [chunk.text.strip() for chunk in doc.noun_chunks]
-    if noun_chunks:
-        filtered_chunks = [nc for nc in noun_chunks if len(nc.split()) > 1 or (len(nc.split()) == 1 and nc.lower() not in CONTEXT_PRONOUNS)]
-        if filtered_chunks:
-            logger.debug(f"Pronoun Resolution: Found noun chunks in prev_query '{text}': {filtered_chunks}. Using last: '{filtered_chunks[-1]}'")
-            return filtered_chunks[-1]
-        elif noun_chunks: 
-            if noun_chunks[-1].lower() not in ["it", "this", "that"]:
-                logger.debug(f"Pronoun Resolution: Found only pronoun-like noun chunks. Using last non-generic: '{noun_chunks[-1]}'")
-                return noun_chunks[-1]
-
-    potential_referents = []
-    for token in reversed(doc): 
-        if token.pos_ in ["NOUN", "PROPN"]:
-            if token.text.lower() not in CONTEXT_PRONOUNS:
-                potential_referents.append(token.text)
     
-    if potential_referents:
-        logger.debug(f"Pronoun Resolution: Found nouns/propns in prev_query '{text}': {potential_referents}. Using most recent: '{potential_referents[0]}'")
-        return potential_referents[0] 
+    candidate_chunks = []
 
-    logger.debug(f"Pronoun Resolution: No clear noun/propn referent found in prev_query '{text}'.")
+    # 1. Analyze Noun Chunks
+    for chunk in doc.noun_chunks:
+        root = chunk.root
+        chunk_text = chunk.text.strip()
+        
+        # Basic filtering:
+        # a. Skip if the chunk's root is an interrogative word acting as such.
+        if root.lower_ in interrogative_words and root.dep_ in ["nsubj", "attr", "dobj", "advmod"]: # advmod for 'how'
+            # Check if it's truly just the interrogative word or a phrase starting with it
+            if chunk_text.lower().split()[0] == root.lower_ and len(chunk_text.split()) < 3: # e.g. "what", "what is it"
+                 logger.debug(f"Pronoun Resolution: Skipping interrogative-rooted chunk '{chunk_text}'")
+                 continue
+
+        # b. Skip if the chunk is essentially just a pronoun we want to replace (it, that, this)
+        #    unless it's part of a more descriptive phrase (e.g., "that specific policy").
+        if root.pos_ == "PRON" and chunk_text.lower() in CONTEXT_PRONOUNS:
+            is_descriptive_pronoun_phrase = False
+            for token_in_chunk in chunk:
+                # If there's an adjective or another noun in the chunk, it's more descriptive
+                if token_in_chunk.pos_ in ["ADJ", "NOUN"] and token_in_chunk.lower_ not in CONTEXT_PRONOUNS:
+                    is_descriptive_pronoun_phrase = True
+                    break
+            if not is_descriptive_pronoun_phrase:
+                logger.debug(f"Pronoun Resolution: Skipping simple pronoun chunk '{chunk_text}' as referent candidate.")
+                continue
+        
+        priority = 0
+        # Assign priority based on root POS
+        if root.pos_ == "PROPN":
+            priority += 50
+        elif root.pos_ == "NOUN":
+            priority += 20
+        
+        # Boost priority based on dependency role
+        if root.dep_ in ["nsubj", "nsubjpass"]:  # Subject
+            priority += 30
+        elif root.dep_ == "dobj":  # Direct Object
+            priority += 20
+        elif root.dep_ in ["attr", "appos"]: # Attribute or Apposition
+            priority += 15
+        elif root.dep_ == "pobj":  # Object of preposition
+            priority += 10
+            
+        # Small bonus for length (longer chunks can sometimes be more specific)
+        priority += len(chunk_text.split()) 
+
+        # Penalize if the root is still a pronoun, even if part of a phrase
+        if root.pos_ == "PRON":
+            priority -= 25
+
+
+        if priority > 0: # Only consider chunks with some positive indication
+             # Store chunk along with its start position for tie-breaking (prefer later mentioned)
+            candidate_chunks.append({"text": chunk_text, "priority": priority, "start_char": chunk.start_char})
+
+    if candidate_chunks:
+        # Sort by priority (desc), then by start_char (desc - for recency)
+        sorted_candidates = sorted(candidate_chunks, key=lambda x: (x["priority"], x["start_char"]), reverse=True)
+        best_chunk = sorted_candidates[0]["text"]
+        logger.debug(f"Pronoun Resolution: Best Noun Chunk: '{best_chunk}' (Priority: {sorted_candidates[0]['priority']}) from: {sorted_candidates}")
+        return best_chunk
+
+    # 2. Fallback: If no good noun chunks, look for individual NOUN/PROPN tokens (similar to old logic but more careful)
+    # This part is a safety net.
+    potential_single_tokens = []
+    for token in reversed(doc): # Iterate from end for recency
+        token_text = token.text.strip()
+        # Avoid interrogatives and simple pronouns
+        if token.pos_ in ["NOUN", "PROPN"] and \
+           token.lower_ not in CONTEXT_PRONOUNS and \
+           token.lower_ not in interrogative_words:
+            
+            priority = 0
+            if token.pos_ == "PROPN": priority = 5
+            elif token.dep_ in ["nsubj", "nsubjpass"]: priority = 4
+            elif token.dep_ == "dobj": priority = 3
+            elif token.dep_ in ["attr", "appos", "pobj"]: priority = 2
+            elif token.pos_ == "NOUN": priority = 1
+            
+            if priority > 0:
+                potential_single_tokens.append({"text": token_text, "priority": priority})
+
+    if potential_single_tokens:
+        # In this fallback, simple recency might be enough, or pick highest priority among recent.
+        # For simplicity, let's just take the first one found (most recent with any priority).
+        # A more complex sort could be added if needed.
+        best_single_token = potential_single_tokens[0]["text"] # Already reversed, so potential_single_tokens[0] is last
+        logger.debug(f"Pronoun Resolution (Fallback to Single Token): Using '{best_single_token}' from: {potential_single_tokens}")
+        return best_single_token
+
+    logger.debug(f"Pronoun Resolution: No suitable referent found in '{text}'.")
     return None
 
 def load_faq_data_from_url():

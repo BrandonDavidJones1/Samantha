@@ -826,43 +826,43 @@
          }
     ],
     "call_codes": {
-        "WRONG NUMBER": {
+        "1: WRONG NUMBER": {
             "keywords": ["wrong number", "code wrong number", "define wrong number", "what is wrong number", "wrong number disposition"],
             "answer": "Say, “We will update our records. Thank you for your time.”"
         },
-        "ANSWERING MACHINE": {
+        "2: ANSWERING MACHINE": {
             "keywords": ["answering machine", "code answering machine", "define answering machine", "what is answering machine", "voicemail code", "fax tone code", "answering machine disposition"],
             "answer": "Select this as soon as you hear any robotic voice. Delaying in these cases will get you flagged for “sitting on answering machines”. If you hear a fax tone, also use 'Answering Machine'."
         },
-        "NO ANSWER": {
+        "3: NO ANSWER": {
             "keywords": ["no answer", "code no answer", "define no answer", "what is no answer", "no answer disposition", "call rings no pickup"],
             "answer": "Use this if the call is hung up immediately, or before getting an answer to Q1. Note: There are GOTV (Get Out The Vote) Projects where there is no question 1, or where 'No Answer' might have special coding like 'COMPLETE LIVE' - always follow project-specific instructions."
         },
-        "DO NOT CALL": {
+        "4: DO NOT CALL": {
             "keywords": ["do not call", "dnc", "code dnc", "define do not call", "what is dnc", "do not call list", "dnc disposition"],
             "answer": "Important: We almost never use this Disposition. Only use this if you have confirmed you are speaking with the VOF (Voter On File) AND they specifically ask to be “added” to the Do Not Call List. Most of the time, if they ask to be “removed” from the call list, that would be marked as 'REFUSED' (go to Next page and Disposition from there)."
         },
-        "COMPLETE PATCH": {
+        "5: COMPLETE PATCH": {
             "keywords": ["complete patch", "code complete patch", "define complete patch", "what is complete patch", "successful patch code", "complete patch disposition"],
             "answer": "Use this if you got a “Yes” to being connected to their Representative AND read the entire closing statement. If a page comes up asking for call results, always select option 1 on that page, go to the next page, and Complete the patch without waiting to listen to them leave their message."
         },
-        "UNSUCCESSFUL PATCH": {
+        "6: UNSUCCESSFUL PATCH": {
             "keywords": ["unsuccessful patch", "code unsuccessful patch", "define unsuccessful patch", "what is unsuccessful patch", "failed patch code", "unsuccessful patch disposition"],
             "answer": "PLACEHOLDER - [Instructions for when a patch attempt does not succeed, e.g., line busy, no answer from representative, voter hangs up during patch attempt, etc.]"
         },
-        "LANGUAGE BARRIER": {
+        "7: LANGUAGE BARRIER": {
             "keywords": ["language barrier", "code language barrier", "define language barrier", "what is language barrier", "different language code", "language barrier disposition"],
             "answer": "If they speak any language other than English, say “We will have someone call you back who speaks Spanish. Thank you for your time.” Then code as 'Language Barrier'."
         },
-        "DECEASED": {
+        "8: DECEASED": {
             "keywords": ["deceased", "code deceased", "define deceased", "what is deceased", "voter deceased code", "deceased disposition"],
             "answer": "If informed the contact is deceased, say, “We will update our records. Thank you for your time.” Then code as 'Deceased'."
         },
-        "NOT IN": {
+        "9: NOT IN": {
             "keywords": ["not in", "code not in", "define not in", "what is not in", "voter not available code", "not in disposition"],
             "answer": "This is not for 'Not Interested'. Use this if the VOF (Voter On File) cannot come to the phone for any reason. Say, “We will try again later. Thank you for your time.” Then code as 'Not In'."
         },
-        "REFUSED": {
+        "10: REFUSED": {
             "keywords": ["refused", "code refused", "define refused", "what is refused", "voter refused code", "refused disposition", "not interested code"],
             "answer": "Code as refused when they refuse a question or patch once the call has begun."
         }
