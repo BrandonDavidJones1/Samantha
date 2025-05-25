@@ -32,7 +32,7 @@ SIMILAR_SCORE_CLUSTER_THRESHOLD = 0.07
 ABSOLUTE_HIGH_SCORE_OVERRIDE = 0.85
 
 CONTEXT_WINDOW_SIZE = 3
-CONTEXT_QUERY_LENGTH_THRESHOLD = 15 # Max words for a query to be considered "short" for context
+CONTEXT_QUERY_LENGTH_THRESHOLD = 11 # Max words for a query to be considered "short" for context
 CONTEXT_PRONOUNS = {
     "it", "that", "this", "those", "them", "they", "he", "she", "him", "her", "its", # Subject/Object
     "one" # Can sometimes be used contextually e.g. "how about that one?"
