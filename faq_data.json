@@ -827,6 +827,10 @@
          {
             "keywords": [
                 "help",
+                "help with calls",
+                "need help with calls",       
+                "assistance with calls",       
+                "call help",
                 "how do i use you",
                 "what can you do",
                 "bot commands",
@@ -882,5 +886,5 @@
             "answer": "Code as refused when they refuse a question or patch once the call has begun."
         }
     },
-    "fallback_message": "🤔 I couldn't quite find what you were looking for. \n\n**Here are some things you can try:**\n\n*   **Ask general questions:**\n    *   e.g., `what is wrap up time?`\n    *   then follow up with: `how can I reduce that?`\n\n*   **Explore Call Codes:**\n    *   Type `list codes` to see all codes.\n    *   Then ask about one, like: `the first one` or `define [code name]`\n\n*   **Pronunciation Help:**\n    *   Type `pronounce [word]` (e.g., `pronounce legislature`)\n\n💡 For a general guide on how to use me, you can also type `help`."
+    "fallback_message": "🤔 I couldn't quite find what you were looking for. \n\n**Here are some things you can try:**\n\n*   **Ask general questions:**\n    *   e.g., `what is wrap up time?`\n\n   *   **Explore Call Codes:**\n    *   Type `list codes` to see all codes.\n    *   Then ask about one, like: `the first one` or `define [code name]`\n\n*   **Pronunciation Help:**\n    *   Type `pronounce [word]` (e.g., `pronounce legislature`)\n\n💡 For a general guide on how to use me, you can also type `help`."
     }
