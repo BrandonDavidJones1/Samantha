@@ -627,9 +627,9 @@
                  "how do i look up how to say a difficult word", "can you help me pronounce a specific name",
                  "tool for checking pronunciation of words or names", "how to use the pronounce command for senator or city names",
                  "assistance with word pronunciation for calls", "using the bot for pronunciation help",
-                 "pronounce word", "pronounce name", "pronunciation help", "say difficult word"
+                 "pronounce word", "pronunciation help", "say difficult word"
              ],
-             "answer": "For correct pronunciation type only 'pronounce [word]' (don't use spaces, spelling matters on this one)"
+             "answer": "For correct pronunciation type only 'pronounce [word]' "
          },
         {
             "keywords": [
@@ -841,7 +841,7 @@
                 "bot help",
                 "what are your capabilities"
             ],
-            "answer": "Hello! I can help you with a variety of things. Here's a quick guide:\n\n**1. Ask General Questions:**\nJust type out your question naturally! For example:\n*   `what is the policy on breaks?`\n*   `how do I handle a DNC request?`\n*   `what does CPH mean?`\nIf your first question is short and you have a follow-up, I'll try to use the context (e.g., after `what is wrap up time?`, you can ask `how can I reduce that?`).\n\n**2. Explore Call Codes:**\n*   Type `list codes` to see all available call disposition codes and their brief descriptions.\n*   After listing them, you can ask for more detail about a specific code, like:\n    *   `define wrong number`\n    *   `what is the third code?`\n    *   `tell me about the first one`\n\n**3. Get Pronunciation Help:**\nIf you're unsure how to say a word, name, or phrase:\n*   Type `pronounce [word]`\n    *   e.g., `pronounce hawaii`\n    *     I'll try to find an audio pronunciation and give you links to Google and YouTube for more resources./\n you can also 'name' 'John smith' or 'name index' to look up a candidates name. \n\n**Tips for Best Results:**\n*   Keep questions fairly specific if you have a particular topic in mind.\n*   If I offer suggestions, check if one of those is what you need!\n\nIf you're still stuck, don't hesitate to ask your supervisor. I'm always learning! 😊"
+            "answer": "Hello! I can help you with a variety of things. Here's a quick guide:\n\n**1. Ask General Questions:**\nJust type out your question naturally! For example:\n*   `what is the policy on breaks?`\n*   `how do I handle a DNC request?`\n*   `what does CPH mean?`\nIf your first question is short and you have a follow-up, I'll try to use the context (e.g., after `what is wrap up time?`, you can ask `how can I reduce that?`).\n\n**2. Explore Call Codes:**\n*   Type `list codes` to see all available call disposition codes and their brief descriptions.\n*   After listing them, you can ask for more detail about a specific code, like:\n    *   `define wrong number`\n    *   `what is the third code?`\n    *   `tell me about the first one`\n\n**3. Get Pronunciation Help:**\nIf you're unsure how to say a word, name, or phrase:\n*   Type `pronounce [word]`\n    *   e.g., `pronounce hawaii`\n    *     I'll try to find an audio pronunciation and give you links to Google and YouTube for more resources./\n you can also type simply the candidates name like 'John smith' or 'name index' to look up names. \n\n**Tips for Best Results:**\n*   Keep questions fairly specific if you have a particular topic in mind.\n*   If I offer suggestions, check if one of those is what you need!\n\nIf you're still stuck, don't hesitate to ask your supervisor. I'm always learning! 😊"
         },
         
 
