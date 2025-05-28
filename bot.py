@@ -808,7 +808,7 @@ async def on_message(message: discord.Message):
             pronunciation_view.add_item(discord.ui.Button(label="Search on Google", style=discord.ButtonStyle.link, url=google_link))
             pronunciation_view.add_item(discord.ui.Button(label="Search on YouTube", style=discord.ButtonStyle.link, url=youtube_link))
             if not audio_url:
-                 response_message_lines.append(f"• You can check Google/YouTube for pronunciation resources. For a candidates name simply type the name you want to look up (e.g. John Smith)")
+                 response_message_lines.append(f"• You can check Google/YouTube for pronunciation resources. \n\n For a candidates name simply type the name you want to look up (e.g. John Smith) \n\n Or type 'Name Index'" )
             response_to_user = "\n".join(response_message_lines)
             if pronunciation_view.children:
                  await message.channel.send(response_to_user, view=pronunciation_view)
