@@ -215,7 +215,7 @@ def load_faq_data_from_url():
         "greetings_and_pleasantries": [],
         "general_faqs": [],
         "call_codes": {}, # Expects {"CODE_NAME": {"keywords": [], "answer": "description"}}
-        "fallback_message": "I couldn't find that. Try asking general questions (e.g., 'what is wrap up time?' then.. 'how can i reduce that?'), typing 'list codes' (then ask about one, like 'the first one'), or typing 'pronounce [word]' for resources."
+        "fallback_message": "I couldn't find that. Try asking general questions (e.g., 'what is wrap up time?' then.. 'how can i reduce that?'), typing 'list codes' (then ask about one, like 'the first one'), or typing 'pronounce [word]' for resources. For name pronunciation simply type the name you want to look up."
     }
     try:
         print(f"Attempting to download FAQ data from: {FAQ_URL}")
@@ -808,7 +808,7 @@ async def on_message(message: discord.Message):
             pronunciation_view.add_item(discord.ui.Button(label="Search on Google", style=discord.ButtonStyle.link, url=google_link))
             pronunciation_view.add_item(discord.ui.Button(label="Search on YouTube", style=discord.ButtonStyle.link, url=youtube_link))
             if not audio_url:
-                 response_message_lines.append(f"• You can check Google/YouTube for pronunciation resources.")
+                 response_message_lines.append(f"• You can check Google/YouTube for pronunciation resources. For a candidates name simply type the name you want to look up (e.g. John Smith)")
             response_to_user = "\n".join(response_message_lines)
             if pronunciation_view.children:
                  await message.channel.send(response_to_user, view=pronunciation_view)

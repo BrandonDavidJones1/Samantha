@@ -629,7 +629,7 @@
                  "assistance with word pronunciation for calls", "using the bot for pronunciation help",
                  "pronounce word", "pronunciation help", "say difficult word"
              ],
-             "answer": "For correct pronunciation type only 'pronounce [word]' "
+             "answer": "For correct pronunciation type only 'pronounce [word]' for a name type only the name. "
          },
         {
             "keywords": [
