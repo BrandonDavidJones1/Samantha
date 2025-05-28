@@ -1,4 +1,3 @@
-
 import discord
 import os
 import json
@@ -822,7 +821,10 @@ async def on_message(message: discord.Message):
         return
 
     # --- List Codes Handling ---
-    if user_query_lower_for_processing == "list codes" and not context_application_method == "list_item_resolved":
+    if (user_query_lower_for_processing == "list codes" or \
+        user_query_lower_for_processing == "codes" or \
+        user_query_lower_for_processing == "code list") and \
+       not context_application_method == "list_item_resolved":
         call_codes_section = faq_data.get("call_codes", {})
         cmd_log_extra = {'user_id': author_id, 'username': author_name, 'original_query_text': initial_user_message_content_for_forwarding}
         faq_answer_part_for_context_storage = None
