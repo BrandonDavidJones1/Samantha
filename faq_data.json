@@ -573,9 +573,9 @@
                 "when should i code a call as 'complete patch'", "criteria for a successful patch call disposition",
                 "how to correctly code a 'complete patch' outcome", "rules for using the 'complete patch' code",
                 "procedure after initiating patch and reading closing statement", "what defines a complete patch for coding",
-                "code complete patch", "complete patch criteria", "complete patch rules", "successful patch coding", "complete patch meaning"
+                "code complete patch", "complete patch criteria", "complete patch rules", "successful patch coding", "complete patch meaning", "if they hang up during a patch"
             ],
-            "answer": "A call is coded as 'COMPLETE PATCH' if the contact agreed to be connected to their representative (or other target), you successfully initiated the patch, AND you read the entire closing statement as per the script. Typically, once the patch is initiated and the closing is read, you select the appropriate call results (if a page appears, usually option 1), go to the next page, and complete the disposition without waiting to listen to them leave their message. See 'list codes' for the exact definition."
+            "answer": "A call is coded as 'COMPLETE PATCH' if the contact agreed to be connected to their representative (or other target), you successfully initiated the patch, AND you read the entire closing statement as per the script. Typically, once the patch is initiated and the closing is read, you select the appropriate call results (if a page appears, usually option 1), go to the next page, and complete the disposition without waiting to listen to them leave their message. See 'list codes' for the exact definition. \n\n So when you get one to patch after reading everything and the closing you don't need to wait to code the call. If there is a page asking for results, just click the top option, click next, and click complete."
         },
         {
             "keywords": [
@@ -1142,11 +1142,11 @@
         },
         "4: DO NOT CALL": {
             "keywords": ["do not call", "dnc", "code dnc", "define do not call", "what is dnc", "do not call list", "dnc disposition"],
-            "answer": "Important: We almost never use this Disposition. Only use this if you have confirmed you are speaking with the VOF (Voter On File) AND they specifically ask to be “added” to the Do Not Call List. Most of the time, if they ask to be “removed” from the call list, that would be marked as 'REFUSED' (go to Next page and Disposition from there)."
+            "answer": "Important: We almost never use this Disposition. Only use this if you have confirmed you are speaking with the VOF (Voter On File) AND they specifically ask to be “added” to the Do Not Call List. Most of the time, if they ask to be “removed” from the call list, that would be marked as 'REFUSED' (go to Next page and Disposition from there). "
         },
         "5: COMPLETE PATCH": {
-            "keywords": ["complete patch", "code complete patch", "define complete patch", "what is complete patch", "successful patch code", "complete patch disposition"],
-            "answer": "Use this if you got a “Yes” to being connected to their Representative AND read the entire closing statement. If a page comes up asking for call results, always select option 1 on that page, go to the next page, and Complete the patch without waiting to listen to them leave their message."
+            "keywords": ["complete patch", "code complete patch", "define complete patch", "what is complete patch", "complete patch disposition"],
+            "answer": "Use this if you got a “Yes” to being connected to their Representative AND read the entire closing statement. If a page comes up asking for call results, always select option 1 on that page, go to the next page, and Complete the patch without waiting to listen to them leave their message. "
         },
         "6: UNSUCCESSFUL PATCH": {
             "keywords": ["unsuccessful patch", "code unsuccessful patch", "define unsuccessful patch", "what is unsuccessful patch", "failed patch code", "unsuccessful patch disposition"],
