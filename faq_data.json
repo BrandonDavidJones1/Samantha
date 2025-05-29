@@ -1,7 +1,7 @@
 {
     "greetings_and_pleasantries": [
         {
-            "keywords": ["Welcome", "Sup", "hello", "hi", "hey", "greetings", "howdy", "yo"],
+            "keywords": ["Welcome", "Sup", "hello", "hey there", "hi", "hey", "greetings", "howdy", "yo"],
             "response_type": "standard_greeting",
             "greeting_reply_template": "{actual_greeting_cased}, {user_mention}!"
         },
@@ -607,9 +607,9 @@
         {
             "keywords": [
                 "when should i code a call as 'refused'", "criteria for using the 'refused' disposition",
-                "how to code a call when voter refuses to participate", "what does 'refused' mean in call coding",
+                "how to code a call when voter refuses to participate", "what does 'refused' mean",
                 "rules for applying the 'refused' code accurately", "distinguishing 'refused' from 'dnc' or 'not in'",
-                "code refused", "refused criteria", "voter refuses", "refused meaning", "refused vs dnc"
+                "refused criteria", "voter refuses", "refused meaning", "refused vs dnc"
             ],
             "answer": "A call is typically coded as 'REFUSED' when the contact explicitly refuses to participate further in the call, answer a key question, or proceed with a patch after the call has begun and initial engagement occurred. This is different from someone who is simply 'Not In' or if it's a 'Wrong Number'. It's also distinct from a 'Do Not Call' request, which has specific criteria. If a person indicates they are 'not interested' early on, that's often a 'REFUSED'. Check 'list codes' for the exact definition provided for 'REFUSED' or ask your supervisor for project-specific guidance."
         },
@@ -737,7 +737,7 @@
                 "policy on sharing my last name with callers", "can i provide my full name if a voter requests it",
                 "privacy rules regarding agent's last name", "how to respond if voter wants my full agent name",
                 "do i have to disclose my last name to voter",
-                "voter asks last name", "give last name", "agent last name policy", "share full name"
+                "voter asks last", "give last name", "agent last name policy", "share full name"
             ],
             "answer": "You should not share your personal last name with a voter. If a voter asks for your last name, you can politely state that you are not permitted to share full personal details for privacy and security reasons. You can provide your first name as given in the script. If the voter insists or becomes difficult, please contact your supervisor."
         },
