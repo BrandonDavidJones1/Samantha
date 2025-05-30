@@ -541,7 +541,7 @@
                 "stepping away for 10 minutes brb", "how to notify for a short break", "logging out for a brief period",
                 "logging out 10 minutes", "short break", "quick break", "brb 10 mins"
             ],
-            "answer": "Okay, thanks for letting us know. Remember to alert your shift supervisor if you're taking a break to ensure you're kept in the queue, as per our break policy. (You can ask 'break policy' for more details)."
+            "answer": "Okay, thanks for letting us know. Remember to alert your shift supervisor if you're taking a break to ensure you're kept in the queue, as per our break policy. (You can ask 'break policy' for more details). If you're logging out for the day make sure to let your supervisor know so they can fill your spot with another agent who is waiting to log in."
         },
         {
             "keywords": [
