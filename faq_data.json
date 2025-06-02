@@ -1,7 +1,7 @@
 {
     "greetings_and_pleasantries": [
         {
-            "keywords": ["Welcome", "Sup", "hello", "hey there", "hi", "hey", "greetings", "howdy", "yo"],
+            "keywords": ["Welcome", "Sup", "hello", "Hello samantha", "hey there", "hi", "hey", "greetings", "howdy", "yo"],
             "response_type": "standard_greeting",
             "greeting_reply_template": "{actual_greeting_cased}, {user_mention}!"
         },
@@ -488,7 +488,7 @@
         },
         {
             "keywords": [
-                "who do i ask about my pay scale or pay rate", "how much do lts agents get paid",
+                "who do i ask about my pay scale or pay rate", "how much do lts agents get paid", "How much do I get paid per hour",
                 "where to direct questions about my hourly wage", "information on lts salary and compensation",
                 "procedure for payroll inquiries at lts", "contact person for pay related questions",
                 "pay scale", "pay rate", "how much paid", "salary info", "payroll questions"
