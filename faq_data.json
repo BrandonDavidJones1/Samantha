@@ -312,7 +312,7 @@
             "keywords": [
                 "what are voter specific calls or vof calls", "rule about speaking only to the voter on file",
                 "how to confirm i am speaking to the correct voter for a survey", "who am i allowed to talk to on a voter specific call",
-                "can i only speak to the person whose name is on the checkbox", "vof call procedures and rules",
+                "can i only speak to the person whose name is on the checkbox", "vof call procedures and rules", "Can we talk to anyone",
                 "what if a relative is suspicious when i ask for the vof", "voter on file confirmation process",
                 "voter specific calls", "vof calls", "speak to voter on file", "confirm vof", "about voter specific"
             ],
@@ -320,7 +320,7 @@
         },
         {
          "keywords": [
-             "what defines a voter assumptive call", "how do voter assumptive calls differ from voter specific",
+             "what defines a voter assumptive call", "how do voter assumptive calls differ from voter specific", "Can we talk to anyone",
              "procedure for starting a voter assumptive call", "what if the script has a name but it's voter assumptive",
              "handling a situation where assumed name is incorrect person", "can i proceed if wrong person answers an assumptive call with name",
              "when can i speak to whoever answers on assumptive call", "patch calls as voter assumptive type",
