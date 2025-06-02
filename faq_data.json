@@ -134,18 +134,6 @@
         },
         {
             "keywords": [
-                "under what conditions is a voter id call marked as complete", "what exactly makes a voter id survey complete",
-                "specific criteria for coding a voter id call as 'complete'", "do i mark voter id survey complete after confirming the voter's name",
-                "is a voter id call considered complete if i begin asking the first survey question",
-                "how to correctly use the 'complete' disposition for voter id projects",
-                "what should I do if more than one voter is present during a voter id call",
-                "when is it necessary to check the 'multiple voters present' box in voter id",
-                "voter id complete", "voter id survey complete criteria", "complete voter id", "multiple voters present"
-            ],
-            "answer": "On a Voter ID project, if you confirm the voter's name and start asking the first question, it's considered a complete. Other dispositions (Not In, No Answer, Answering Machine, DNC) still apply as needed. Don't forget to check the box if more than one voter is present!"
-        },
-        {
-            "keywords": [
                 "what are all the specific requirements for a voter id 'complete' status",
                 "list all the rules that define voter id project completion",
                 "provide a checklist for achieving a 'complete' voter id call disposition",
@@ -154,7 +142,14 @@
                 "what are the exact conditions that must be met for a voter id 'complete'",
                 "what details make a voter id survey count as fully complete",
                 "detailed criteria list for voter id 'complete' disposition usage",
-                "voter id complete requirements", "voter id completion rules", "checklist voter id complete"
+                "voter id complete requirements", "voter id completion rules", "checklist voter id complete",
+                "under what conditions is a voter id call marked as complete", "what exactly makes a voter id survey complete",
+                "specific criteria for coding a voter id call as 'complete'", "do i mark voter id survey complete after confirming the voter's name",
+                "is a voter id call considered complete if i begin asking the first survey question",
+                "how to correctly use the 'complete' disposition for voter id projects",
+                "what should I do if more than one voter is present during a voter id call",
+                "when is it necessary to check the 'multiple voters present' box in voter id",
+                "voter id complete", "voter id survey complete criteria", "complete voter id", "multiple voters present"
             ],
             "answer": "For a Voter ID project, a 'complete' means the voter's name has been confirmed and you've started asking the first question. Other dispositions still apply. Don't forget to check the box if more than one voter is present!"
         },
@@ -166,9 +161,13 @@
                 "what if I get a voicemail and we are not leaving messages", "protocol for disconnecting from an answering machine",
                 "can i let the answering machine play out its greeting", "consequences of letting voicemail play if not leaving messages",
                 "rules regarding answering machines when messages are not being left",
-                "answering machine", "voicemail", "got voicemail", "answering machine procedure", "disconnect answering machine"
+                "answering machine", "voicemail", "got voicemail", "answering machine procedure", "disconnect answering machine",
+                "leave messages", "voicemail policy", "leaving messages", "message leaving rules",
+                "should i be leaving a message if i get voicemail", "when are we instructed to leave messages",
+                "how do i know if message leaving is active for this project", "lts rules on leaving messages",
+                "what is the voicemail policy for the project i am on", "disconnect if not leaving messages policy"
             ],
-            "answer": "If not leaving messages for the current project, and you get an answering machine, you MUST disconnect immediately. Do not let the answering machine play (this is call avoidance and can result in being signed off). Code as 'Answering Machine'. (See 'list codes')."
+            "answer": "If you get an answering machine/voicemail and the project **is not** leaving messages, you MUST disconnect immediately. Do not let it play. Code as 'Answering Machine'. If the project **is** leaving messages, your Shift Manager will provide specific instructions."
         },
         {
             "keywords": [
@@ -210,16 +209,6 @@
                 "do not call", "dnc", "dnc request", "code dnc", "add to dnc list", "when to use dnc"
             ],
             "answer": "The only time a call is coded “Do Not Call” or DNC, is when the voter specifically asks to be put on the 'Do Not Call list'. Otherwise, any other request to not be contacted (e.g., 'take me off your list') is usually coded as 'REFUSED'. (See 'list codes' for full details)."
-        },
-        {
-            "keywords": [
-                "are we supposed to leave messages on this campaign", "policy on leaving voicemails for the current project",
-                "should i be leaving a message if i get voicemail", "when are we instructed to leave messages",
-                "how do i know if message leaving is active for this project", "lts rules on leaving messages",
-                "what is the voicemail policy for the project i am on", "disconnect if not leaving messages policy",
-                "leave messages", "voicemail policy", "leaving messages", "message leaving rules"
-            ],
-            "answer": "You will be directed by the Shift Manager if you are put into a Project where we are leaving messages. Great Question! If not leaving messages, and you get an answering machine, disconnect immediately. Do not let the answering machine play."
         },
         {
             "keywords": [
@@ -350,12 +339,17 @@
         },
         {
             "keywords": [
+                "what does gotv mean in campaigns", "explain gotv projects", "how do i know if i am on a gotv project",
+                "definition of get out the vote campaigns", "understanding the purpose of gotv calls",
+                "special coding instructions for gotv projects",
+                "gotv meaning", "gotv projects", "explain gotv", "get out the vote meaning",
                 "how to code get out to vote or gotv calls", "specific coding rules for gotv projects without voicemails",
                 "gotv call coding when voicemails are being left", "dispositioning gotv calls for answering machine or fax",
                 "what is 'complete live' coding for gotv calls", "using 'complete left message' on gotv",
-                "gotv calls", "gotv coding", "code gotv", "get out the vote calls", "complete live gotv", "about gotv"
+                "gotv calls", "gotv coding", "code gotv", "get out the vote calls", "complete live gotv", "about gotv",
+                "no answer gotv"
             ],
-            "answer": "For GOTV (Get Out To Vote) calls, there are generally two disposition approaches:\n1. WITHOUT VOICEMAILS: Use 'COMPLETE LIVE' on EVERY CALL, regardless of outcome (answering machine, fax, wrong number, DNC list).\n2. WITH VOICEMAILS: Use 'COMPLETE LIVE' on every call EXCEPT when leaving a voicemail (then use 'COMPLETE LEFT MESSAGE'). If you get a fax machine, wrong number, or DNC request, you still code these as 'COMPLETE LIVE'."
+            "answer": "GOTV stands for 'Get Out The Vote'. These are projects focused on encouraging voting. Your supervisor will inform you if you're on a GOTV project.\n\n**Special Coding for GOTV:**\n*   **WITHOUT Voicemails:** Code EVERY call as 'COMPLETE LIVE', regardless of the outcome (this includes No Answer, Answering Machine, Fax, Wrong Number, DNC requests, etc.).\n*   **WITH Voicemails:** Code every call as 'COMPLETE LIVE' EXCEPT when you actually leave a voicemail (then use 'COMPLETE LEFT MESSAGE'). Other outcomes (Fax, Wrong Number, DNC) are still 'COMPLETE LIVE'."
         },
         {
             "keywords": [
@@ -416,12 +410,17 @@
         },
         {
             "keywords": [
-                "what if there is no one on the line after my introduction", "handling silent calls after giving intro",
-                "procedure for dead air after starting the script", "what if nobody speaks after i say my intro",
-                "protocol when a caller is silent after i speak my lines",
-                "no one on line", "silent call after intro", "dead air after intro", "nobody speaks"
+                "what to do if the phone line is dead or silent", "handling calls with no audio or sound",
+                "procedure when i can't hear the caller", "what if there's dead air after connection",
+                "protocol for calls that are completely silent", "should i say 'can you hear me' on a dead line",
+                "how to code a dead line or no audio call", "dead phone line", "no audio call", "can't hear caller",
+                "dead air silent", "code dead line", "what is considered a dead air call",
+                "am i allowed to sit on an open or silent line", "policy on call avoidance by staying on an open line",
+                "what to do if i get a completely dead air call", "how to handle calls with no sound or response",
+                "consequences of sitting on an open line too long", "dead air call", "sit on open line",
+                "silent line", "no sound call"
             ],
-            "answer": "If there is no one on the line after giving your introduction, simply say, “Thank you for your time.” We do this because the call is still recorded and there might be someone there even though you can't hear them."
+            "answer": "If you encounter a dead or silent line with no audio:\n1. You may say “Can you hear me ok?” **one time**.\n2. If there's still no response, say your closing (e.g., “Thank you for your time.”).\n3. Immediately disposition the call as 'No Answer' and move to the next call.\n\n**Important:** Do NOT sit on an open/silent line. This is considered call avoidance and can result in being signed off for the day."
         },
         {
             "keywords": [
@@ -440,15 +439,6 @@
                 "common rebuttals", "rebuttals", "hesitant voter rebuttals", "convince voter", "handling objections"
             ],
             "answer": "Here are some common rebuttals you can use:\n- “I understand, but this will only take a short moment of your time and your opinion would really make a difference!”\n- “I understand, but your opinion really matters!”\n- “Your voice and opinion are very important; every voice does matters!”\n- “It's really important for them to hear your voice!”\n- “It would just take a moment for your voice to be heard!”\n- “Your voice matters!”\n- “We need your voice, so they know your stand!”\n"
-        },
-        {
-            "keywords": [
-                "what does gotv mean in campaigns", "explain gotv projects", "how do i know if i am on a gotv project",
-                "definition of get out the vote campaigns", "understanding the purpose of gotv calls",
-                "special coding instructions for gotv projects",
-                "gotv meaning", "gotv projects", "explain gotv", "get out the vote meaning"
-            ],
-            "answer": "GOTV stands for 'Get Out The Vote'. These are specific projects focused on encouraging people to vote. Your supervisor will inform you if you are on a GOTV project, and specific coding instructions, especially for 'No Answer' dispositions, may apply. For example, on some GOTV projects without voicemails, even a 'No Answer' is coded as 'COMPLETE LIVE'."
         },
         {
             "keywords": [
@@ -592,8 +582,8 @@
             "keywords": [
                 "specific conditions for coding a call as 'no answer'", "when to use 'no answer' if phone rings but no pickup",
                 "procedure for a 'no answer' call disposition", "rules for using the 'no answer' code correctly",
-                "distinguishing 'no answer' from other outcomes like hang-ups", "special 'no answer' coding for gotv projects",
-                "code no answer conditions", "no answer rules", "no answer gotv", "no answer meaning"
+                "distinguishing 'no answer' from other outcomes like hang-ups",
+                "code no answer conditions", "no answer rules", "no answer meaning"
             ],
             "answer": "Use the 'NO ANSWER' disposition if the call rings but is never picked up, or if the call is hung up immediately by the other side before any meaningful interaction or before you can get an answer to the first question (if applicable). Note that for some specific projects, like certain GOTV (Get Out The Vote) campaigns, 'No Answer' might have special coding instructions (e.g., coded as 'COMPLETE LIVE'). Always follow project-specific guidelines. See 'list codes' for the general definition."
         },
@@ -688,16 +678,6 @@
                 "call dumping", "dumping calls", "define call dumping", "what is call dumping"
             ],
             "answer": "Dumping calls is when the call comes in and you just dispo it without saying anything."
-        },
-        {
-            "keywords": [
-                "what to do if the phone line is dead or silent", "handling calls with no audio or sound",
-                "procedure when i can't hear the caller", "what if there's dead air after connection",
-                "protocol for calls that are completely silent", "should i say 'can you hear me' on a dead line",
-                "how to code a dead line or no audio call",
-                "dead phone line", "no audio call", "can't hear caller", "dead air silent", "code dead line"
-            ],
-            "answer": "You can say “can you hear me ok” one time and then say our closing “tyfyt” and dispo as No Answer."
         },
         {
             "keywords": [
