@@ -128,9 +128,13 @@
                 "information about the lts break queue system", "am I allowed to take extended breaks as a contractor",
                 "official guidelines for taking breaks during lts shifts", "how long can my breaks be at lts",
                 "policy regarding use of the 'break button' in the dialer", "procedure for logging out for break periods",
-                "break policy", "breaks", "taking a break", "1099 breaks", "lunch break", "break button", "about breaks"
+                "break policy", "breaks", "taking a break", "1099 breaks", "lunch break", "break button", "about breaks",
+                "i am logging out for a bit maybe 10 minutes", "taking a short break be back soon",
+                "need a quick 10 minute break from dialing", "stepping away for 10 minutes brb",
+                "how to notify for a short break", "logging out for a brief period",
+                "logging out 10 minutes", "short break", "quick break", "brb 10 mins"
             ],
-            "answer": "As a 1099 contractor at LTS, you are free to break as often as you’d like. Be sure to alert your shift supervisor to be kept in the queue, securing your spot in that project. This way, log out for breaks NEVER USE THE BREAK BUTTON."
+            "answer": "As a 1099 contractor at LTS, you are free to take breaks as often as you’d like. \n\n**Key Procedures for Breaks:**\n1.  **Alert Supervisor:** ALWAYS notify your shift supervisor before taking any break. This ensures you are kept in the project queue and your spot is secured.\n2.  **Log Out:** Log out of the dialer completely for your breaks.\n3.  **NEVER Use the Break Button:** Using the 'Break Button' in the dialer is not the correct procedure.\n4.  **Logging out for the day:** If you are logging out for the remainder of your shift (not just a temporary break), please also inform your supervisor so they can manage agent availability effectively.\n\nFollowing these steps helps to maintain smooth operations. Thanks!"
         },
         {
             "keywords": [
@@ -564,14 +568,6 @@
                 "system slow", "computer slow", "internet slow", "dialer slow", "slow performance"
             ],
             "answer": "If your system or connection seems slow, try closing unnecessary applications or browser tabs. A computer restart or router reboot can sometimes help. If slowness is significantly impacting your work, please inform your supervisor. They might have further troubleshooting steps or be able to advise."
-        },
-        {
-            "keywords": [
-                "i am logging out for a bit maybe 10 minutes", "taking a short break be back soon", "need a quick 10 minute break from dialing",
-                "stepping away for 10 minutes brb", "how to notify for a short break", "logging out for a brief period",
-                "logging out 10 minutes", "short break", "quick break", "brb 10 mins"
-            ],
-            "answer": "Okay, thanks for letting us know. Remember to alert your shift supervisor if you're taking a break to ensure you're kept in the queue, as per our break policy. (You can ask 'break policy' for more details). If you're logging out for the day make sure to let your supervisor know so they can fill your spot with another agent who is waiting to log in."
         },
         {
             "keywords": [
