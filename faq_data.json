@@ -329,6 +329,28 @@
          "answer": "A VOTER ASSUMPTIVE call means you generally begin by assuming the voter listed answered the phone. You'd say, “Hello (voter's name specified in script)” and prepare to continue without pause.\n\n**However, an important rule applies if a specific voter name IS listed in your script:**\n*   If the person who answers says they are **NOT** the voter named in the script, you **CANNOT proceed with them** for that specific voter's record. You must speak to the person named.\n*   In this case, you would treat it like a 'Voter Specific' call where the target voter is not available. You could say something like, 'Okay, thank you. We were trying to reach [Voter's Name]. We can try again later.' Then disposition as 'Not In' or as per project instructions for when the specific voter is unavailable.\n\nIf the script has **NO specific voter name** to begin with (truly assumptive or non-voter), and you simply start with a general greeting, then you can speak with whomever answers."
         },
         {
+    "keywords": [
+        "i am searching for a work from home job",
+        "work from home job",
+        "remote job",
+        "looking for wfh",
+        "wfh job inquiry",
+        "how to apply for a job here",
+        "job application",
+        "work from home opportunities",
+        "seeking remote employment",
+        "careers at lts",
+        "lts job openings",
+        "hiring process",
+        "onboarding information",
+        "apply for lts",
+        "lts careers",
+        "work for lts",
+        "employment with lts"
+    ],
+    "answer": "Welcome!\n\nWe appreciate your interest in LTS.\n\nPlease contact Corey LTS for instruction on applications and Onboarding!"
+},
+        {
             "keywords": [
                 "what is a non-voter call type", "how do non-voter campaigns work", "rules for conducting non-voter calls",
                 "do i need to ask for a specific name on non-voter calls", "can i speak to anyone who answers on a non-voter call",
