@@ -720,6 +720,10 @@
             "answer": "Dialing hours can change from day to day. The following day's hours are posted in the MAIN CHAT at the end of every shift."
         },
         {
+            "keywords": ["test"],
+            "answer" : "looks like you're testing things out!, type 'help' for guide on how to use me:)"
+        },
+        {
             "keywords": [
                 "where can i find specific instructions for survey projects", "detailed rules for patch call campaigns",
                 "project-specific coding guidelines for surveys and patches", "advanced coding help for complex projects",
