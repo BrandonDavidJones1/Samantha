@@ -1,7 +1,7 @@
 {
     "greetings_and_pleasantries": [
         {
-            "keywords": ["Welcome", "Sup", "hello", "Hello samantha", "hey there", "hi", "hey", "greetings", "howdy", "yo"],
+            "keywords": ["Welcome", "Sup", "hello", "hey there", "hi", "hey", "greetings", "howdy", "yo"],
             "response_type": "standard_greeting",
             "greeting_reply_template": "{actual_greeting_cased}, {user_mention}!"
         },
