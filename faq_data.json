@@ -669,15 +669,6 @@
             "answer": "Generally, a call is coded 'COMPLETE' when the primary objective of the call script or project instructions has been met. This varies by project. For example, on a Voter ID project, confirming the voter's name is a 'complete'. For Get Out The Vote (GOTV) calls, it might be different (see 'GOTV calls' FAQ or 'list codes'). Always refer to specific project instructions or ask your supervisor if unsure. The 'list codes' command can also provide definitions for specific complete codes like 'COMPLETE PATCH'."
         },
         {
-             "keywords": [
-                 "how do i look up how to say a difficult word", "can you help me pronounce a specific name",
-                 "tool for checking pronunciation of words or names", "how to use the pronounce command for senator or city names",
-                 "assistance with word pronunciation for calls", "using the bot for pronunciation help",
-                 "pronounce word", "pronunciation help", "say difficult word"
-             ],
-             "answer": "For correct pronunciation type only 'pronounce [word or last name]' "
-         },
-        {
             "keywords": [
                 "what is the 'training' status in the dialer for", "when should i use the 'training' button or mode",
                 "purpose of being in 'training' agent status", "how to switch from 'training' to 'available' status",
@@ -880,7 +871,7 @@
                 "bot help",
                 "what are your capabilities"
             ],
-            "answer": "Hello! I can help you with a variety of things. Here's a quick guide:\n\n**1. Ask General Questions:**\nJust type out your question naturally! For example:\n*   `what is the policy on breaks?`\n*   `how do I handle a DNC request?`\n*   `what does CPH mean?`\nIf your first question is short and you have a follow-up, I'll try to use the context (e.g., after `what is wrap up time?`, you can ask `how can I reduce that?`).\n\n**2. Explore Call Codes:**\n*   Type `list codes` to see all available call disposition codes and their brief descriptions.\n*   After listing them, you can ask for more detail about a specific code, like:\n    *   `define wrong number`\n    *   `what is the third code?`\n    *   `tell me about the first one`\n\n**3. Get Pronunciation Help:**\nIf you're unsure how to say a word, name, or phrase:\n*   Type `pronounce [word]`\n    *   e.g., `pronounce legislature`\n    *     I'll try to find an audio pronunciation and give you links to Google and YouTube for more resources. \n\n**Tips for Best Results:**\n*   Keep questions fairly specific if you have a particular topic in mind.\n*   If I offer suggestions, check if one of those is what you need!\n\nIf you're still stuck, don't hesitate to ask your supervisor. I'm always learning! 😊"
+            "answer": "Hello! I can help you with a variety of things. Here's a quick guide:\n\n**1. Ask General Questions:**\nJust type out your question naturally! For example:\n*   `what is the policy on breaks?`\n*   `how do I handle a DNC request?`\n*   `what does CPH mean?`\nIf your first question is short and you have a follow-up, I'll try to use the context (e.g., after `what is wrap up time?`, you can ask `how can I reduce that?`).\n\n**2. Explore Call Codes:**\n*   Type `list codes` to see all available call disposition codes and their brief descriptions.\n*   After listing them, you can ask for more detail about a specific code, like:\n    *   `define wrong number`\n    *   `what is the third code?`\n    *   `tell me about the first one`\n\n**3. Get Pronunciation Help:**\nIf you're unsure how to say a word, name, or phrase:\n*   Type only `pronounce + word`\n    *   e.g., `pronounce legislature`\n    *     I'll try to find an audio pronunciation and give you links to Google and YouTube for more resources. \n\n**Tips for Best Results:**\n*   Keep questions fairly specific if you have a particular topic in mind.\n*   If I offer suggestions, check if one of those is what you need!\n\nIf you're still stuck, don't hesitate to ask your supervisor. I'm always learning! 😊"
         }
 
     ],
@@ -926,5 +917,5 @@
             "answer": "Code as refused when they refuse a question or patch once the call has begun."
         }
     },
-    "fallback_message": "🤔 I couldn't quite find what you were looking for. \n\n**Here are some things you can try:**\n\n*   **Ask general questions:**\n    *   e.g., `what is wrap up time?`\n\n   *   **Explore Call Codes:**\n    *   Type `list codes` to see all codes.\n    *   Then ask about one, like: `the first one` or `define [code name]`\n\n*   **Pronunciation Help:**\n    * \n Try `pronounce [word]` (e.g., `pronounce legislature`)\n\n💡 For a general guide on how to use me, you can also type `help`."
+    "fallback_message": "🤔 I couldn't quite find what you were looking for. \n\n**Here are some things you can try:**\n\n*   **Ask general questions:**\n    *   e.g., `what is wrap up time?`\n\n   *   **Explore Call Codes:**\n    *   Type `list codes` to see all codes.\n    *   Then ask about one, like: `the first one` or `define [code name]`\n\n*   **Pronunciation Help:**\n    * \n Type only 'pronounce' followed by the word or phrase you want resources for in quotes. (e.g. pronounce 'john smith')\n\n💡 For a general guide on how to use me, you can also type `help`."
     }
