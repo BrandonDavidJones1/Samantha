@@ -518,11 +518,11 @@
         {
             "keywords": [
                 "will there be work available this month at lts", "what's my schedule", "what is the project outlook for the current month",
-                "information on upcoming projects and schedules for this month", "how to find out about lts work availability",
+                "information on upcoming projects and schedules for this month", "how to find out about lts work availability", "Do we work Tomorrow?",
                 "are we expected to be busy this month", "checking the monthly work schedule at lts",
                 "work available this month", "project outlook", "upcoming projects", "lts work availability"
             ],
-            "answer": "Project availability can vary. Please check the main chat for announcements from Corey regarding upcoming work and project schedules. If you have specific questions about your availability or want to confirm, it's best to reach out to your supervisor or Corey directly."
+            "answer": "Project availability can vary. Please check the main chat for announcements from Corey regarding upcoming work and project schedules in the main chat. "
         },
         {
             "keywords": [
