@@ -855,14 +855,14 @@
          },
          {
              "keywords": [
-                 "what to do if the voter says they moved out of state", "how to handle a contact who no longer lives in the state",
+                 "what to do if the voter says they moved out of state", "not  thier representatives", "not my representative", "not my senator", "how to handle a contact who no longer lives in the state",
                  "procedure when a verified voter has moved to a different state", "how should i code a call if the voter has moved away",
                  "disposition for an out-of-state voter", "what if they confirm identity but say they moved",
                  "can a voter participate if they moved states", "patch call for voter who moved out of district",
                  "voter not in service area due to moving what code",
                  "voter moved state", "moved out of state", "contact moved", "code moved voter"
              ],
-            "answer": "If the voter has moved states they may still participate. If they refuse code accordingly."
+            "answer": "If the voter has moved states or has a different rep they may still participate. If they refuse code accordingly."
          },
          {
             "keywords": ["I'm hungry", "I'm starving", "i need some food", "hungry", "starving", "need food"],
