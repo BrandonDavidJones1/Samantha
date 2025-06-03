@@ -44,6 +44,19 @@
             ],
             "answer": "Wrap up is the time from the end of the call until the call is coded. It's the period where you select the correct disposition for the call. Aim to disposition a call within 2-3 seconds. \n\n High wrap up means taking too long to do this. Do not sit in WRAP UP; code calls within 2-3 secs and move to the next. For more information ask 'tips on how to reduce wrap up'"
         },
+        { 
+        "keywords": [
+            "person keeps talking", "voter won't stop talking", "chatty voter", "talkative person",
+            "long-winded caller", "voter ranting", "how to handle talkative person",
+            "they keep on talking", "caller talks too much", "voter is rambling",
+            "how to deal with a talkative voter", "what if the voter is very talkative",
+            "strategies for managing long conversations", "how to interrupt politely",
+            "redirecting a chatty voter", "handling a voter who goes off-topic",
+            "caller keeps talking what to do", "what if they talk a lot", "person won't stop talking",
+            "voter keeps talking"
+        ],
+        "answer": "Be patient, remain neutral and make sure you do not agree with, argue with or laugh with them for the validity of the survey or patch.  When they are done ranting, move on to the next question politely.  If there is no hope to complete the survey or they are abusive just politely end the call with \"thank you for your time\" and code as refused"
+    },
         {
             "keywords": [
                 "are agents allowed to disclose candidates party affiliation",
