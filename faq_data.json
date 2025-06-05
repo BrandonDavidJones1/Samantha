@@ -268,7 +268,7 @@
         },
         {
             "keywords": [
-                "am i allowed to share my personal information with voters", "can i give my phone number to a contact", "May we provide the Senators number",
+                "am i allowed to share my personal information with voters", "can i give my phone number to a contact", "May we provide the Senators number", "identify yourself",
                 "is it okay to share my location or address with callers", "policy on giving out personal info to voters",
                 "can i share my social media details with people i call", "rules about agent privacy during calls",
                 "what personal information am i forbidden from sharing", "they asked about our location",
@@ -770,10 +770,10 @@
                 "what if a voter asks for my last name", "am i allowed to give my agent last name to a voter",
                 "policy on sharing my last name with callers", "can i provide my full name if a voter requests it",
                 "privacy rules regarding agent's last name", "how to respond if voter wants my full agent name",
-                "do i have to disclose my last name to voter",
+                "do i have to disclose my last name to voter", " identify yourself",
                 "voter asks last", "give last name", "agent last name policy", "share full name"
             ],
-            "answer": "You should not share your personal last name with a voter. If a voter asks for your last name, you can politely state that you are not permitted to share full personal details for privacy and security reasons. You can provide your first name as given in the script. If the voter insists or becomes difficult, please contact your supervisor."
+            "answer": "You should not share your personal last name with a voter. If a voter asks for your last name, you can politely state that you are not permitted to share full personal details for privacy and security reasons. You can provide your first name as given in the script. If the voter insists or becomes difficult, try circling back saying 'Can I confirm who i'm speaking with?' but be ready to code accordingly."
         },
         {
             "keywords": [
