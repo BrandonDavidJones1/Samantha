@@ -272,12 +272,7 @@
                 "is it okay to share my location or address with callers", "policy on giving out personal info to voters",
                 "can i share my social media details with people i call", "rules about agent privacy during calls",
                 "what personal information am i forbidden from sharing", "they asked about our location",
-                "share personal information", "give personal info", "agent privacy", "sharing location"
-            ],
-            "answer": "You may NOT give voters contacted during the call ANY personal information, including but not limited to, your phone number, social media, location or address. This is a strict rule, young Padawan."
-        },
-        {
-            "keywords": [
+                "share personal information", "give personal info", "agent privacy", "sharing location",
                 "what is our company name if a voter asks", "can i tell a voter where i am calling from (city/state)",
                 "am i allowed to give out the company address or phone number", "lts policy on revealing company information",
                 "what to say if a caller asks for our company details", "who am i supposed to say i am calling for",
@@ -289,7 +284,7 @@
                 "response when voter wants info beyond script", "contact supervisor for off-script info requests",
                 "more campaign info", "unscripted information", "info beyond script", "voter demands info"
             ],
-            "answer": "You may ONLY say that you are calling on behalf of the campaign as indicated in the script. You may NOT give out our company's name, name of the city/state, address, or direct phone number. If someone asks you from where you are calling, your response should be, “I apologize, but we are not allowed to provide that information for security reasons."
+            "answer": "You may NOT give voters contacted during the call ANY personal information, including but not limited to, your phone number, social media, location or address. You may ONLY say that you are calling on behalf of the campaign as indicated in the script. You may NOT give out our company's name, name of the city/state, address, or direct phone number. If someone asks you from where you are calling, your response should be, “I apologize, but we are not allowed to provide that information for security reasons."
         },
         {
             "keywords": [
