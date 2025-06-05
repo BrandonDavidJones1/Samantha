@@ -790,7 +790,7 @@ async def on_message(message: discord.Message):
         response_to_user = ""
         pronunciation_view = discord.ui.View()
         if not word_to_pronounce_input:
-            response_to_user = "Please tell me what word or phrase you want to pronounce. Usage: `pronounce [word or phrase]`"
+            response_to_user = "Please tell me what word or phrase you want to pronounce. Usage: `pronounce 'word or phrase'`"
             await message.channel.send(response_to_user)
         else:
             async with message.channel.typing():
@@ -804,11 +804,11 @@ async def on_message(message: discord.Message):
                 pronunciation_view.add_item(discord.ui.Button(label="Play Sound", style=discord.ButtonStyle.link, url=audio_url, emoji="🔊"))
                 log_audio_status = f"Audio found from API: {audio_url}"
             else:
-                response_message_lines.append(f"• Sorry, I couldn't find a direct audio pronunciation for \"{word_to_pronounce_input}\" from an API.")
+                response_message_lines.append(f"• for \"{word_to_pronounce_input}\"..")
             pronunciation_view.add_item(discord.ui.Button(label="Search on Google", style=discord.ButtonStyle.link, url=google_link))
             pronunciation_view.add_item(discord.ui.Button(label="Search on YouTube", style=discord.ButtonStyle.link, url=youtube_link))
             if not audio_url:
-                 response_message_lines.append(f"• You can check Google/YouTube for pronunciation resources." )
+                 response_message_lines.append(f"• Check Google/YouTube for pronunciation resources automatically." )
             response_to_user = "\n".join(response_message_lines)
             if pronunciation_view.children:
                  await message.channel.send(response_to_user, view=pronunciation_view)
