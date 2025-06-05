@@ -294,7 +294,7 @@
                 "response when voter wants info beyond script", "contact supervisor for off-script info requests",
                 "more campaign info", "unscripted information", "info beyond script", "voter demands info"
             ],
-            "answer": "You may ONLY say that you are calling on behalf of the campaign as indicated in the script. If the person demands more information than what's in the script, you must contact a supervisor to handle the call."
+            "answer": "You may ONLY say that you are calling on behalf of the campaign as indicated in the script."
         },
         {
             "keywords": [
@@ -401,7 +401,7 @@
         },
         {
             "keywords": [
-                "are survey scripts always 100% verbatim", "can i cut the script", "what is verbatim", "can i change the wording of survey questions",
+                "are survey scripts always 100% verbatim", "can i cut the script", "what is verbatim", "can i change the wording of survey questions", "who are these candidates?",
                 "am i allowed to add or remove words from a survey script", "importance of reading scripts exactly as written",
                 "policy on rephrasing survey questions", "do i have to say every single word in the survey script",
                 "can i skip parts of the survey script or summarize", "consequences of not reading survey script verbatim",
