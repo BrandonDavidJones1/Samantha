@@ -3,7 +3,7 @@
         {
             "keywords": ["Welcome", "Sup", "hello", "hey there", "hi", "hey", "greetings", "howdy", "yo"],
             "response_type": "standard_greeting",
-            "greeting_reply_template": "{actual_greeting_cased}, {user_mention}!"
+            "greeting_reply_template": "{actual_greeting_cased}!"
         },
         {
             "keywords": ["thank you", "thanks", "ty", "thx", "thank u"],
