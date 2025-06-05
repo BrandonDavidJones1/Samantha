@@ -282,19 +282,14 @@
                 "am i allowed to give out the company address or phone number", "lts policy on revealing company information",
                 "what to say if a caller asks for our company details", "who am i supposed to say i am calling for",
                 "response when a voter demands our company information",
-                "company name", "reveal company info", "calling from where", "company address phone"
-            ],
-            "answer": "You may NOT give out our company's name, name of the city/state, address, or direct phone number. If someone asks you from where you are calling, your response should be, “I apologize, but we are not allowed to provide that information for security reasons.”"
-        },
-        {
-            "keywords": [
+                "company name", "reveal company info", "calling from where", "company address phone",
                 "what if a voter asks where i work or for more campaign info", "asking where where i work",
                 "procedure if a caller demands more information than the script provides",
                 "can i provide extra details not in the script if asked", "how to handle requests for unscripted information",
                 "response when voter wants info beyond script", "contact supervisor for off-script info requests",
                 "more campaign info", "unscripted information", "info beyond script", "voter demands info"
             ],
-            "answer": "You may ONLY say that you are calling on behalf of the campaign as indicated in the script."
+            "answer": "You may ONLY say that you are calling on behalf of the campaign as indicated in the script. You may NOT give out our company's name, name of the city/state, address, or direct phone number. If someone asks you from where you are calling, your response should be, “I apologize, but we are not allowed to provide that information for security reasons."
         },
         {
             "keywords": [
