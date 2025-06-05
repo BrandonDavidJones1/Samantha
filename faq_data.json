@@ -268,7 +268,7 @@
         },
         {
             "keywords": [
-                "am i allowed to share my personal information with voters", "can i give my phone number to a contact",
+                "am i allowed to share my personal information with voters", "can i give my phone number to a contact", "May we provide the Senators number",
                 "is it okay to share my location or address with callers", "policy on giving out personal info to voters",
                 "can i share my social media details with people i call", "rules about agent privacy during calls",
                 "what personal information am i forbidden from sharing", "they asked about our location",
@@ -284,7 +284,7 @@
                 "response when voter wants info beyond script", "contact supervisor for off-script info requests",
                 "more campaign info", "unscripted information", "info beyond script", "voter demands info"
             ],
-            "answer": "You may NOT give voters contacted during the call ANY personal information, including but not limited to, your phone number, social media, location or address. You may ONLY say that you are calling on behalf of the campaign as indicated in the script. You may NOT give out our company's name, name of the city/state, address, or direct phone number. If someone asks you from where you are calling, your response should be, “I apologize, but we are not allowed to provide that information for security reasons."
+            "answer": "You may NOT give voters contacted during the call ANY personal information, including but not limited to, your phone number, senators or reps number, social media, location or address. You may ONLY say that you are calling on behalf of the campaign as indicated in the script. You may NOT give out our company's name, name of the city/state, address, or direct phone number. If someone asks you from where you are calling, your response should be, “I apologize, but we are not allowed to provide that information for security reasons."
         },
         {
             "keywords": [
