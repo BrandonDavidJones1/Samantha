@@ -201,7 +201,7 @@
                 "how can i request to be added to a project", "procedure for asking to be added to a campaign", "Can I be added tomorrow", "can you add me to a project", "can you add me", "select my shift",
                 "who do i contact to get added to a new project", "i want to join the current project how to ask",
                 "process for getting assigned to a specific campaign", "how to get on a new project list",
-                "requesting assignment to an active project",
+                "requesting assignment to an active project", "I need to take calls today",
                 "add to project", "join project", "request project assignment", "get on project"
             ],
             "answer": "Please contact your direct supervisor to request being added or for more information on the process."
@@ -276,7 +276,7 @@
                 "what is our company name if a voter asks", "can i tell a voter where i am calling from (city/state)",
                 "am i allowed to give out the company address or phone number", "lts policy on revealing company information",
                 "what to say if a caller asks for our company details", "who am i supposed to say i am calling for",
-                "response when a voter demands our company information",
+                "response when a voter demands our company information", "where did you get my number?",
                 "company name", "reveal company info", "calling from where", "company address phone",
                 "what if a voter asks where i work or for more campaign info", "asking where where i work",
                 "procedure if a caller demands more information than the script provides",
@@ -284,7 +284,7 @@
                 "response when voter wants info beyond script", "contact supervisor for off-script info requests",
                 "more campaign info", "unscripted information", "info beyond script", "voter demands info"
             ],
-            "answer": "You may NOT give voters contacted during the call ANY personal information, including but not limited to, your phone number, senators or reps number, social media, location or address. You may ONLY say that you are calling on behalf of the campaign as indicated in the script. You may NOT give out our company's name, name of the city/state, address, or direct phone number. If someone asks you from where you are calling, your response should be, “I apologize, but we are not allowed to provide that information for security reasons."
+            "answer": "You may NOT give voters contacted during the call ANY personal information, including but not limited to, your phone number, senators or reps number, social media, location or address. You may ONLY say that you are calling on behalf of the campaign as indicated in the script. You may NOT give out our company's name, name of the city/state, address, or direct phone number. If someone asks you from where you are calling, your response should be, “I apologize, but we are not allowed to provide that information for security reasons. \n\n If asked, We get phone numbers from the Voter Registration List which is public record."
         },
         {
             "keywords": [
