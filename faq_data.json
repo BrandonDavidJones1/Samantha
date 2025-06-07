@@ -712,11 +712,11 @@
         {
             "keywords": [
                 "who issues login credentials", "how do i get my login information",
-                "someone is asking for my credentials what should i do", "can someone else use my login",
+                "asking for my credentials", "can someone else use my login",
                 "who provides login access", "asking for credentials", "get login credentials",
                 "credentials policy", "who gives out logins", "how to obtain my dialer login"
             ],
-            "answer": "Login credentials are issued by Corey LTS."
+            "answer": "Login credentials are issued by Corey LTS. Login Credentials are issued for your use only."
         },
         {
             "keywords": [
