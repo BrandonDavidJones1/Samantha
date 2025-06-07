@@ -192,7 +192,7 @@
                 "procedure when a call is not answered by anyone", "lts protocol for 'no answer' calls",
                 "what if they don't pick up the phone at all", "how should I code a 'no answer' call",
                 "rules for dispositioning a call as 'no answer'", "specific gotv coding for no answer",
-                "no answer", "call not answered", "phone rings no answer", "code no answer"
+                "no answer", "call not answered", "phone rings no answer", "code no answer", "what to do if they hang up before reading"
             ],
             "answer": "If there is no response, code as 'No Answer'. For GOTV calls without voicemails, even a 'No Answer' might be coded as 'COMPLETE LIVE' - follow project specifics. (See 'list codes' for full No Answer definition)."
         },
@@ -276,7 +276,7 @@
                 "what is our company name if a voter asks", "can i tell a voter where i am calling from (city/state)",
                 "am i allowed to give out the company address or phone number", "lts policy on revealing company information",
                 "what to say if a caller asks for our company details", "who am i supposed to say i am calling for",
-                "response when a voter demands our company information", "where did you get my number?",
+                "response when a voter demands our company information", 
                 "company name", "reveal company info", "calling from where", "company address phone",
                 "what if a voter asks where i work or for more campaign info", "asking where where i work",
                 "procedure if a caller demands more information than the script provides",
@@ -284,7 +284,15 @@
                 "response when voter wants info beyond script", "contact supervisor for off-script info requests",
                 "more campaign info", "unscripted information", "info beyond script", "voter demands info"
             ],
-            "answer": "You may NOT give voters contacted during the call ANY personal information, including but not limited to, your phone number, senators or reps number, social media, location or address. You may ONLY say that you are calling on behalf of the campaign as indicated in the script. You may NOT give out our company's name, name of the city/state, address, or direct phone number. If someone asks you from where you are calling, your response should be, “I apologize, but we are not allowed to provide that information for security reasons. \n\n If asked, We get phone numbers from the Voter Registration List which is public record."
+            "answer": "You may NOT give voters contacted during the call ANY personal information, including but not limited to, your phone number, senators or reps number, social media, location or address. You may ONLY say that you are calling on behalf of the campaign as indicated in the script. You may NOT give out our company's name, name of the city/state, address, or direct phone number. If someone asks you from where you are calling, your response should be, “I apologize, but we are not allowed to provide that information for security reasons.”"
+        },
+        {
+            "keywords": [
+                "where did you get my number", "how did you get my phone number", "who gave you my number", 
+                "source of my number", "why do you have my number", "stop calling my number how did you get it", 
+                "i am on dnc list how did you get my number", "how'd you get this number"
+            ],
+            "answer": "Voter's phone numbers are pulled from their state's voter registration."
         },
         {
             "keywords": [
@@ -336,27 +344,27 @@
          "answer": "A VOTER ASSUMPTIVE call means you generally begin by assuming the voter listed answered the phone. You'd say, “Hello (voter's name specified in script)” and prepare to continue without pause.\n\n**However, an important rule applies if a specific voter name IS listed in your script:**\n*   If the person who answers says they are **NOT** the voter named in the script, you **CANNOT proceed with them** for that specific voter's record. You must speak to the person named.\n*   In this case, you would treat it like a 'Voter Specific' call where the target voter is not available. You could say something like, 'Okay, thank you. We were trying to reach [Voter's Name]. We can try again later.' Then disposition as 'Not In' or as per project instructions for when the specific voter is unavailable.\n\nIf the script has **NO specific voter name** to begin with (truly assumptive or non-voter), and you simply start with a general greeting, then you can speak with whomever answers."
         },
         {
-    "keywords": [
-        "i am searching for a work from home job",
-        "work from home job",
-        "remote job",
-        "looking for wfh",
-        "wfh job inquiry",
-        "how to apply for a job here",
-        "job application",
-        "work from home opportunities",
-        "seeking remote employment",
-        "careers at lts",
-        "lts job openings",
-        "hiring process",
-        "onboarding information",
-        "apply for lts",
-        "lts careers",
-        "work for lts",
-        "employment with lts"
-    ],
-    "answer": "Welcome!\n\nWe appreciate your interest in LTS.\n\nPlease contact Corey LTS for instruction on applications and Onboarding!"
-},
+            "keywords": [
+                "i am searching for a work from home job",
+                "work from home job",
+                "remote job",
+                "looking for wfh",
+                "wfh job inquiry",
+                "how to apply for a job here",
+                "job application",
+                "work from home opportunities",
+                "seeking remote employment",
+                "careers at lts",
+                "lts job openings",
+                "hiring process",
+                "onboarding information",
+                "apply for lts",
+                "lts careers",
+                "work for lts",
+                "employment with lts"
+            ],
+            "answer": "Welcome!\n\nWe appreciate your interest in LTS.\n\nPlease contact Corey LTS for instruction on applications and Onboarding!"
+        },
         {
             "keywords": [
                 "what is a non-voter call type", "how do non-voter campaigns work", "rules for conducting non-voter calls",
@@ -703,6 +711,15 @@
         },
         {
             "keywords": [
+                "who issues login credentials", "how do i get my login information",
+                "someone is asking for my credentials what should i do", "can someone else use my login",
+                "who provides login access", "asking for credentials", "get login credentials",
+                "credentials policy", "who gives out logins", "how to obtain my dialer login"
+            ],
+            "answer": "Login credentials are issued by Corey LTS."
+        },
+        {
+            "keywords": [
                 "what are the current lts dialing hours", "when can i start dialing for lts today", 
                 "lts operating hours or business hours for agents", "where are lts shift hours posted",
                 "when does lts calling typically take place", "how to find today's or next day's lts hours",
@@ -921,4 +938,4 @@
         }
     },
     "fallback_message": "🤔 I couldn't quite find what you were looking for. \n\n**Here are some things you can try:**\n\n*   **Ask general questions:**\n    *   e.g., `what is wrap up time?`\n\n   *   **Explore Call Codes:**\n    *   Type `list codes` to see all codes.\n    *   Then ask about one, like: `the first one` or `define [code name]`\n\n*   **Pronunciation Help:**\n    * \n Type only 'pronounce' followed by the word or phrase you want resources for in quotes. (e.g. pronounce 'john smith')\n\n💡 For a general guide on how to use me, you can also type `help`."
-    }
+}
