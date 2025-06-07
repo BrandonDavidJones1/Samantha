@@ -325,10 +325,10 @@
         },
         {
             "keywords": [
-                "what are voter specific calls or vof calls", "rule about speaking only to the voter on file", "Someone not the voter answers",
+                "what are voter specific calls or vof calls", "rule about speaking only to the voter on file", "Someone not the voter answers", "someone else answers and declines", 
                 "how to confirm i am speaking to the correct voter for a survey", "who am i allowed to talk to on a voter specific call",
                 "can i only speak to the person whose name is on the checkbox", "vof call procedures and rules", "Can we talk to anyone",
-                "what if a relative is suspicious when i ask for the vof", "voter on file confirmation process", "What if spouse answers", "what if someone else answers the phone",
+                "what if a relative is suspicious when i ask for the vof", "voter on file confirmation process", "What if a spouse answers", "what if someone else answers the phone",
                 "voter specific calls", "vof calls", "speak to voter on file", "confirm vof", "about voter specific"
             ],
             "answer": "VOTER SPECIFIC calls require you to speak ONLY with the VOF (Voter on File) listed in the script. (ABSOLUTELY NO EXCEPTIONS). As a rule, surveys are always VOTER SPECIFIC, unless otherwise instructed. You MUST confirm that you are speaking to the right person to continue the survey, and they MUST confirm they are that person. \n\nIf a relative is suspicious when you ask for the VOF: you may add your name and/or the name of the Company we are calling on behalf of, let them know we will try again later and disposition as 'Not In.'"
