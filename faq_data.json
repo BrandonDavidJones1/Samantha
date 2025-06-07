@@ -328,7 +328,7 @@
                 "what are voter specific calls or vof calls", "rule about speaking only to the voter on file", "Someone not the voter answers",
                 "how to confirm i am speaking to the correct voter for a survey", "who am i allowed to talk to on a voter specific call",
                 "can i only speak to the person whose name is on the checkbox", "vof call procedures and rules", "Can we talk to anyone",
-                "what if a relative is suspicious when i ask for the vof", "voter on file confirmation process",
+                "what if a relative is suspicious when i ask for the vof", "voter on file confirmation process", "What if spouse answers", "what if someone else answers the phone",
                 "voter specific calls", "vof calls", "speak to voter on file", "confirm vof", "about voter specific"
             ],
             "answer": "VOTER SPECIFIC calls require you to speak ONLY with the VOF (Voter on File) listed in the script. (ABSOLUTELY NO EXCEPTIONS). As a rule, surveys are always VOTER SPECIFIC, unless otherwise instructed. You MUST confirm that you are speaking to the right person to continue the survey, and they MUST confirm they are that person. \n\nIf a relative is suspicious when you ask for the VOF: you may add your name and/or the name of the Company we are calling on behalf of, let them know we will try again later and disposition as 'Not In.'"
@@ -656,7 +656,7 @@
             "keywords": [
                 "when is the 'not in' disposition code appropriate","what do i do if someone else picks up the phone", "how to code if the voter on file is not available",
                 "procedure for using 'not in' when contact can't come to phone", "rules for 'not in' code usage",
-                "distinguishing 'not in' from 'not interested'", "what to say for a 'not in' scenario", "what if spouse answers",
+                "distinguishing 'not in' from 'not interested'", "what to say for a 'not in' scenario",
                 "code not in", "not in rules", "voter not available", "not in vs not interested", "not in meaning"
             ],
             "answer": "The 'NOT IN' disposition is used when the VOF (Voter On File) you are trying to reach is temporarily unavailable to come to the phone for any reason (e.g., they are busy, not home, someone else answers and says they'll call back, etc.). This is NOT for when they are 'Not Interested'. You should say something like, “We will try again later. Thank you for your time.” Then, code as 'Not In'. See 'list codes'."
