@@ -853,7 +853,7 @@
                  {
              "keywords": [
                  "how to code if someone answers then immediately hangs up","If they don’t say anything whenever I answer what do I do?", "what is the disposition if they answer and then disconnect",
-                 "coding for a hangup after the call connects and they say hello", "is it 'no answer' if they hang up after initial connection",
+                 "coding for a hangup after the call connects and they say hello", "is it 'no answer' if they hang up after initial connection", "rather not say",
                  "distinguishing 'no answer' from 'refused' for early hangups", "how to code if they answer but hang up before survey starts",
                  "voter hangs up after saying hello what code", "difference between no answer and refused for quick hang ups",
                  "answer then hang up", "immediate hang up code", "hang up after hello", "code quick hang up"
