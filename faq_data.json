@@ -102,13 +102,13 @@
         {
              "keywords": [
                  "when exactly are lts paydays", "payroll dates", "explanation of lts pay periods", "has payment been submitted yet", "what is the next payday date for lts", "When does the pay period start/end",
-                 "details of the lts payment schedule", "how frequently are lts paychecks distributed",
-                 "specifics regarding the lts salary schedule", "when is the payday for work done 11th to 25th",
+                 "details of the lts payment schedule", "how frequently are lts paychecks distributed", "what time of day will pay checks hit",
+                 "specifics regarding the lts salary schedule", "when is the payday for work done 11th to 25th", "will pay hit at a specific time of day",
                  "payment date for work performed 26th to 10th", "what if an lts payday falls on a public holiday",
                  "are we paid earlier if the 1st or 15th is a weekend",
                  "lts paydays", "paydays", "pay periods", "payment schedule", "when do we get paid", "payday holiday", "about paydays"
                 ],
-             "answer": "Pay Periods are as follows… \n\n 11th-25th paid on the 1st \n 26th-10th paid on the 15th \n\n If the 1st or 15th falls on a weekend or holiday, you are paid early on the previous Friday."
+             "answer": "Pay Periods are as follows… \n\n 11th-25th paid on the 1st \n 26th-10th paid on the 15th \n\n If the 1st or 15th falls on a weekend or holiday, you are paid early on the previous Friday.\n\n Specific times vary and depend on the financial institution you use."
         },
         {
             "keywords": [
