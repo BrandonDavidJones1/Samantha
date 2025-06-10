@@ -930,5 +930,5 @@
             "answer": "Code as refused when they refuse a question or patch once the call has begun."
         }
     },
-    "fallback_message": "🤔 I couldn't find that, Try keeps messages short and to the point.\n\n Still stuck? Ask your supervisor. \n\n**Things you can try:**\n\n*   **Ask general questions:**\n    *   e.g., `what is wrap up time?`\n\n   *   **Explore Call Codes:**\n    *   Type `list codes` to see all codes or type `define do not call`\n  **Pronunciation Help:**\n    * \n Type only 'pronounce' followed by the word or phrase, for names : (e.g. pronounce 'john smith')\n\n💡 For a guide, you can also type `help`."
+    "fallback_message": "🤔 I couldn't find that, Try keeps messages short and to the point.\n\n Still stuck? Ask your supervisor. \n\n**Things you can try:**\n\n*   **Ask general questions:**\n    *   e.g., `what is wrap up time?`\n\n   *   **Explore Call Codes:**\n    *   Type `list codes` to see all codes or type `define do not call`\n  **Pronunciation Help:**\n    * \n Type only 'pronounce' followed by the word or phrase, \n for names : \n (e.g. pronounce 'john smith')\n\n💡 For a guide, you can also type `help`."
 }
