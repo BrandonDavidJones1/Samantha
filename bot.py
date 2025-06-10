@@ -215,7 +215,7 @@ def load_faq_data_from_url():
         "greetings_and_pleasantries": [],
         "general_faqs": [],
         "call_codes": {}, # Expects {"CODE_NAME": {"keywords": [], "answer": "description"}}
-        "fallback_message": "I couldn't find that. Try asking general questions (e.g., 'what is wrap up time?' then.. 'how can i reduce that?'), typing 'list codes' (then ask about one, like 'the first one'), or typing 'pronounce [word]' for resources. For name pronunciation simply type the name you want to look up."
+        "fallback_message": "I couldn't find that. Try asking general questions (e.g., 'what is wrap up time?' then.. 'how can i reduce that?'), typing 'list codes' (then ask about one, like 'the first one'), or typing 'pronounce [word]' for resources. For name pronunciation use quotes 'John Smith'."
     }
     try:
         print(f"Attempting to download FAQ data from: {FAQ_URL}")
