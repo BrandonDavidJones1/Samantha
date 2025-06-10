@@ -211,21 +211,21 @@
                 "how to handle a voter who says they are not interested", "what to do if a person is not interested in the call",
                 "coding for when a customer states they are not interested", "procedure when a voter expresses no interest",
                 "if they say they don't want the call or service", "response to a voter declining participation",
-                "what if they ask to be taken off our call list but not dnc", "how to code a 'not interested' response from voter",
+                "how to code a 'not interested' response from voter",
                 "distinction between 'not interested' and 'do not call list' request",
                 "not interested", "voter not interested", "code not interested", "refused vs not interested"
             ],
-            "answer": "If a person indicates they are not interested, (but does NOT specifically ask to be put on the 'Do Not Call List'), you will typically code this as 'REFUSED' or follow project-specific instructions for 'Not Interested'. Always thank them for their time. (See 'list codes' for 'REFUSED' and 'DO NOT CALL' for more details)."
+            "answer": "If a person indicates they are not interested, (but does NOT specifically ask not to be called, you will typically code this as 'REFUSED' or follow project-specific instructions for 'Not Interested'. Always thank them for their time. (See 'list codes' for 'REFUSED' and 'DO NOT CALL' for more details)."
         },
         {
             "keywords": [
-                "when to use the 'do not call' or dnc disposition", "how to handle a DNC request from a voter",
+                "when to use the 'do not call' or dnc disposition", "how to handle a DNC request from a voter", "what if they ask to be taken off our call list",
                 "procedure for adding someone to the do not call list", "what if a voter specifically asks to be put on the dnc list",
-                "handling requests for do not call status", "lts dnc procedure details", "clarification on when to code as dnc",
+                "handling requests for do not call status", "lts dnc procedure details", "clarification on when to code as dnc", "please stop calling me", "do not ever call me again",
                 "should i argue or offer a rebuttal to a dnc request", "criteria for using the DNC code accurately",
-                "do not call", "dnc", "dnc request", "code dnc", "add to dnc list", "when to use dnc"
+                "do not call", "dnc", "dnc request", "code dnc", "add to dnc list", "when to use dnc", "stop calling me"
             ],
-            "answer": "(See 'list codes' for full details)."
+            "answer": "DO NOT CALL disposition (See 'list codes' for full details)."
         },
         {
             "keywords": [
