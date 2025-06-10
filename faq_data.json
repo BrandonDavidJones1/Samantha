@@ -215,7 +215,7 @@
                 "distinction between 'not interested' and 'do not call list' request",
                 "not interested", "voter not interested", "code not interested", "refused vs not interested"
             ],
-            "answer": "If a person indicates they are not interested, or asks to be 'removed from the call list' (but does NOT specifically ask to be put on the 'Do Not Call List'), you will typically code this as 'REFUSED' or follow project-specific instructions for 'Not Interested'. Always thank them for their time. (See 'list codes' for 'REFUSED' and 'DO NOT CALL' for more details)."
+            "answer": "If a person indicates they are not interested, (but does NOT specifically ask to be put on the 'Do Not Call List'), you will typically code this as 'REFUSED' or follow project-specific instructions for 'Not Interested'. Always thank them for their time. (See 'list codes' for 'REFUSED' and 'DO NOT CALL' for more details)."
         },
         {
             "keywords": [
@@ -225,7 +225,7 @@
                 "should i argue or offer a rebuttal to a dnc request", "criteria for using the DNC code accurately",
                 "do not call", "dnc", "dnc request", "code dnc", "add to dnc list", "when to use dnc"
             ],
-            "answer": "The only time a call is coded “Do Not Call” or DNC, is when the voter specifically asks to be put on the 'Do Not Call list'. Otherwise, any other request to not be contacted (e.g., 'take me off your list') is usually coded as 'REFUSED'. (See 'list codes' for full details)."
+            "answer": "(See 'list codes' for full details)."
         },
         {
             "keywords": [
@@ -290,7 +290,7 @@
             "keywords": [
                 "where did you get number", "how did you get my phone number", "who gave you my number", 
                 "source of my number", "why do you have my number", "stop calling my number how did you get it", 
-                "i am on dnc list how did you get my number", "how'd you get this number"
+                " how did you get my number", "how'd you get this number"
             ],
             "answer": "Voter's phone numbers are pulled from their state's voter registration."
         },
@@ -618,15 +618,6 @@
         },
         {
             "keywords": [
-                "exact criteria for using the 'do not call' (dnc) code", "how to handle a specific dnc request from vof",
-                "when is it appropriate to use the dnc disposition", "rules for coding a dnc request accurately",
-                "difference between 'do not call list' request and general 'take me off list'", "critical distinction for dnc coding",
-                "dnc code criteria", "dnc request handling", "dnc rules", "dnc meaning", "code dnc when"
-            ],
-            "answer": "The 'DO NOT CALL' (DNC) disposition is used very specifically. You should ONLY use this if you have confirmed you are speaking with the VOF (Voter On File) AND they explicitly ask to be “added to the Do Not Call List” or use similar specific phrasing. If they just say 'take me off your list' or 'don't call again' without mentioning the 'Do Not Call List' specifically, that is usually coded as 'REFUSED'. This is a critical distinction. See 'list codes' for details."
-        },
-        {
-            "keywords": [
                 "when should i code a call as 'complete patch'", "criteria for a successful patch call disposition",
                 "how to correctly code a 'complete patch' outcome", "rules for using the 'complete patch' code",
                 "procedure after initiating patch and reading closing statement", "what defines a complete patch for coding",
@@ -666,7 +657,7 @@
                 "when should i code a call as 'refused'", "criteria for using the 'refused' disposition",
                 "how to code a call when voter refuses to participate", "what does 'refused' mean",
                 "rules for applying the 'refused' code accurately", "distinguishing 'refused' from 'dnc' or 'not in'",
-                "refused criteria", "voter refuses", "refused meaning", "refused vs dnc"
+                "refused criteria", "voter refuses", "refused meaning"
             ],
             "answer": "A call is typically coded as 'REFUSED' when the contact explicitly refuses to participate further in the call, answer a key question, or proceed with a patch after the call has begun and initial engagement occurred. This is different from someone who is simply 'Not In' or if it's a 'Wrong Number'. It's also distinct from a 'Do Not Call' request, which has specific criteria. If a person indicates they are 'not interested' early on, that's often a 'REFUSED'. Check 'list codes' for the exact definition provided for 'REFUSED' or ask your supervisor for project-specific guidance."
         },
@@ -893,7 +884,7 @@
                 "code buttons",
                 "dispositions"
             ],
-            "answer": "Hello! I can help you with a variety of things. Here's a quick guide:\n\n**1. Ask General Questions:**\nJust type out your question naturally! For example:\n*   `what is the policy on breaks?`\n*   `how do I handle a DNC request?`\n*   `what does CPH mean?`\nIf your first question is short and you have a follow-up, I'll try to use the context (e.g., after `what is wrap up time?`, you can ask `how can I reduce that?`).\n\n**2. Explore Call Codes:**\n*   Type `list codes` to see all available call disposition codes and their brief descriptions.\n*   After listing them, you can ask for more detail about a specific code, like:\n    *   `define wrong number`\n    *   `what is the third code?`\n    *   `tell me about the first one`\n\n**3. Get Pronunciation Help:**\nIf you're unsure how to say a word, name, or phrase:\n*   Type only `pronounce + 'word or name'`\n    *   e.g., `pronounce 'john smith'`\n    *     I'll try to find a direct audio pronunciation as well as provide links that autosearch Google and YouTube. \n\n**Tips for Best Results:**\n*   Keep questions fairly specific if you have a particular topic in mind.\n*   If I offer suggestions, check if one of those is what you need!\n\nIf you're still stuck, don't hesitate to ask your supervisor. I'm always learning! 😊"
+            "answer": "Hello! I can help you with a variety of things. Here's a quick guide:\n\n**1. Ask General Questions:**\nJust type out your question naturally! For example:\n*   `what is the policy on breaks?`\n*   `Define DO NOT CALL`\n*   `what does CPH mean?`\nIf your first question is short and you have a follow-up, I'll try to use the context (e.g., after `what is wrap up time?`, you can ask `how can I reduce that?`).\n\n**2. Explore Call Codes:**\n*   Type `list codes` to see all available call disposition codes and their brief descriptions.\n*   After listing them, you can ask for more detail about a specific code, like:\n    *   `define wrong number`\n    *   `what is the third code?`\n    *   `tell me about the first one`\n\n**3. Get Pronunciation Help:**\nIf you're unsure how to say a word, name, or phrase:\n*   Type only `pronounce + 'word or name'`\n    *   e.g., `pronounce 'john smith'`\n    *     I'll try to find a direct audio pronunciation as well as provide links that autosearch Google and YouTube. \n\n**Tips for Best Results:**\n*   Keep questions fairly specific if you have a particular topic in mind.\n*   If I offer suggestions, check if one of those is what you need!\n\nIf you're still stuck, don't hesitate to ask your supervisor. I'm always learning! 😊"
         }
 
     ],
@@ -912,7 +903,7 @@
         },
         "4: DO NOT CALL": {
             "keywords": ["do not call", "dnc", "code dnc", "define do not call", "what is dnc", "do not call list", "dnc disposition"],
-            "answer": "Important: We almost never use this Disposition. Only use this if you have confirmed you are speaking with the VOF (Voter On File) AND they specifically ask to be “added” to the Do Not Call List. Most of the time, if they ask to be “removed” from the call list, that would be marked as 'REFUSED' (go to Next page and Disposition from there). "
+            "answer": "Anytime the person on line (Voter on file or otherwise) asks to be on the DO NOT CALL list, to be taken off the list, or says 'don't call here again', use the DO NOT CALL disposition."
         },
         "5: COMPLETE PATCH": {
             "keywords": ["complete patch", "code complete patch", "define complete patch", "what is complete patch", "complete patch disposition"],
