@@ -268,6 +268,19 @@
         },
         {
             "keywords": [
+                "call business", "call hotel", "reached a business", "spoke to business",
+                "call child", "call minor", "called a child", "under 18", "talked to minor",
+                "business line", "hotel phone", "not residential", "contact is a business",
+                "wrong number business", "wrong number child", "code business call",
+                "code minor call", "what if i call a business", "what if i call a kid",
+                "what if i call someone under 18", "calling a company", "reached a company",
+                "is it a wrong number if it's a business", "is it a wrong number if it's a minor",
+                "policy for calling businesses", "policy for calling minors"
+            ],
+            "answer": "If you determine you have reached a business (e.g., a hotel, company, retail store, etc.) or if the person who answers is clearly under 18 years of age, you should not proceed with the call or survey. Politely state, “We will update our records. Thank you for your time,” and then code the call as 'WRONG NUMBER'."
+        },
+        {
+            "keywords": [
                 "am i allowed to share my personal information with voters", "can i give my phone number to a contact", "May we provide the Senators number", "identify yourself",
                 "is it okay to share my location or address with callers", "policy on giving out personal info to voters", "ask for number to call campign themselves",
                 "can i share my social media details with people i call", "rules about agent privacy during calls", "asking for senators number", "asking for reps number",
