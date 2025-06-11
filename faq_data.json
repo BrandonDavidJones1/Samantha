@@ -268,16 +268,23 @@
         },
         {
             "keywords": [
-                "call business", "call hotel", "reached a business", "spoke to business", "What if it's a hotel or a business how is the call coded?",
                 "call child", "call minor", "called a child", "under 18", "talked to minor",
-                "business line", "hotel phone", "not residential", "contact is a business",
-                "wrong number business", "wrong number child", "code business call",
-                "code minor call", "what if i call a business", "what if i call a kid",
-                "what if i call someone under 18", "calling a company", "reached a company",
-                "is it a wrong number if it's a business", "is it a wrong number if it's a minor",
-                "policy for calling businesses", "policy for calling minors"
+                "minor answered", "child on phone", "not adult", "contact is minor",
+                "code minor call", "what if i call a kid", "what if i call someone under 18",
+                "is it not in if it's a minor", "policy for calling minors", "child picks up"
             ],
-            "answer": "If you determine you have reached a business (e.g., a hotel, company, retail store, etc.) or if the person who answers is clearly under 18 years of age, you should not proceed with the call or survey. Politely state, “We will update our records. Thank you for your time,” and then code the call as 'WRONG NUMBER'."
+            "answer": "If you determine the person who answers is under 18 years of age, you should not proceed with the call or survey with them. Politely state, “We will try again later. Thank you for your time,” and then code the call as 'NOT IN'. This is because you are generally trying to reach an adult voter on file."
+        },
+        {
+            "keywords": [
+                "call business", "call hotel", "reached a business", "spoke to business",
+                "business line", "hotel phone", "not residential", "contact is a business",
+                "wrong number business", "code business call", "what if i call a business",
+                "calling a company", "reached a company", "fax machine as business",
+                "is it a wrong number if it's a business", "policy for calling businesses",
+                "What if it's a hotel or a business how is the call coded?"
+            ],
+            "answer": "If you determine you have reached a business (e.g., a hotel, company, retail store, or even a dedicated fax line that clearly indicates a business and not an answering machine for an individual), you should not proceed with the call or survey. Politely state, “We will update our records. Thank you for your time,” and then code the call as 'WRONG NUMBER'."
         },
         {
             "keywords": [
