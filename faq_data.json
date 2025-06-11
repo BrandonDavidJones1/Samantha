@@ -475,7 +475,7 @@
                 "phrases to use when responding to voter reluctance", "rebuttal techniques for surveys",
                 "common rebuttals", "rebuttals", "hesitant voter rebuttals", "convince voter", "handling objections"
             ],
-            "answer": "Here are some common rebuttals you can use:\n- “I understand, but this will only take a short moment of your time and your opinion would really make a difference!”\n- “I understand, but your opinion really matters!”\n- “Your voice and opinion are very important; every voice does matters!”\n- “It's really important for them to hear your voice!”\n- “It would just take a moment for your voice to be heard!”\n- “Your voice matters!”\n- “We need your voice, so they know your stand!”\n"
+            "answer": "Here are some common rebuttals you can use:\n- “I understand, but this will only take a short moment of your time and your opinion would really make a difference!”\n- “I understand, but your opinion really matters!”\n- “Your voice and opinion are very important; every voice does matter!”\n- “It's really important for them to hear your voice!”\n- “It would just take a moment for your voice to be heard!”\n- “Your voice matters!”\n- “We need your voice, so they know your stand!”\n"
         },
         {
             "keywords": [
@@ -931,7 +931,7 @@
         },
         "11: RATHER NOT SAY" : {
             "keywords": ["rather not say", "code rather not say", "define rather not say", "what is rather not say", "rather not say code"],
-             "answer": "This not a coding option that will end the call, Choose this option during a call if the participant expresses a request not to answer an individual question, this option may not always be available."
+            "answer": "This not a coding option that will end the call, Choose this option during a call if the participant expresses a request not to answer an individual question, this option may not always be available."
         }
     },
     "fallback_message": "🤔 I couldn't find that, Try keeps messages short and to the point.\n\n Still stuck? Ask your supervisor. \n\n**Things you can try:**\n\n*   **Ask general questions:**\n    *   e.g., `what is wrap up time?`\n\n   *   **Explore Call Codes:**\n    *   Type `list codes` to see all codes or type `define do not call`\n  **Pronunciation Help:**\n    * \n Type only 'pronounce' followed by the word or phrase, \n for names : \n (e.g. pronounce 'john smith')\n\n💡 For a guide, you can also type `help`."
