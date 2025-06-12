@@ -539,7 +539,7 @@
                 "when do lts shifts typically end", "How many hours can I work", "what is the usual end time for our work day",
                 "how do i know when the shift is over", "are lts end times variable or fixed",
                 "what time are we usually done working", "procedure for logging off at a specific time",
-                "shift end time", "work day end", "when shift over", "variable end times"
+                "shift end time", "work day end", "when is the shift over", "variable end times"
             ],
             "answer": "Our end times are variable. It always depends on the Client. Just keep swimming, your paycheck will thank you. Contact Corey if you need to logout at a specific time."
         },
@@ -551,6 +551,16 @@
                 "pay scale", "pay rate", "how much paid", "salary info", "payroll questions"
             ],
             "answer": "All questions about your Pay, Pay Scale, Pay Rate, or Payroll should be directed to Corey outside of Dialing hours."
+        },
+        {
+            "keywords": [
+                "They say they're busy driving",
+                "Do i continue the call if they're driving",
+                "They're in the car",
+                "When driving",
+                "on the freeway"
+            ],
+            "answer": "If the person says they can't continue the call because they are driving, be polite and end the call for saftey reasons."
         },
         {
             "keywords": [

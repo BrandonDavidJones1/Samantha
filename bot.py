@@ -26,6 +26,8 @@ SUGGESTION_THRESHOLD = 0.50
 MAX_SUGGESTIONS_TO_SHOW = 2
 CANDIDATES_TO_FETCH_FOR_SUGGESTIONS = 5
 
+MAX_QUERY_LENGTH = 14
+
 DYNAMIC_THRESHOLD_ENABLED = True
 CONFIDENCE_GAP_FOR_DIRECT_ANSWER = 0.06
 SIMILAR_SCORE_CLUSTER_THRESHOLD = 0.04
@@ -650,6 +652,20 @@ async def on_message(message: discord.Message):
     author_id = message.author.id
     author_name = str(message.author)
     log_extra_base = {'user_id': author_id, 'username': author_name, 'original_query_text': original_message_content_for_processing}
+
+    # --- MAX_QUERY_LENGTH Check ---
+    query_words_for_length_check = original_message_content_for_processing.split()
+    if len(query_words_for_length_check) > MAX_QUERY_LENGTH:
+        response_text = "For best results please keep questions brief and only ask one question at a time"
+        await message.channel.send(response_text)
+        logger.info(
+            "Query exceeded MAX_QUERY_LENGTH.",
+            extra={**log_extra_base, 'details': f"Query length: {len(query_words_for_length_check)} words. Limit: {MAX_QUERY_LENGTH}."}
+        )
+        # No need to forward this specific interaction to admins, as it's a structural rejection
+        return
+    # --- End MAX_QUERY_LENGTH Check ---
+
 
     context_was_applied_this_turn = False
     context_application_method = "none"
