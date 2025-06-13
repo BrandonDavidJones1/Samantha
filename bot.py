@@ -1198,7 +1198,7 @@ async def on_message(message: discord.Message):
 
             if suggestions_to_display:
                 user_verbatim_input_this_turn = initial_user_message_content_for_forwarding
-                intro_message_text = f"I'm not sure I have an exact answer for '{user_verbatim_input_this_turn}', but perhaps one of these is helpful?\n"
+                intro_message_text = f"I'm not sure I have an exact answer for '{user_verbatim_input_this_turn}', try typing `list codes` or perhaps one of these is helpful?\n"
                 await send_long_message(message.channel, intro_message_text)
                 temp_suggestion_forward_texts = [intro_message_text.strip()]
                 logger_details_base_sugg = f"Decision: {dynamic_decision_details}. Primary Score: {primary_score:.2f}."
