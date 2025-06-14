@@ -211,7 +211,7 @@
                 "how to handle a voter who says they are not interested", "what to do if a person is not interested in the call",
                 "coding for when a customer states they are not interested", "procedure when a voter expresses no interest",
                 "if they say they don't want the call or service", "response to a voter declining participation",
-                "how to code a 'not interested' response from voter", "What do I do if they start but isn’t interested ?"
+                "how to code a 'not interested' response from voter", "What do I do if they start but isn’t interested ?",
                 "distinction between 'not interested' and 'do not call list' request",
                 "not interested", "voter not interested", "code not interested", "refused vs not interested"
             ],
@@ -423,7 +423,7 @@
                 "am i allowed to add or remove words from a survey script", "importance of reading scripts exactly as written", "When they ask who is calling",
                 "policy on rephrasing survey questions", "do i have to say every single word in the survey script",
                 "can i skip parts of the survey script or summarize", "consequences of not reading survey script verbatim",
-                "rule about script adherence for surveys", "verbatim script policy",
+                "rule about script adherence for surveys", "verbatim script policy", "who  is  sponsoring  the  bill",
                 "verbatim", "read verbatim", "script verbatim", "change script wording", "100% verbatim"
             ],
             "answer": "VERBATIM = 'Word for Word' \n\n All scripts are always to be read 100% VERBATIM. There is NO exception to this rule. You may not ADD or REMOVE a single word from the script. You are paid to read it, not write it."
