@@ -135,6 +135,25 @@
         },
         {
             "keywords": [
+                "i can't log into the lts system", "what to do if i didn't get logged in successfully",
+                "troubleshooting login problems for lts dialer", "experiencing issues with lts login credentials",
+                "i am not able to log in to work", "what if my lts login failed or shows an error",
+                "help with lts login issues",
+                "can't log in", "login issues", "login problems", "login failed", "lts login help",
+                "who issues login credentials", "how do i get my login information",
+                "asking for my credentials", "can someone else use my login",
+                "who provides login access", "asking for credentials", "get login credentials",
+                "credentials policy", "who gives out logins", "how to obtain my dialer login",
+                "how can i request to be added to a project", "procedure for asking to be added to a campaign", "Can I be added tomorrow", "can you add me to a project", "can you add me", "select my shift",
+                "who do i contact to get added to a new project", "i want to join the current project how to ask",
+                "process for getting assigned to a specific campaign", "how to get on a new project list",
+                "requesting assignment to an active project", "I need to take calls today",
+                "add to project", "join project", "request project assignment", "get on project"
+            ],
+            "answer": "Please contact your direct supervisor to request being added.\n Login credentials are issued by Corey LTS. Login Credentials are issued for your use only. If you're having trouble logging in, please double-check your credentials and ensure you have a stable internet connection. Try refreshing the login page. If you continue to have issues, please contact your supervisor for assistance with your login."
+        },
+        {
+            "keywords": [
                 "lts policy on breaks for contractors", "going on break", "rules for taking breaks as a 1099 worker at lts",
                 "what is the lts lunch break policy for agents", "how to correctly take a break from dialing", "Going to somewhere be right back",
                 "procedure for 1099 contractor breaks at lts", "do i need to inform my supervisor before taking a break",
@@ -195,16 +214,6 @@
                 "no answer", "call not answered", "phone rings no answer", "code no answer", "what to do if they hang up before reading"
             ],
             "answer": "If there is no response, code as 'No Answer'. For GOTV calls without voicemails, even a 'No Answer' might be coded as 'COMPLETE LIVE' - follow project specifics. (See 'list codes' for full No Answer definition)."
-        },
-        {
-            "keywords": [
-                "how can i request to be added to a project", "procedure for asking to be added to a campaign", "Can I be added tomorrow", "can you add me to a project", "can you add me", "select my shift",
-                "who do i contact to get added to a new project", "i want to join the current project how to ask",
-                "process for getting assigned to a specific campaign", "how to get on a new project list",
-                "requesting assignment to an active project", "I need to take calls today",
-                "add to project", "join project", "request project assignment", "get on project"
-            ],
-            "answer": "Please contact your direct supervisor to request being added or for more information on the process."
         },
         {
             "keywords": [
@@ -593,16 +602,6 @@
         },
         {
             "keywords": [
-                "i can't log into the lts system", "what to do if i didn't get logged in successfully",
-                "troubleshooting login problems for lts dialer", "experiencing issues with lts login credentials",
-                "i am not able to log in to work", "what if my lts login failed or shows an error",
-                "help with lts login issues",
-                "can't log in", "login issues", "login problems", "login failed", "lts login help"
-            ],
-            "answer": "If you're having trouble logging in, please double-check your credentials and ensure you have a stable internet connection. Try refreshing the login page or clearing your browser cache. If you continue to have issues, please contact your supervisor for assistance with your login."
-        },
-        {
-            "keywords": [
                 "my system or computer is running very slow", "what to do if my internet connection seems slow during work",
                 "the lts dialer application is performing slowly", "troubleshooting slow performance or lagging system",
                 "my computer stuff is too slow for work", "who to inform about significant system slowness",
@@ -729,15 +728,6 @@
                 "finished training", "after training steps", "new agent login", "rules after training", "training complete next"
             ],
             "answer": "Congratulations on completing your initial training! 🎉 **FINAL STEP**\n\nYou may log in during LTS open hours, which are updated in the **MAIN CHAT**. Below are the **5 most important RULES** for logging in:\n\n1.  **Open DISCORD** and keep it OPEN throughout your entire shift.\n2.  **ALL updates** in the **MAIN CHAT** must be READ *before* logging in.\n3.  After logging in, DM **“Corey LTS”** to be added to a project (or **“Adam Black”** if he is running the shift).\n4.  Once ADDED to a project, click **AVAILABLE** to start taking calls.\n5.  **Do NOT ever use the BREAK or TRAINING BUTTON.** (If you need to step away for more than a minute, log out completely and then log back in when you return. For very short pauses, just stay available but don't take calls – but this should be rare and brief.)\n\nLastly, if you don't have them yet, contact **@coreyLTS** (or your direct supervisor) for your Login Credentials."
-        },
-        {
-            "keywords": [
-                "who issues login credentials", "how do i get my login information",
-                "asking for my credentials", "can someone else use my login",
-                "who provides login access", "asking for credentials", "get login credentials",
-                "credentials policy", "who gives out logins", "how to obtain my dialer login"
-            ],
-            "answer": "Login credentials are issued by Corey LTS. Login Credentials are issued for your use only."
         },
         {
             "keywords": [
