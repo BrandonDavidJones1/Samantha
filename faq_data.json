@@ -360,7 +360,7 @@
                 "what if a relative is suspicious when i ask for the vof", "voter on file confirmation process", "What if a spouse answers", "what if someone else answers the phone",
                 "voter specific calls", "vof calls", "speak to voter on file", "confirm vof", "about voter specific"
             ],
-            "answer": "VOTER SPECIFIC calls require you to speak ONLY with the VOF (Voter on File) listed in the script. (ABSOLUTELY NO EXCEPTIONS). As a rule, surveys are always VOTER SPECIFIC, unless otherwise instructed. You MUST confirm that you are speaking to the right person to continue the survey, and they MUST confirm they are that person. \n\nIf a relative is suspicious when you ask for the VOF: you may add your name and/or the name of the Company we are calling on behalf of, let them know we will try again later and disposition as 'Not In.'"
+            "answer": "`VOTER SPECIFIC` calls require you to speak ONLY with the VOF (Voter on File) listed in the script. (ABSOLUTELY NO EXCEPTIONS). As a rule, surveys are always VOTER SPECIFIC. You MUST confirm that you are speaking to the right person to continue the survey, and they MUST confirm they are that person. \n\nIf a relative is suspicious when you ask for the VOF: you may add your name and/or the name of the Company we are calling on behalf of, let them know we will try again later and disposition as 'Not In.' A `VOTER ASSUMPTIVE` call means you generally begin by assuming the voter listed answered the phone."
         },
         {
          "keywords": [
@@ -370,7 +370,7 @@
              "when can i speak to whoever answers on assumptive call", "patch calls as voter assumptive type",
              "voter assumptive call", "assumptive calls", "voter assumptive vs specific", "about voter assumptive"
          ],
-         "answer": "A VOTER ASSUMPTIVE call means you generally begin by assuming the voter listed answered the phone. You'd say, “Hello (voter's name specified in script)” and prepare to continue without pause.\n\n**However, an important rule applies if a specific voter name IS listed in your script:**\n*   If the person who answers says they are **NOT** the voter named in the script, you **CANNOT proceed with them** for that specific voter's record. You must speak to the person named.\n*   In this case, you would treat it like a 'Voter Specific' call where the target voter is not available. You could say something like, 'Okay, thank you. We were trying to reach [Voter's Name]. We can try again later.' Then disposition as 'Not In' or as per project instructions for when the specific voter is unavailable.\n\nIf the script has **NO specific voter name** to begin with (truly assumptive or non-voter), and you simply start with a general greeting, then you can speak with whomever answers."
+         "answer": "A `VOTER ASSUMPTIVE` call means you generally begin by assuming the voter listed answered the phone. You'd say, “Hello (voter's name specified in script)” and continue without pause.\n\n*   If the person who answers says they are **NOT** the voter named in the script, you **CANNOT proceed with them** for that call, disposition as 'Not In'.\n\nIf the script has **NO specific voter name** to begin with (truly assumptive or non-voter), and you simply start with a general greeting, then you can speak with whomever answers. `VOTER SPECIFIC` calls require you to speak ONLY with the VOF (Voter on File) listed in the script. (ABSOLUTELY NO EXCEPTIONS)."
         },
         {
             "keywords": [
@@ -840,16 +840,6 @@
                 "az project", "az team", "az assignment", "become az agent", "az1 az2"
             ],
             "answer": "For any questions or requests regarding AZ assignments, including moving from AZ2 to AZ, please contact Corey. He handles these specific project/team placements."
-        },
-                {
-            "keywords": [
-                "what if there is no voter name in the script", "procedure when script is missing the contact's name",
-                "handling a call where the name field is blank in script", "what to do if script has no vof name to verify",
-                "how to proceed if expected name in script is missing", "no vof listed in current script",
-                "how to manage a call if the name to verify is blank or empty", "script name field not populated",
-                "no voter name script", "missing name script", "blank name field", "no vof name"
-            ],
-            "answer": "If you encounter a script where you expect a voter's name to verify but the name field appears blank or is missing, please proceed as follows:\n\n1.  **Double-check the call type instructions** for that specific project, if available.\n2.  If there are no specific instructions overriding this, and **no name is provided in the script to verify, treat the call as a 'Voter Assumptive' or 'Non-Voter' style call.**\n3.  This means you will **speak with whomever answers the phone.** You can generally proceed with the script's introduction without attempting to confirm a specific individual's name first.\n\nIf this happens frequently or you are consistently unsure, please bring it to your supervisor's attention so they can verify the script data for that project."
         },
         {
            "keywords": [
