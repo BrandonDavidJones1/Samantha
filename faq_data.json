@@ -222,7 +222,7 @@
                 "if they say they don't want the call or service", "response to a voter declining participation",
                 "how to code a 'not interested' response from voter", "What do I do if they start but isn’t interested",
                 "distinction between 'not interested' and 'do not call list' request",
-                "not interested", "voter not interested", "code not interested", "refused vs not interested"
+                "not interested", "code not interested", "refused vs not interested"
             ],
             "answer": "If a person indicates they are not interested, (but does NOT specifically ask not to be called, you will typically code this as 'REFUSED' or follow project-specific instructions for 'Not Interested'. Always thank them for their time. (See 'list codes' for 'REFUSED' and 'DO NOT CALL' for more details)."
         },
@@ -364,10 +364,10 @@
         },
         {
          "keywords": [
-             "what defines a voter assumptive call", "how do voter assumptive calls differ from voter specific", "Can we talk to anyone",
+             "what defines a voter assumptive call", "how do voter assumptive calls differ from voter specific", "Can we talk to anyone", "no voter named",
              "procedure for starting a voter assumptive call", "what if the script has a name but it's voter assumptive",
              "handling a situation where assumed name is incorrect person", "can i proceed if wrong person answers an assumptive call with name",
-             "when can i speak to whoever answers on assumptive call", "patch calls as voter assumptive type", "no voter named",
+             "when can i speak to whoever answers on assumptive call", "patch calls as voter assumptive type",
              "voter assumptive call", "assumptive calls", "voter assumptive vs specific", "about voter assumptive"
          ],
          "answer": "A `VOTER ASSUMPTIVE` call means you generally begin by assuming the voter listed answered the phone. You'd say, “Hello (voter's name specified in script)” and continue without pause.\n\n*   If the person who answers says they are **NOT** the voter named in the script, you **CANNOT proceed with them** for that call, disposition as 'Not In'.\n\nIf the script has **NO specific voter name** to begin with (truly assumptive or non-voter), and you simply start with a general greeting, then you can speak with whomever answers. `VOTER SPECIFIC` calls require you to speak ONLY with the VOF (Voter on File) listed in the script. (ABSOLUTELY NO EXCEPTIONS)."
