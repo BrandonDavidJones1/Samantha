@@ -941,7 +941,7 @@
             "answer": "Code as refused when they refuse a question or patch once the call has begun."
         },
         "11: RATHER NOT SAY" : {
-            "keywords": ["rather not say", "code rather not say", "define rather not say", "what is rather not say", "rather not say code"],
+            "keywords": ["rather not say", "code rather not say", "define rather not say", "what is rather not say", "rather not say code", "what if they would rather not say for one question"],
             "answer": "This not a coding option that will end the call, Choose this option during a call if the participant expresses a request not to answer an individual question, this option may not always be available."
         }
     },
