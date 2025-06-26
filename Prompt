@@ -1,0 +1,7 @@
+Prompt
+
+This project is a Python Discord bot for call center agent support. It uses discord.py and answers questions via DMs. Its knowledge, including greetings, general FAQs, and call coding rules. We've been iteratively populating faq_data.json with detailed procedures. When making updates please return the full updated code for the file. stand by
+
+Notes
+
+Set logging up for Errors
