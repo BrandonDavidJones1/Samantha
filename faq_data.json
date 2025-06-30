@@ -896,6 +896,28 @@
                 "dispositions"
             ],
             "answer": "Hello! I can help you with a variety of things. Here's a quick guide:\n\n**1. Ask General Questions:**\nJust type out your question naturally! For example:\n*   `what is the policy on breaks?`\n*   `Define DO NOT CALL`\n*   `what does CPH mean?`\nIf your first question is short and you have a follow-up, I'll try to use the context (e.g., after `what is wrap up time?`, you can ask `how can I reduce that?`).\n\n**2. Explore Call Codes:**\n*   Type `list codes` to see all available call disposition codes and their brief descriptions.\n*   After listing them, you can ask for more detail about a specific code, like:\n    *   `define wrong number`\n    *   `what is the third code?`\n    *   `tell me about the first one`\n\n**3. Get Pronunciation Help:**\nIf you're unsure how to say a word, name, or phrase:\n*   Type only `pronounce + 'word or name'`\n    *   e.g., `pronounce 'john smith'`\n    *     I'll try to find a direct audio pronunciation as well as provide links that autosearch Google and YouTube. \n\n**Tips for Best Results:**\n*   Keep questions fairly specific if you have a particular topic in mind.\n*   If I offer suggestions, check if one of those is what you need!\n\nIf you're still stuck, don't hesitate to ask your supervisor. I'm always learning! 😊"
+        },
+        {
+            "keywords": [
+                "what are the supported devices",
+                "what devices can i use",
+                "can i use a tablet",
+                "can i use my phone",
+                "can i use an iphone",
+                "can i use an android",
+                "can i use an ipad",
+                "system requirements for lts dialer",
+                "device requirements for lts",
+                "what kind of computer do i need",
+                "computer requirements",
+                "laptop specifications",
+                "do i need a computer to work here",
+                "supported devices",
+                "required equipment",
+                "technical requirements",
+                "what do i need to work"
+            ],
+            "answer": "To dial for LTS you will need a computer or laptop (8g RAM or higher for optimal performance w/ dialer).\n\nNo Androids, iPhones, Tablets, or iPads are supported."
         }
 
     ],
