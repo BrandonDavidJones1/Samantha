@@ -935,7 +935,7 @@
             "answer": "Use this if the call is hung up immediately, or before getting an answer to Q1. Note: There are GOTV (Get Out The Vote) Projects where there is no question 1, or where 'No Answer' might have special coding like 'COMPLETE LIVE' - always follow project-specific instructions."
         },
         "4: DO NOT CALL": {
-            "keywords": ["do not call", "dnc", "code dnc", "define do not call", "what is dnc", "do not call list", "dnc disposition"],
+            "keywords": ["do not call", "dnc", "code dnc", "define do not call", "what is dnc", "do not call list", "dnc disposition", "take me off your list"],
             "answer": "Anytime the person on line (Voter on file or otherwise) asks to be on the DO NOT CALL list, to be taken off the list, or says 'don't call here again', use the DO NOT CALL disposition."
         },
         "5: COMPLETE PATCH": {
