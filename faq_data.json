@@ -100,6 +100,15 @@
              "answer": "USGLC stands for the U.S. Global Leadership Coalition. It's a nonprofit that advocates for strong U.S. global engagement through diplomacy and development alongside defense."
         },
         {
+            "keywords": [
+                "what does nea mean", "what does nea stand for", "nea", "what is nea", "define nea",
+                "nea meaning", "full meaning of nea", "explain nea", "tell me about nea",
+                "what does the n.e.a. stand for", "information on the national education association",
+                "what is the national education association"
+            ],
+            "answer": "The National Education Association is the largest labor union in the United States. It represents public school teachers and other support personnel, faculty and staffers at colleges and universities, retired educators, and college students preparing to become teachers."
+        },
+        {
              "keywords": [
                  "when exactly are lts paydays", "payroll dates", "explanation of lts pay periods", "has payment been submitted yet", "what is the next payday date for lts", "When does the pay period start/end",
                  "details of the lts payment schedule", "how frequently are lts paychecks distributed", "what time of day will pay checks hit",
@@ -918,6 +927,20 @@
                 "what do i need to work"
             ],
             "answer": "To dial for LTS you will need a computer or laptop (8g RAM or higher for optimal performance w/ dialer).\n\nNo Androids, iPhones, Tablets, or iPads are supported."
+        },
+        {
+            "keywords": [
+                "what is ccl research",
+                "what does ccl stand for",
+                "ccl research",
+                "ccl",
+                "what is ccl",
+                "define ccl",
+                "explain ccl research",
+                "center for creative leadership",
+                "tell me about the center for creative leadership"
+            ],
+            "answer": "CCL stands for the Center for Creative Leadership."
         }
 
     ],
