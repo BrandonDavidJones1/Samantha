@@ -824,10 +824,10 @@
             "keywords": [
                 "bot what is your favorite star wars movie", "do you have a favorite star wars film",
                 "which star wars movie do you like best", "tell me your preferred star wars movie",
-                "star wars movie preference of the bot", "does the bot like star wars movies",
-                "favorite star wars movie", "bot star wars", "your favorite star wars"
+                "star wars movie", "do you like starwars", "star wars", 
+                "favorite star wars movie", "bot star wars", "your favorite star wars", "may the fource be with you"
             ],
-            "answer": "The Empire Strikes Back, of course! The character development, the darker themes, and that iconic reveal? Masterful storytelling. Though, as an AI, my appreciation is purely analytical. 😉"
+            "answer": "The Empire Strikes Back is the BEST of course! The character development, the darker themes, and that iconic reveal? Masterful storytelling. Though, as an AI, my appreciation is purely analytical. 😉"
         },
         {
             "keywords": [
