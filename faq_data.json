@@ -115,7 +115,7 @@
                  "specifics regarding the lts salary schedule", "when is the payday for work done 11th to 25th", "will pay hit at a specific time of day",
                  "payment date for work performed 26th to 10th", "what if an lts payday falls on a public holiday",
                  "are we paid earlier if the 1st or 15th is a weekend",
-                 "lts paydays", "paydays", "pay periods", "payment schedule", "when do we get paid", "payday holiday", "about paydays"
+                 "lts paydays", "paydays", "pay periods", "payment schedule", "payday holiday", "about paydays"
                 ],
              "answer": "Pay Periods are as follows… \n\n 11th-25th paid on the 1st \n 26th-10th paid on the 15th \n\n If the 1st or 15th falls on a weekend or holiday, you are paid early on the previous Friday.\n\n Specific times vary and depend on the financial institution you use."
         },
@@ -563,9 +563,9 @@
         },
         {
             "keywords": [
-                "who do i ask about my pay scale or pay rate", "how much do lts agents get paid", "How much do I get paid per hour",
+                "who do i ask about my pay scale or pay rate", "how much do lts agents get paid", "How much do I get paid per hour", "Do we get by the hour",
                 "where to direct questions about my hourly wage", "information on lts salary and compensation", 
-                "procedure for payroll inquiries at lts", "contact person for pay related questions", "Do we get by the hour",
+                "procedure for payroll inquiries at lts", "contact person for pay related questions", 
                 "pay scale", "pay rate", "how much paid", "salary info", "payroll questions", "issues with direct deposit", "i got a bank error"
             ],
             "answer": "All questions about your Pay, Pay Scale, Pay Rate, or Payroll should be directed to Corey outside of Dialing hours."
