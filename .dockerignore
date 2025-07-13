@@ -1,0 +1,19 @@
+# Git and IDE files
+.git
+.vscode/
+*.swp
+
+# Python cache and virtual environment
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Secrets and logs
+.env
+*.log
+notes.txt
+
+# OS-specific files
+.DS_Store
+Thumbs.db
