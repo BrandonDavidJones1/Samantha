@@ -1,19 +1,16 @@
-# Git and IDE files
-.git
-.vscode/
-*.swp
+# Ignore the local virtual environment
+venv/
 
-# Python cache and virtual environment
+# Ignore Python bytecode and cache
 __pycache__/
 *.pyc
-venv/
-.venv/
 
-# Secrets and logs
+# Ignore local environment file (your token is already ignored by git)
 .env
-*.log
-notes.txt
 
-# OS-specific files
-.DS_Store
-Thumbs.db
+# Ignore git directory
+.git/
+.gitignore
+
+# Ignore any log files
+*.log

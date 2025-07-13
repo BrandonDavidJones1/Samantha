@@ -1,57 +1,56 @@
-# --- Stage 1: The "Builder" Stage ---
-# We use this stage to install all dependencies, including heavy build tools
-# and download the ML models. None of this will be in the final image.
-FROM python:3.11-slim-bullseye AS builder
+# --- Stage 1: The Builder ---
+# Use a slim Python image as a base for building our dependencies.
+# Pinning the version ensures consistent builds.
+FROM python:3.10-slim-bullseye AS builder
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Set environment variables for pip and Python
+ENV PIP_NO_CACHE_DIR=off \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+# Create a virtual environment. This is a best practice for managing dependencies.
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy ONLY the requirements file first to leverage Docker's layer caching.
+# This way, dependencies are only re-installed if requirements.txt changes.
+COPY requirements.txt .
+
+# Install dependencies into the virtual environment.
+# THIS IS THE MOST IMPORTANT PART:
+# --index-url https://download.pytorch.org/whl/cpu tells pip to get the CPU-only version of torch.
+# This will reduce the torch installation size from gigabytes to a few hundred megabytes.
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt --index-url https://download.pytorch.org/whl/cpu
+
+# Download the spaCy model into the virtual environment's site-packages.
+RUN python -m spacy download en_core_web_sm
+
+
+# --- Stage 2: The Final Image ---
+# Use the same slim base image for the final, lean container.
+FROM python:3.10-slim-bullseye
 
 # Set the working directory
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+# Copy the virtual environment from the builder stage.
+# This gives us all the installed packages without any of the build tools.
+COPY --from=builder /opt/venv /opt/venv
 
-# Create a virtual environment. This is a best practice even inside Docker.
-ENV VIRTUAL_ENV=/app/.venv
-RUN python3 -m venv $VIRTUAL_ENV
-# We still set the PATH for the final image's CMD command
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
-# Copy ONLY the requirements file first to leverage Docker's caching
-COPY requirements.txt .
-
-# --- EXPLICIT PATH FIX ---
-# Upgrade pip using its full path inside the virtual environment
-RUN /app/.venv/bin/pip install --no-cache-dir --upgrade pip wheel setuptools
-
-# --- EXPLICIT PATH FIX ---
-# Install Python packages using the venv's pip
-RUN /app/.venv/bin/pip install --no-cache-dir -r requirements.txt
-
-# --- EXPLICIT PATH FIX ---
-# Download the spaCy model using the venv's python
-RUN /app/.venv/bin/python -m spacy download en_core_web_sm
-
-# Copy the rest of your application's source code
+# Copy the application code into the final image
 COPY . .
 
+# Set the PATH to use the virtual environment's Python and packages
+ENV PATH="/opt/venv/bin:$PATH"
 
-# --- Stage 2: The "Final" Lean Stage ---
-# This is the actual image that will be deployed. It's clean and minimal.
-FROM python:3.11-slim-bullseye AS final
+# Run the bot as a non-root user for better security
+RUN useradd --create-home appuser
+USER appuser
 
-WORKDIR /app
-
-# Set the same virtual environment path
-ENV VIRTUAL_ENV=/app/.venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
-# Copy the virtual environment (with all installed packages and the spaCy model)
-# from the builder stage. This is the magic of multi-stage builds.
-COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
-
-# Copy your application code from the builder stage.
-COPY --from=builder /app /app
-
-# The CMD command will correctly use the PATH we set, so this doesn't need a full path.
+# The command to run when the container starts.
+# Railway will override this with the command from your railway.json, but it's good practice to have it.
 CMD ["python", "bot.py"]
