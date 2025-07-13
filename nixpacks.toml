@@ -1,10 +1,5 @@
-# This file tells Railway how to build the project
-
 [phases.setup]
-# We need to install system packages for C-extensions to compile.
-# 'gcc' is the C compiler. 'pkg-config' and 'python3.pkgs.dev' provide development headers.
-nixPkgs = ["...", "gcc", "pkg-config", "python3.pkgs.dev"]
+aptPkgs = ["...", "gcc", "pkg-config"]
 
 [start]
-# This ensures Railway uses the correct start command
 command = "python bot.py"
