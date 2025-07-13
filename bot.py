@@ -20,7 +20,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 FAQ_URL = "https://raw.githubusercontent.com/BrandonDavidJones1/Samantha/main/faq_data.json"
 FUZZY_MATCH_THRESHOLD_GREETINGS = 75
-LOG_FILE = "unanswered_queries.log"
+# LOG_FILE = "unanswered_queries.log"
 SEMANTIC_SEARCH_THRESHOLD = 0.58
 SUGGESTION_THRESHOLD = 0.50
 MAX_SUGGESTIONS_TO_SHOW = 2
@@ -88,13 +88,13 @@ logger.setLevel(logging.INFO)
 context_filter = ContextFilter()
 logger.addFilter(context_filter)
 
-fh = logging.FileHandler(LOG_FILE, encoding='utf-8')
-fh.setLevel(logging.INFO)
-formatter = logging.Formatter(
-    '%(asctime)s - %(levelname)s - User: %(user_id)s (%(username)s) - Query: %(original_query_text)s - Log: %(message)s - Details: %(details)s'
-)
-fh.setFormatter(formatter)
-logger.addHandler(fh)
+# fh = logging.FileHandler(LOG_FILE, encoding='utf-8')
+# fh.setLevel(logging.INFO)
+# formatter = logging.Formatter(
+#     '%(asctime)s - %(levelname)s - User: %(user_id)s (%(username)s) - Query: %(original_query_text)s - Log: %(message)s - Details: %(details)s'
+# )
+# fh.setFormatter(formatter)
+# logger.addHandler(fh)
 
 # --- Helper Functions ---
 def load_spacy_model():
