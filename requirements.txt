@@ -2,4 +2,8 @@ discord.py>=2.0.0
 python-dotenv
 thefuzz
 python-Levenshtein
-sentence-transformers 
+sentence-transformers
+spacy>=3.7.0
+torch
+# This line downloads and installs the spacy model directly
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
