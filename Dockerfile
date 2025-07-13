@@ -20,13 +20,16 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # Copy ONLY the requirements file first to leverage Docker's caching
 COPY requirements.txt .
 
-# Install Python packages into the virtual environment.
-# --no-cache-dir prevents pip from storing the downloaded packages, saving space.
+# --- NEW STEP ADDED HERE ---
+# Upgrade pip, wheel, and setuptools first. This is crucial for preventing
+# installation errors with complex packages like torch and spacy.
+RUN pip install --no-cache-dir --upgrade pip wheel setuptools
+
+# Now, install Python packages into the virtual environment.
 RUN pip install --no-cache-dir -r requirements.txt
 
-# --- This is a critical step for spaCy ---
-# Download the spaCy model so it's baked into the image and doesn't
-# need to be downloaded at runtime.
+# --- This is the critical step for spaCy ---
+# Download the spaCy model so it's baked into the image.
 RUN python -m spacy download en_core_web_sm
 
 # Copy the rest of your application's source code
