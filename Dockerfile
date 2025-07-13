@@ -6,8 +6,7 @@ FROM python:3.11-slim-bullseye AS builder
 # Set the working directory
 WORKDIR /app
 
-# Install system dependencies that might be needed for compiling Python packages
-# (like python-Levenshtein). We clean up apt cache in the same layer to save space.
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
@@ -15,22 +14,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Create a virtual environment. This is a best practice even inside Docker.
 ENV VIRTUAL_ENV=/app/.venv
 RUN python3 -m venv $VIRTUAL_ENV
+# We still set the PATH for the final image's CMD command
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Copy ONLY the requirements file first to leverage Docker's caching
 COPY requirements.txt .
 
-# --- NEW STEP ADDED HERE ---
-# Upgrade pip, wheel, and setuptools first. This is crucial for preventing
-# installation errors with complex packages like torch and spacy.
-RUN pip install --no-cache-dir --upgrade pip wheel setuptools
+# --- EXPLICIT PATH FIX ---
+# Upgrade pip using its full path inside the virtual environment
+RUN /app/.venv/bin/pip install --no-cache-dir --upgrade pip wheel setuptools
 
-# Now, install Python packages into the virtual environment.
-RUN pip install --no-cache-dir -r requirements.txt
+# --- EXPLICIT PATH FIX ---
+# Install Python packages using the venv's pip
+RUN /app/.venv/bin/pip install --no-cache-dir -r requirements.txt
 
-# --- This is the critical step for spaCy ---
-# Download the spaCy model so it's baked into the image.
-RUN python -m spacy download en_core_web_sm
+# --- EXPLICIT PATH FIX ---
+# Download the spaCy model using the venv's python
+RUN /app/.venv/bin/python -m spacy download en_core_web_sm
 
 # Copy the rest of your application's source code
 COPY . .
@@ -53,6 +53,5 @@ COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 # Copy your application code from the builder stage.
 COPY --from=builder /app /app
 
-# Your Procfile specified `worker: python bot.py`.
-# This CMD line does the same thing. It tells Docker how to start your bot.
+# The CMD command will correctly use the PATH we set, so this doesn't need a full path.
 CMD ["python", "bot.py"]
