@@ -618,8 +618,15 @@ async def on_ready():
     global nlp
     print(f'{bot.user.name} (ID: {bot.user.id}) has connected to Discord!')
     print(f'Listening for DMs. All interactions are handled as direct messages.')
+
+    # --- MOVED CODE HERE ---
+    # Now we load everything AFTER connecting to Discord, so we don't block the heartbeat.
+    print("Loading spaCy model and FAQ data...")
     load_spacy_model()
-    load_faq_data_from_url()
+    load_faq_data_from_url() # This also calls build_semantic_embeddings
+    print("Models and data loaded successfully.")
+    # --- END OF MOVED CODE ---
+
     global admin_log_activation_status
     activated_admins_count = 0
     if ADMIN_USER_IDS:
@@ -642,6 +649,7 @@ async def on_ready():
 
 @bot.event
 async def on_message(message: discord.Message):
+    print(f"DEBUG: on_message triggered by {message.author}. Content: '{message.content}'") # <-- ADD THIS LINE
     if message.author == bot.user or not isinstance(message.channel, discord.DMChannel):
         return
 
