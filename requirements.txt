@@ -4,4 +4,3 @@ thefuzz
 python-Levenshtein
 sentence-transformers
 spacy>=3.7.0
-torch

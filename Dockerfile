@@ -1,6 +1,5 @@
 # --- Stage 1: The Builder ---
 # Use a slim Python image as a base for building our dependencies.
-# Pinning the version ensures consistent builds.
 FROM python:3.10-slim-bullseye AS builder
 
 # Set the working directory inside the container
@@ -11,22 +10,28 @@ ENV PIP_NO_CACHE_DIR=off \
     PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
-# Create a virtual environment. This is a best practice for managing dependencies.
+# Create a virtual environment
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
+# --- NEW: Install system build dependencies ---
+# We need these to compile some Python packages (like python-Levenshtein)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends build-essential python3-dev && \
+    rm -rf /var/lib/apt/lists/*
+
 # Copy ONLY the requirements file first to leverage Docker's layer caching.
-# This way, dependencies are only re-installed if requirements.txt changes.
 COPY requirements.txt .
 
-# Install dependencies into the virtual environment.
-# THIS IS THE MOST IMPORTANT PART:
-# --index-url https://download.pytorch.org/whl/cpu tells pip to get the CPU-only version of torch.
-# This will reduce the torch installation size from gigabytes to a few hundred megabytes.
+# --- UPDATED: Install Python packages ---
+# 1. Upgrade pip
+# 2. Install torch CPU separately to ensure the correct version is used.
+# 3. Install the rest of the packages from requirements.txt.
 RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt --index-url https://download.pytorch.org/whl/cpu
+    pip install torch --no-cache-dir --index-url https://download.pytorch.org/whl/cpu && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Download the spaCy model into the virtual environment's site-packages.
+# Download the spaCy model
 RUN python -m spacy download en_core_web_sm
 
 
@@ -38,7 +43,6 @@ FROM python:3.10-slim-bullseye
 WORKDIR /app
 
 # Copy the virtual environment from the builder stage.
-# This gives us all the installed packages without any of the build tools.
 COPY --from=builder /opt/venv /opt/venv
 
 # Copy the application code into the final image
@@ -52,5 +56,4 @@ RUN useradd --create-home appuser
 USER appuser
 
 # The command to run when the container starts.
-# Railway will override this with the command from your railway.json, but it's good practice to have it.
 CMD ["python", "bot.py"]
