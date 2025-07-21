@@ -18,7 +18,8 @@ import spacy # Added for pronoun resolution
 # --- Configuration ---
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-FAQ_URL = "https://raw.githubusercontent.com/BrandonDavidJones1/Samantha/main/faq_data.json"
+# Change the line to this
+FAQ_URL = "https://raw.githubusercontent.com/BrandonDavidJones1/Samantha/main/faq_data.json?v=2"
 FUZZY_MATCH_THRESHOLD_GREETINGS = 75
 SEMANTIC_SEARCH_THRESHOLD = 0.58
 SUGGESTION_THRESHOLD = 0.50
