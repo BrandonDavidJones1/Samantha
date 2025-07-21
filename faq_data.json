@@ -601,10 +601,10 @@
         },
         {
             "keywords": [
-                "my dialer is acting crazy or issues", "what to do if i experience system or dialer problems",
+                "my dialer is acting crazy or issues", "what to do if i experience system or dialer problems", "Invalid script record",
                 "is the lts dialer currently down or having widespread problems", "troubleshooting common dialer issues",
                 "who to contact if my dialer is malfunctioning", "what if my dialer is going crazy",
-                "are other agents reporting dialer problems", "Invalid script record",
+                "are other agents reporting dialer problems", 
                 "dialer crazy", "dialer issues", "system problems", "dialer down", "dialer malfunctioning"
             ],
             "answer": "If you're experiencing issues with the dialer, first try a quick refresh of your screen. If the problem persists, please check the **MAIN CHAT** to see if others are reporting similar issues or if there are any system status updates. If it seems specific to you, or if it's urgent, please contact your supervisor immediately for assistance."
