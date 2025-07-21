@@ -89,7 +89,6 @@ logger.addFilter(context_filter)
 
 # --- Helper Functions ---
 
-# FIXED: Converted to async to run slow model loading in a background thread.
 async def load_spacy_model():
     """Loads the spaCy model asynchronously to avoid blocking."""
     global nlp
@@ -177,7 +176,6 @@ def get_likely_referent_from_previous_query(text: str) -> str | None:
     logger.debug(f"Pronoun Resolution: No suitable referent found in '{text}'.")
     return None
 
-# FIXED: Converted to async to run network requests and embedding generation in background threads.
 async def load_faq_data_from_url():
     """Loads FAQ data from a URL and builds embeddings asynchronously."""
     global faq_data
@@ -189,12 +187,14 @@ async def load_faq_data_from_url():
     }
     try:
         print(f"Attempting to download FAQ data from: {FAQ_URL}")
+        logger.info(f"Attempting to download FAQ data from: {FAQ_URL}")
         loop = asyncio.get_running_loop()
         # Run the blocking network request in a separate thread
         response = await loop.run_in_executor(None, lambda: requests.get(FAQ_URL, timeout=15))
         response.raise_for_status()
         faq_data = response.json()
         print(f"Successfully downloaded and parsed FAQ data from {FAQ_URL}")
+        logger.info(f"Successfully downloaded and parsed FAQ data from {FAQ_URL}")
     except requests.exceptions.RequestException as req_err:
         print(f"An error occurred during the request for FAQ data: {req_err} from {FAQ_URL}")
         logger.error(f"An error occurred during the request for FAQ data from {FAQ_URL}: {req_err}")
@@ -217,16 +217,19 @@ async def load_faq_data_from_url():
     # Await the async function
     await build_semantic_embeddings()
 
-# FIXED: Converted to async to run the heavy model.encode() task in a background thread.
 async def build_semantic_embeddings():
     """Builds semantic embeddings asynchronously to avoid blocking the bot."""
     global faq_embeddings, faq_questions, model, faq_original_indices
     logger.info("Attempting to build semantic embeddings...")
+    loop = asyncio.get_running_loop()
     try:
         if model is None:
             logger.info("Loading sentence transformer model ('all-MiniLM-L6-v2')...")
-            # This part is usually fast, but could be moved to an executor if needed
-            model = SentenceTransformer('all-MiniLM-L6-v2')
+            # THIS IS THE KEY FIX: Run the blocking model download/init in an executor
+            model = await loop.run_in_executor(
+                None,
+                lambda: SentenceTransformer('all-MiniLM-L6-v2')
+            )
             logger.info("Sentence transformer model loaded.")
 
         general_faqs_list = faq_data.get("general_faqs", [])
@@ -276,9 +279,7 @@ async def build_semantic_embeddings():
 
         if faq_questions:
             logger.info(f"Starting the encoding process for {len(faq_questions)} items. This may take a moment...")
-            loop = asyncio.get_running_loop()
-            # THIS IS THE KEY FIX: Run the heavy CPU task in a separate thread
-            # to avoid blocking the Discord heartbeat.
+            # Run the heavy CPU task in a separate thread to avoid blocking the Discord heartbeat.
             faq_embeddings = await loop.run_in_executor(
                 None,
                 lambda: model.encode(faq_questions, convert_to_tensor=True)
@@ -302,10 +303,6 @@ async def build_semantic_embeddings():
 def is_text_empty_or_punctuation_only(text):
     return not text or all(char in string.punctuation or char.isspace() for char in text)
 
-# ... (the rest of your code from get_pronunciation_audio_url onwards remains unchanged, as it was already using executors correctly or didn't have blocking calls) ...
-# ... I will just paste the `on_ready` function here to show the change, and then the rest of the file.
-
-# Paste starting from get_pronunciation_audio_url
 async def get_pronunciation_audio_url(word_or_phrase: str) -> str | None:
     audio_url = None
     response_obj = None
@@ -584,7 +581,7 @@ async def on_ready():
     print(f'{bot.user.name} (ID: {bot.user.id}) has connected to Discord!')
     print(f'Listening for DMs. All interactions are handled as direct messages.')
 
-    # FIXED: The bot now loads data and models asynchronously after connecting.
+    # The bot now loads data and models asynchronously after connecting.
     # This prevents the bot from blocking and disconnecting during startup.
     print("Loading spaCy model and FAQ data in the background...")
     await load_spacy_model()
@@ -613,14 +610,9 @@ async def on_ready():
 
 @bot.event
 async def on_message(message: discord.Message):
-    # This print is for debugging; you might want to remove it in production.
-    # print(f"DEBUG: on_message triggered by {message.author}. Content: '{message.content}'")
     if message.author == bot.user or not isinstance(message.channel, discord.DMChannel):
         return
 
-    # --- THE REST OF YOUR ON_MESSAGE FUNCTION IS UNCHANGED ---
-    # It was already well-structured and async. The problem was in the startup,
-    # not in the message handling logic itself.
     initial_user_message_content_for_forwarding = message.content.strip()
     user_query_lower_for_processing = message.content.lower().strip()
     original_message_content_for_processing = message.content.strip()
